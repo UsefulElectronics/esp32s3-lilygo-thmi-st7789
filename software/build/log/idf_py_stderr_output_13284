@@ -1,0 +1,10 @@
+[0;33m--- WARNING: GDB cannot open serial ports accessed as COMx[0m
+[0;33m--- Using \\.\COM5 instead...[0m
+[0;33m--- idf_monitor on \\.\COM5 115200 ---[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---[0m
+[0;33m0x4200761f: uart_ll_get_txfifo_len at C:/Espressif/frameworks/esp-idf-v5.1/components/hal/esp32s3/include/hal/uart_ll.h:314 (discriminator 1)
+ (inlined by) uart_tx_char at C:/Espressif/frameworks/esp-idf-v5.1/components/vfs/vfs_uart.c:156 (discriminator 1)
+[0m
+[0;33m0x403752c4: call_start_cpu1 at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0m

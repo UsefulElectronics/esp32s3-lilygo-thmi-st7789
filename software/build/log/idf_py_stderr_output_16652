@@ -1,0 +1,249 @@
+[0;33m--- WARNING: GDB cannot open serial ports accessed as COMx[0m
+[0;33m--- Using \\.\COM5 instead...[0m
+[0;33m--- idf_monitor on \\.\COM5 115200 ---[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H ---[0m
+[0;33m0x403786be: esp_cpu_wait_for_intr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_hw_support/cpu.c:121
+[0m
+[0;33m0x403752c4: call_start_cpu1 at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/port/cpu_start.c:154
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x4201114e: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712 (discriminator 1)
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x4201114e: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712 (discriminator 1)
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0;33m0x42032a32: task_wdt_timeout_handling at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:461 (discriminator 3)
+[0m
+[0;33m0x42032bde: task_wdt_isr at C:/Espressif/frameworks/esp-idf-v5.1/components/esp_system/task_wdt/task_wdt.c:585
+[0m
+[0;33m0x40376d41: _xt_lowint1 at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/xtensa_vectors.S:1226
+[0m
+[0;33m0x42011148: refr_area_part at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:712
+[0m
+[0;33m0x4201131d: refr_area at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:646
+[0m
+[0;33m0x42011510: refr_invalid_areas at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:618
+[0m
+[0;33m0x420116b6: _lv_disp_refr_timer at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/core/lv_refr.c:325
+[0m
+[0;33m0x42016301: lv_timer_exec at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:313 (discriminator 2)
+[0m
+[0;33m0x420163af: lv_timer_handler at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/managed_components/lvgl__lvgl/src/misc/lv_timer.c:109
+[0m
+[0;33m0x42008877: app_main at C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/main/i80_controller_example_main.c:420 (discriminator 1)
+[0m
+[0;33m0x420439bb: main_task at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/app_startup.c:208 (discriminator 13)
+[0m
+[0;33m0x4037c59d: vPortTaskWrapper at C:/Espressif/frameworks/esp-idf-v5.1/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:162
+[0m
+[0m
