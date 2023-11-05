@@ -1,0 +1,12 @@
+software/build/
+software/components/
+software/managed_components/
+
+software/sdkconfig
+software/sdkconfig.old
+software/sdkconfig.defaults
+
+software/.project
+software/.cproject
+software/main/.cproject
+software/main/.project
