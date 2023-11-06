@@ -413,7 +413,8 @@ void app_main(void)
     ESP_LOGI(TAG, "Display LVGL animation");
     example_lvgl_demo_ui(disp);
 
-    while (1) {
+    while (1)
+    {
         // raise the task priority of LVGL and/or reduce the handler period can improve the performance
         vTaskDelay(pdMS_TO_TICKS(10));
         // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`

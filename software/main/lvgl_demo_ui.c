@@ -12,9 +12,10 @@
 #endif
 
 // LVGL image declare
-LV_IMG_DECLARE(esp_logo)
-LV_IMG_DECLARE(esp_text)
-
+//LV_IMG_DECLARE(esp_logo)
+LV_IMG_DECLARE(ui_img_ue_logo_png)
+//LV_IMG_DECLARE(esp_text)
+LV_IMG_DECLARE(ui_img_useful_electronics_png)
 typedef struct {
     lv_obj_t *scr;
     int count_val;
@@ -26,8 +27,9 @@ static lv_obj_t *arc[3];
 static lv_obj_t *img_logo;
 static lv_obj_t *img_text = NULL;
 static lv_color_t arc_color[] = {
-    LV_COLOR_MAKE(232, 87, 116),
-    LV_COLOR_MAKE(126, 87, 162),
+//    LV_COLOR_MAKE(232, 87, 116),
+	LV_COLOR_MAKE(22, 242, 255),
+    LV_COLOR_MAKE(255, 255, 255),
     LV_COLOR_MAKE(90, 202, 228),
 };
 
@@ -57,7 +59,7 @@ static void anim_timer_cb(lv_timer_t *timer)
 
         // Create new image and make it transparent
         img_text = lv_img_create(scr);
-        lv_img_set_src(img_text, &esp_text);
+        lv_img_set_src(img_text, &ui_img_useful_electronics_png);
         lv_obj_set_style_img_opa(img_text, 0, 0);
     }
 
@@ -65,7 +67,7 @@ static void anim_timer_cb(lv_timer_t *timer)
     if ((count >= 100) && (count <= 180)) {
         lv_coord_t offset = (sinf((count - 140) * 2.25f / 90.0f) + 1) * 20.0f;
         lv_obj_align(img_logo, LV_ALIGN_CENTER, 0, -offset);
-        lv_obj_align(img_text, LV_ALIGN_CENTER, 0, 2 * offset);
+        lv_obj_align(img_text, LV_ALIGN_CENTER, 0,  offset);
         lv_obj_set_style_img_opa(img_text, offset / 40.0f * 255, 0);
     }
 
@@ -74,7 +76,7 @@ static void anim_timer_cb(lv_timer_t *timer)
         lv_timer_del(timer);
 
         // Enable button
-        lv_obj_clear_state(btn, LV_STATE_DISABLED);
+//        lv_obj_clear_state(btn, LV_STATE_DISABLED);
     } else {
         timer_ctx->count_val = count;
     }
@@ -111,10 +113,10 @@ static void start_animation(lv_obj_t *scr)
     // Create timer for animation
     my_tim_ctx.count_val = -90;
     my_tim_ctx.scr = scr;
-    lv_timer_create(anim_timer_cb, 20, &my_tim_ctx);
+    lv_timer_create(anim_timer_cb, 50, &my_tim_ctx);
 
     // Disable button
-    lv_obj_add_state(btn, LV_STATE_DISABLED);
+//    lv_obj_add_state(btn, LV_STATE_DISABLED);
 }
 
 static void btn_cb(lv_event_t * e)
@@ -127,17 +129,22 @@ void example_lvgl_demo_ui(lv_disp_t *disp)
 {
     lv_obj_t *scr = lv_disp_get_scr_act(disp);
 
+
+
+    lv_theme_t * theme = lv_theme_default_init(disp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
+                                               true, LV_FONT_DEFAULT);
+    lv_disp_set_theme(disp, theme);
     // Create image
     img_logo = lv_img_create(scr);
-    lv_img_set_src(img_logo, &esp_logo);
+    lv_img_set_src(img_logo, &ui_img_ue_logo_png);
 
-    btn = lv_btn_create(scr);
-    lv_obj_t * lbl = lv_label_create(btn);
-    lv_label_set_text_static(lbl, LV_SYMBOL_REFRESH" SHOW AGAIN");
-    lv_obj_set_style_text_font(lbl, &lv_font_montserrat_20, 0);
-    lv_obj_align(btn, LV_ALIGN_BOTTOM_LEFT, 30, -30);
-    // Button event
-    lv_obj_add_event_cb(btn, btn_cb, LV_EVENT_CLICKED, scr);
+//    btn = lv_btn_create(scr);
+//    lv_obj_t * lbl = lv_label_create(btn);
+//    lv_label_set_text_static(lbl, LV_SYMBOL_REFRESH" SHOW AGAIN");
+//    lv_obj_set_style_text_font(lbl, &lv_font_montserrat_20, 0);
+//    lv_obj_align(btn, LV_ALIGN_BOTTOM_LEFT, 30, -30);
+////     Button event
+//    lv_obj_add_event_cb(btn, btn_cb, LV_EVENT_CLICKED, scr);
 
     start_animation(scr);
 }

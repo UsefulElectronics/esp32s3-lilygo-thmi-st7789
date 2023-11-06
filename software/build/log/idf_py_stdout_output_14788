@@ -1,5 +1,0 @@
-[1/4] cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.1\examples\peripherals\lcd\esp32s3-uwb\software\build\esp-idf\esptool_py && python C:/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/partition_table/partition-table.bin C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/i80_controller.bin"
-i80_controller.bin binary size 0x77a70 bytes. Smallest app partition is 0x177000 bytes. 0xff590 bytes (68%) free.
-[2/4] Performing build step for 'bootloader'
-[1/1] cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.1\examples\peripherals\lcd\esp32s3-uwb\software\build\bootloader\esp-idf\esptool_py && python C:/Espressif/frameworks/esp-idf-v5.1/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader/bootloader.bin"
-Bootloader binary size 0x51f0 bytes. 0x2e10 bytes (36%) free.
