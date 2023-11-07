@@ -45,7 +45,7 @@
 /* VARIABLES -----------------------------------------------------------------*/
 
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
-
+void i80_controller_init(void (*i80_gpio_set_level)(uint8_t gpio_num, uint8_t level));
 
 
 #endif /* MAIN_DISPLAY_I80_CONTROLLER_H_ */
