@@ -22,10 +22,7 @@
 /* MACROS --------------------------------------------------------------------*/
 
 
-#define LCD_PIXEL_CLOCK_HZ     (10 * 1000 * 1000)
 
-#define LCD_BK_LIGHT_ON_LEVEL  1
-#define LCD_BK_LIGHT_OFF_LEVEL !LCD_BK_LIGHT_ON_LEVEL
 // LCD data pins
 #define PIN_NUM_DATA0          48
 #define PIN_NUM_DATA1          47
@@ -48,12 +45,8 @@
 #define BUTTON2_PIN				21
 
 // The pixel number in horizontal and vertical
-#define LCD_H_RES              	240
-#define LCD_V_RES              	320
-// Bit number used to represent command and parameter
 
-#define LCD_CMD_BITS          	8
-#define LCD_PARAM_BITS         	8
+
 /* ENUMORATIONS --------------------------------------------------------------*/
 
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/

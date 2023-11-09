@@ -16,13 +16,14 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "i80_controller.h"
-
+#include "esp_log.h"
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 typedef struct
 {
     void                		(*i80_gpio_contol)     	(uint8_t gpio_num, uint8_t level);
     esp_lcd_i80_bus_handle_t 	i80_bus;
     esp_lcd_panel_handle_t 		panel_handle;
+    lv_disp_drv_t 				disp_drv;
 }i80_handler;
 /* VARIABLES -----------------------------------------------------------------*/
 static const char *TAG = "i80";
@@ -94,6 +95,7 @@ static void increase_lvgl_tick(void *arg)
 
 static void i80_controller_io_init(void)
 {
+//	static lv_disp_drv_t disp_drv;      // contains callback functions
     esp_lcd_panel_io_handle_t io_handle = NULL;
     esp_lcd_panel_io_i80_config_t io_config =
     {
@@ -101,7 +103,7 @@ static void i80_controller_io_init(void)
         .pclk_hz 				= LCD_PIXEL_CLOCK_HZ,
         .trans_queue_depth 		= 10,
         .on_color_trans_done 	= notify_lvgl_flush_ready,
-        .user_ctx 				= &disp_drv,
+        .user_ctx 				= &hI80.disp_drv,
         .lcd_cmd_bits 			= LCD_CMD_BITS,
         .lcd_param_bits 		= LCD_PARAM_BITS,
         .dc_levels =
@@ -140,12 +142,13 @@ static void i80_controller_io_init(void)
 
     //TODO create MCU layer and then create function to pass GPIO control fucntions
     hI80.i80_gpio_contol(PIN_NUM_BK_LIGHT, LCD_BK_LIGHT_ON_LEVEL);
-    i80_gpio_set_level();
-    gpio_set_level(PIN_NUM_BK_LIGHT, LCD_BK_LIGHT_ON_LEVEL);
+
 }
 
 static void i80_controller_lvgl_init(void)
 {
+
+    static lv_disp_draw_buf_t disp_buf; // contains internal graphic buffer(s) called draw buffer(s)
     lv_init();
     // alloc draw buffers used by LVGL
     // it's recommended to choose the size of the draw buffer(s) to be at least 1/10 screen sized
@@ -164,14 +167,14 @@ static void i80_controller_lvgl_init(void)
     lv_disp_draw_buf_init(&disp_buf, buf1, buf2, LCD_H_RES * LCD_V_RES);
 
     ESP_LOGI(TAG, "Register display driver to LVGL");
-    lv_disp_drv_init(&disp_drv);
-    disp_drv.hor_res 		= LCD_H_RES;
-    disp_drv.ver_res 		= LCD_V_RES;
-    disp_drv.flush_cb 		= lvgl_flush_cb;
-    disp_drv.draw_buf 		= &disp_buf;
-    disp_drv.user_data 		= panel_handle;
-    disp_drv.full_refresh 	= 1;
-    lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
+    lv_disp_drv_init(&hI80.disp_drv);
+    hI80.disp_drv.hor_res 		= LCD_H_RES;
+    hI80.disp_drv.ver_res 		= LCD_V_RES;
+    hI80.disp_drv.flush_cb 		= lvgl_flush_cb;
+    hI80.disp_drv.draw_buf 		= &disp_buf;
+    hI80.disp_drv.user_data 	= hI80.panel_handle;
+    hI80.disp_drv.full_refresh 	= 1;
+    lv_disp_t *disp = lv_disp_drv_register(&hI80.disp_drv);
 
     ESP_LOGI(TAG, "Install LVGL tick timer");
     // Tick interface for LVGL (using esp_timer to generate 2ms periodic event)

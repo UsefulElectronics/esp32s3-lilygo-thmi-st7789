@@ -22,8 +22,17 @@
 #include "esp_lcd_panel_vendor.h"
 #include "esp_lcd_panel_ops.h"
 
+#include "esp_err.h"
+#include "lvgl.h"
+#include "esp_timer.h"
 #include "stdbool.h"
+#include "esp_heap_caps.h"
 /* MACROS --------------------------------------------------------------------*/
+
+#define LCD_PIXEL_CLOCK_HZ     (10 * 1000 * 1000)
+
+#define LCD_BK_LIGHT_ON_LEVEL  1
+#define LCD_BK_LIGHT_OFF_LEVEL !LCD_BK_LIGHT_ON_LEVEL
 // LCD data pins
 #define PIN_NUM_DATA0          48
 #define PIN_NUM_DATA1          47
@@ -34,10 +43,20 @@
 #define PIN_NUM_DATA6          45
 #define PIN_NUM_DATA7          46
 //LCD control pins
+#define PIN_NUM_PCLK           8
 #define PIN_NUM_CS             6
 #define PIN_NUM_DC             7
 #define PIN_NUM_RST            -1
 #define PIN_NUM_BK_LIGHT       38
+
+#define LCD_H_RES              	240
+#define LCD_V_RES              	320
+
+#define LVGL_TICK_PERIOD_MS    2
+
+// Bit number used to represent command and parameter
+#define LCD_CMD_BITS          	8
+#define LCD_PARAM_BITS         	8
 /* ENUMORATIONS --------------------------------------------------------------*/
 
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
