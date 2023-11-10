@@ -18,6 +18,22 @@
 
 
 /* INCLUDES ------------------------------------------------------------------*/
+#include "display/i80_controller.h"
+#include "display/lvgl_ui.h"
+#include "gpio/gpio_config.h"
+
+#include <stdio.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "esp_timer.h"
+#include "esp_lcd_panel_io.h"
+#include "esp_lcd_panel_vendor.h"
+#include "esp_lcd_panel_ops.h"
+
+#include "esp_err.h"
+#include "esp_log.h"
+
+
 
 /* MACROS --------------------------------------------------------------------*/
 

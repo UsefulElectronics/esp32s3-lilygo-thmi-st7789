@@ -147,7 +147,6 @@ static void i80_controller_io_init(void)
 
 static void i80_controller_lvgl_init(void)
 {
-
     static lv_disp_draw_buf_t disp_buf; // contains internal graphic buffer(s) called draw buffer(s)
     lv_init();
     // alloc draw buffers used by LVGL
@@ -198,5 +197,7 @@ void i80_controller_init(void (*i80_gpio_set_level)(uint8_t gpio_num, uint8_t le
 	i80_controller_io_init();
 
 	i80_controller_lvgl_init();
+
+	example_lvgl_demo_ui(disp);
 }
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/

@@ -20,7 +20,7 @@
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
-
+static const char *TAG = "main";
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -28,6 +28,23 @@
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
+void app_main(void)
+{
 
+	gpio_config_output(PIN_NUM_BK_LIGHT);
+
+	i80_controller_init(gpio_set_level);
+
+    ESP_LOGI(TAG, "Display LVGL animation");
+    example_lvgl_demo_ui(disp);
+
+    while (1)
+    {
+        // raise the task priority of LVGL and/or reduce the handler period can improve the performance
+        vTaskDelay(pdMS_TO_TICKS(10));
+        // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
+        lv_timer_handler();
+    }
+}
 
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
