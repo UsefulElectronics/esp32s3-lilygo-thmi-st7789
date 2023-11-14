@@ -27,6 +27,8 @@
 #include "esp_timer.h"
 #include "stdbool.h"
 #include "esp_heap_caps.h"
+
+#include "lvgl_ui.h"
 /* MACROS --------------------------------------------------------------------*/
 
 #define LCD_PIXEL_CLOCK_HZ     (10 * 1000 * 1000)
@@ -48,6 +50,9 @@
 #define PIN_NUM_DC             7
 #define PIN_NUM_RST            -1
 #define PIN_NUM_BK_LIGHT       38
+
+#define PWR_EN_PIN  		   10
+#define PWR_ON_PIN  		   14
 
 #define LCD_H_RES              	240
 #define LCD_V_RES              	320

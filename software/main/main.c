@@ -32,11 +32,14 @@ void app_main(void)
 {
 
 	gpio_config_output(PIN_NUM_BK_LIGHT);
+	gpio_config_output(PWR_ON_PIN);
+	gpio_config_output(PWR_EN_PIN);
 
-	i80_controller_init(gpio_set_level);
+	i80_controller_init((void*)gpio_set_level);
 
     ESP_LOGI(TAG, "Display LVGL animation");
-    example_lvgl_demo_ui(disp);
+
+
 
     while (1)
     {

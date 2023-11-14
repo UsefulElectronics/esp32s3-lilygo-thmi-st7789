@@ -19,7 +19,7 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "display/i80_controller.h"
-#include "display/lvgl_ui.h"
+//#include "display/lvgl_ui.h"
 #include "gpio/gpio_config.h"
 
 #include <stdio.h>

@@ -24,6 +24,7 @@ typedef struct
     esp_lcd_i80_bus_handle_t 	i80_bus;
     esp_lcd_panel_handle_t 		panel_handle;
     lv_disp_drv_t 				disp_drv;
+    lv_disp_t *					disp;
 }i80_handler;
 /* VARIABLES -----------------------------------------------------------------*/
 static const char *TAG = "i80";
@@ -96,6 +97,9 @@ static void increase_lvgl_tick(void *arg)
 static void i80_controller_io_init(void)
 {
 //	static lv_disp_drv_t disp_drv;      // contains callback functions
+	hI80.i80_gpio_contol(PWR_EN_PIN, LCD_BK_LIGHT_ON_LEVEL);
+	hI80.i80_gpio_contol(PWR_ON_PIN, LCD_BK_LIGHT_ON_LEVEL);
+
     esp_lcd_panel_io_handle_t io_handle = NULL;
     esp_lcd_panel_io_i80_config_t io_config =
     {
@@ -173,8 +177,8 @@ static void i80_controller_lvgl_init(void)
     hI80.disp_drv.draw_buf 		= &disp_buf;
     hI80.disp_drv.user_data 	= hI80.panel_handle;
     hI80.disp_drv.full_refresh 	= 1;
-    lv_disp_t *disp = lv_disp_drv_register(&hI80.disp_drv);
-
+//    lv_disp_t *disp = lv_disp_drv_register(&hI80.disp_drv);
+    hI80.disp 					= lv_disp_drv_register(&hI80.disp_drv);
     ESP_LOGI(TAG, "Install LVGL tick timer");
     // Tick interface for LVGL (using esp_timer to generate 2ms periodic event)
     const esp_timer_create_args_t lvgl_tick_timer_args =
@@ -198,6 +202,6 @@ void i80_controller_init(void (*i80_gpio_set_level)(uint8_t gpio_num, uint8_t le
 
 	i80_controller_lvgl_init();
 
-	example_lvgl_demo_ui(disp);
+	example_lvgl_demo_ui(hI80.disp);
 }
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
