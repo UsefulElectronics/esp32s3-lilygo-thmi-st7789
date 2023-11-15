@@ -22,6 +22,8 @@
 //#include "display/lvgl_ui.h"
 #include "gpio/gpio_config.h"
 
+#include "uwb/uart_config.h"
+
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
