@@ -18,9 +18,16 @@
 #include "ryuw122.h"
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
+typedef struct
+{
+    void                	(*commandSend)     (void *tx_buffer);
+    void               	 	(*receiveCallback) (void* rx_packet, packet_id_e packet_id);
+    communication_mode_e    networkStatus;
+    module_mdoe_e			operation_mode;
 
+}ryuw122_handler;
 /* VARIABLES -----------------------------------------------------------------*/
-
+ryuw122_handler hRyuw122 = {0};
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -28,6 +35,15 @@
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
+void ryuw122_init(void* port_send, void* uwb_callback, bool mode)
+{
+	hRyuw122.commandSend 		= port_send;
+
+	hRyuw122.receiveCallback 	= uwb_callback;
+
+	hRyuw122.operation_mode		= mode;
+}
+
 /**
  * @brief   Separator the packet received from the LoRaWAN module
  *
