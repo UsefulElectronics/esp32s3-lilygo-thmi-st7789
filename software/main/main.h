@@ -23,6 +23,7 @@
 #include "gpio/gpio_config.h"
 
 #include "uwb/uart_config.h"
+#include "uwb/ryuw122.h"
 
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"

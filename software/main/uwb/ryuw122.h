@@ -18,12 +18,14 @@
 
 
 /* INCLUDES ------------------------------------------------------------------*/
+#include <stdbool.h>
+#include <stdio.h>
 
+#include "at_command.h"
 /* MACROS --------------------------------------------------------------------*/
-#define AT						"AT+"
-
 //Configuration commands
-#define NETWORKID               "NETWORKID"
+#define NETWORKID               "NETWORKID"		//Set the network ID											<NETWORK ID>= 8 BYTES ASCII (default 00000000)
+#define MODE					"MODE"			//Set the wireless work mode									0 : TAG mode (Default). 1 : ANCHOR mode 2 : Sleep mode
 #define ADDRESS                 "ADDRESS"		//Set the ADDRESS ID of module.									AT+NETWORKID=<NETWORK ID> 8 BYTES ASCII
 #define CPIN                  	"CPIN"			//Encryption password											Set the AES128 password of the network A 32 characters long AES password
 #define TAGD                  	"TAGD"			//Set the parameters of TAG RF duty cycle						AT+NETWORKID=<NETWORK ID> 8 BYTES ASCII
@@ -33,14 +35,47 @@
 #define TAG_SEND                "TAG_SEND"		//Send data to the module and wait for the anchor to re			AT+TAG_SEND=<Payload Length>,<Data
 #define ANCHOR_RCV              "+ANCHOR_RCV"	//Show the received data of ANCHOR actively.					+ANCHOR_RCV=<TAG Address>,< PAYLOAD LENGTH>,<TAG DATA>,<DISTANCE>
 #define TAG_RCV               	"+TAG_RCV"		//Show the received data of TAG actively.						+TAG_RCV=< PAYLOAD LENGTH>,<DATA>
-/* ENUMORATIONS --------------------------------------------------------------*/
 
+
+#define UWB_NETWORK            	"REYAX123"
+#define UWB_ANCH_ADDRESS       	"ANC00001"
+#define UWB_TAG_ADDRESS       	"TAG00001"
+#define UWB_PASSWORD       		"FABC0002EEDCAA90FABC0002EEDCAA90"
+
+
+
+/* ENUMORATIONS --------------------------------------------------------------*/
+typedef enum
+{
+	RYUW122_TAG = 0,
+	RYUW122_ANCHOR ,
+
+}module_mdoe_e;
+
+typedef enum
+{
+	RYUW122_OK= 0,
+	RYUW122_ANCHOR_RX,
+	RYUW122_TAG_RX
+
+}packet_id_e;
+
+typedef enum
+{
+	RYUW122_NO_DEVICE = 0,
+	RYUW122_COMMUNICATION_ONGOING ,
+
+}communication_mode_e;
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
 
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
+void ryuw122_init(void* port_send, void* uwb_callback, bool mode);
 
+module_mdoe_e ryuw122_get_mode(void);
+
+void ryuw122_set_mode(module_mdoe_e mode);
 
 
 #endif /* MAIN_UWB_RYUW122_H_ */

@@ -162,12 +162,12 @@ static void i80_controller_lvgl_init(void)
 
     assert(buf1);
 
-    buf2 = heap_caps_malloc(LCD_H_RES * LCD_V_RES * sizeof(lv_color_t), MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL);
+//    buf2 = heap_caps_malloc(LCD_H_RES * LCD_V_RES * sizeof(lv_color_t), MALLOC_CAP_DMA | MALLOC_CAP_INTERNAL);
 
-    assert(buf2);
-    ESP_LOGI(TAG, "buf1@%p, buf2@%p", buf1, buf2);
+//    assert(buf2);
+    ESP_LOGI(TAG, "buf1@%p, buf2@%p", buf1, NULL);
     // initialize LVGL draw buffers
-    lv_disp_draw_buf_init(&disp_buf, buf1, buf2, LCD_H_RES * LCD_V_RES);
+    lv_disp_draw_buf_init(&disp_buf, buf1, NULL, LCD_H_RES * LCD_V_RES);
 
     ESP_LOGI(TAG, "Register display driver to LVGL");
     lv_disp_drv_init(&hI80.disp_drv);
