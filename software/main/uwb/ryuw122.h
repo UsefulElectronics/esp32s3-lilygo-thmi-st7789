@@ -77,6 +77,12 @@ module_mdoe_e ryuw122_get_mode(void);
 
 void ryuw122_set_mode(module_mdoe_e mode);
 
+void ryuw122_set_address(char* device_address);
+
+void ryuw122_set_network_id(void);
+
+void ryuw122_set_password(void);
+
 
 #endif /* MAIN_UWB_RYUW122_H_ */
 

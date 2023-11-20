@@ -24,8 +24,8 @@
 #include "driver/uart.h"
 #include "driver/gpio.h"
 /* MACROS --------------------------------------------------------------------*/
-#define TXD_PIN 			(GPIO_NUM_5)
-#define RXD_PIN 			(GPIO_NUM_6)
+#define TXD_PIN 			(GPIO_NUM_15)
+#define RXD_PIN 			(GPIO_NUM_16)
 
 #define UART_AT_PORT 		UART_NUM_1
 #define PATTERN_AT_COUNT    2

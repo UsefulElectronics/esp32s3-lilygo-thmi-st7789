@@ -30,6 +30,8 @@ typedef struct
 ryuw122_handler hRyuw122 = {0};
 
 char parameter_buffer[NUM_COMMAND_PARAM][MAX_PARAM_LENGTH] = {0};
+
+static const char *TAG = "uwb";
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -44,6 +46,12 @@ void ryuw122_init(void* port_send, void* uwb_callback, bool mode)
 	hRyuw122.receiveCallback 	= uwb_callback;
 
 	hRyuw122.operation_mode		= mode;
+
+	ryuw122_set_mode(hRyuw122.operation_mode);
+
+	ryuw122_set_network_id();
+
+	ryuw122_set_password();
 }
 
 module_mdoe_e ryuw122_get_mode(void)
@@ -80,7 +88,7 @@ void ryuw122_set_network_id(void)
 	 hRyuw122.commandSend(temp_command_string, command_length);
 }
 
-void ryuw122_set_address(void)
+void ryuw122_set_address(char* device_address)
 {
 	char temp_command_string[MAX_COMMAND_LENGTH] = {0};
 
@@ -149,12 +157,17 @@ void ryuw122_tag_send(module_mdoe_e mode)
  *
  * @return  bool        :   true if packet is valid
  */
-bool ryuw122_packet_separator(uint8_t* packet, uint8_t packet_size)
+bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
 {
     bool validPacket = false;
-//
-//
-//
+
+    uint8_t parameter_count = 0;
+
+    char temp_command_header[MAX_PARAM_LENGTH] = {0};
+
+    validPacket =  at_command_parser(temp_command_header, parameter_buffer, &parameter_count, packet);
+
+
 //    uint8_t packetCounter = 0;
 //
 //    uint8_t charCounter = 0;

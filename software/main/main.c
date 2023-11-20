@@ -39,11 +39,11 @@ void app_main(void)
 
 	uart_config();
 //
-	ryuw122_init(system_send_to_queue, system_uwb_callback, RYUW122_ANCHOR);
+
 
 	i80_controller_init((void*)gpio_set_level);
 
-
+	ryuw122_init(system_send_to_queue, system_uwb_callback, RYUW122_ANCHOR);
 
     ESP_LOGI(TAG, "Display LVGL animation");
 
@@ -69,6 +69,8 @@ static void system_send_to_queue(void *tx_buffer, uint8_t command_length)
 	uartHandler_t temp_buffer = {0};
 
 	memcpy(temp_buffer.uart_txBuffer, tx_buffer, command_length);
+
+	ESP_LOGI(TAG, "command :%s, size: %d", temp_buffer.uart_txBuffer, command_length);
 
 	temp_buffer.uart_txPacketSize = command_length;
 

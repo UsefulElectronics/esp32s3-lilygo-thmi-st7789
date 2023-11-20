@@ -28,6 +28,20 @@ static const char *TAG = "uart";
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
+/**
+ * @brief Forms an AT command string with parameters.
+ *
+ * This function constructs an AT command string with parameters based on the provided command and parameters.
+ *
+ * @param[in] 	command The base AT command.
+ * @param[in] 	parameter_pointer An array of strings containing the parameters.
+ * @param[in] 	parameter_count The number of parameters in the array.
+ * @param[out] 	command_string The output buffer to store the constructed AT command string.
+ *
+ * @return 		Length of the generated AT command string (excluding null terminator), or zero if no parameters or an error occurred.
+ 				Or 0 if the parameter count is zero or exceeds MAX_PARAM_COUNT.
+
+ */
 uint8_t at_command_form(char* command, char parameter_pointer[][MAX_PARAM_LENGTH], uint8_t parameter_count, char* command_string)
 {
 	if(0 == parameter_count && MAX_PARAM_COUNT < parameter_count)
@@ -44,7 +58,7 @@ uint8_t at_command_form(char* command, char parameter_pointer[][MAX_PARAM_LENGTH
 
 	for(uint8_t i = 1; i < parameter_count; ++i)
 	{
-		strcat(temp_command_string, ",");
+		strcat(temp_command_string, COMMAND_SEPARATOR);
 		strcat(temp_command_string, parameter_pointer[i]);
 	}
 
@@ -55,10 +69,25 @@ uint8_t at_command_form(char* command, char parameter_pointer[][MAX_PARAM_LENGTH
 	return  strlen(temp_command_string);
 }
 
-
+/**
+ * @brief This function parses the provided AT command string to extract the command and its associated parameters.
+ *
+ *		  This function validates AT command response from the '+' header character.
+ *
+ * @param[out] command The extracted AT command.
+ * @param[out] parameter_pointer An array to store the extracted parameters.
+ * @param[out] parameter_count Pointer to the count of extracted parameters. This can ex: +OK
+ * @param[in]  command_string The input AT command string to be parsed.
+ *
+ * @return Boolean value indicating the validity of the parsed AT command and parameters.
+ * @retval true if the parsing process is successful and the AT command is valid.
+ * @retval false if the AT command string format is invalid or parsing fails.
+ */
 uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENGTH], uint8_t* parameter_count, char* command_string)
 {
     bool validPacket = false;
+
+    uint8_t command_counter = 0;
 
     uint8_t command_parameter_counter = 0;
 
@@ -69,30 +98,35 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
     validPacket = true;
 
-
-    uint8_t command_counter = 0;
-
 	char *pToken = strtok((char *)command_string, COMMAND_PARAMETERS_BEGINNING);
 
-	strcpy(command, pToken);
+	if(pToken != NULL)
+	{
+		strcpy(command, pToken);
 
-    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
+	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
 
-    strcpy(parameter_pointer[command_parameter_counter], pToken);
+	    strcpy(parameter_pointer[command_parameter_counter], pToken);
 
-    ++command_parameter_counter;
+	    ++command_parameter_counter;
 
-    while(pToken != NULL)
-    {
+	    while(pToken != NULL)
+	    {
 
-        pToken = strtok(NULL, COMMAND_SEPARATOR);
+	        pToken = strtok(NULL, COMMAND_SEPARATOR);
 
-        strcpy(parameter_pointer[command_parameter_counter], pToken);
+	        strcpy(parameter_pointer[command_parameter_counter], pToken);
 
-        ESP_LOGI(TAG, "%s", parameter_pointer[command_parameter_counter]);
+	        ESP_LOGI(TAG, "%s", parameter_pointer[command_parameter_counter]);
 
-        ++command_parameter_counter;
-    }
+	        ++command_parameter_counter;
+	    }
+	}
+	else
+	{
+		strcpy(command, command_string);
+	}
+
 
     *parameter_count = command_counter;
 
