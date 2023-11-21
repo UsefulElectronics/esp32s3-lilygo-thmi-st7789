@@ -20,7 +20,7 @@
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
-static const char *TAG = "uart";
+static const char *TAG = "at";
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -91,17 +91,24 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
     uint8_t command_parameter_counter = 0;
 
-    if(command_string[0] == COMMAND_HEADER)
+
+
+    if(strchr(command_string, COMMAND_HEADER) == NULL)
     {
     	return validPacket;
     }
 
     validPacket = true;
 
-	char *pToken = strtok((char *)command_string, COMMAND_PARAMETERS_BEGINNING);
 
-	if(pToken != NULL)
+    char* parameter_check = strchr(command_string, '=');
+
+
+	if(parameter_check != NULL)
 	{
+
+		char *pToken = strtok((char *)command_string, COMMAND_PARAMETERS_BEGINNING);
+
 		strcpy(command, pToken);
 
 	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
@@ -124,6 +131,7 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 	}
 	else
 	{
+
 		strcpy(command, command_string);
 	}
 

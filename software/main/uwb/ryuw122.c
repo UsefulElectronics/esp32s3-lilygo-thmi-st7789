@@ -24,6 +24,8 @@ typedef struct
     void               	 	(*receiveCallback) (void* rx_packet, packet_id_e packet_id);
     communication_mode_e    networkStatus;
     module_mdoe_e			operation_mode;
+    bool					busy;
+
 
 }ryuw122_handler;
 /* VARIABLES -----------------------------------------------------------------*/
@@ -59,6 +61,11 @@ module_mdoe_e ryuw122_get_mode(void)
 	return hRyuw122.operation_mode;
 }
 
+bool ryuw122_get_state(void)
+{
+	return hRyuw122.busy;
+}
+
 void ryuw122_set_mode(module_mdoe_e mode)
 {
 	char temp_command_string[MAX_COMMAND_LENGTH] = {0};
@@ -72,6 +79,8 @@ void ryuw122_set_mode(module_mdoe_e mode)
 	 command_length = at_command_form(MODE, parameter_buffer, 1, temp_command_string);
 
 	 hRyuw122.commandSend(temp_command_string, command_length);
+
+	 hRyuw122.busy = true;
 }
 
 void ryuw122_set_network_id(void)
@@ -86,6 +95,8 @@ void ryuw122_set_network_id(void)
 	 command_length = at_command_form(NETWORKID, parameter_buffer, 1, temp_command_string);
 
 	 hRyuw122.commandSend(temp_command_string, command_length);
+
+	 hRyuw122.busy = true;
 }
 
 void ryuw122_set_address(char* device_address)
@@ -99,6 +110,8 @@ void ryuw122_set_address(char* device_address)
 	 command_length = at_command_form(ADDRESS, parameter_buffer, 1, temp_command_string);
 
 	 hRyuw122.commandSend(temp_command_string, command_length);
+
+	 hRyuw122.busy = true;
 }
 
 void ryuw122_set_password(void)
@@ -168,38 +181,26 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
     validPacket =  at_command_parser(temp_command_header, parameter_buffer, &parameter_count, packet);
 
 
-//    uint8_t packetCounter = 0;
-//
-//    uint8_t charCounter = 0;
-//
-//    const uint8_t dontWait = 0;
-//
-//    char *pToken = strtok((char *)packet, "\r\n");
-//
-//    while(pToken != NULL)
-//    {
-//        strcpy(packetHolder[packetCounter], pToken);
-//
-//        ++packetCounter;
-//
-//        rylr993_packet_parser((uint8_t*)pToken);
-//
-//        pToken = strtok(NULL, "\r\n");
-//
-//        // ESP_LOGI(TAG, "%s", packetHolder[packetCounter]);
-//    }
-//
-//    if(RYLR993_JOINED == rylr993_joined_check())
-//    {
-//        if(xQueueReceive(rlyr993_packet_queue, (void * )&module_data, dontWait))
-//        {
-//            hRlyr993.commandSend(&module_data);
-//
-//            hRlyr993.networkStatus = RYLR993_BUSY;
-//        }
-//    }
-//
-//
+    ESP_LOGI(TAG, "%s", temp_command_header);
+
+    if (strcmp(temp_command_header, UWB_OK) == 0)
+    {
+    	hRyuw122.busy = false;
+
+    }
+    else if (strcmp(temp_command_header, ANCHOR_RCV) == 0)
+    {
+
+    }
+    else if (strcmp(temp_command_header, TAG_RCV) == 0)
+    {
+
+
+    }
+    else
+    {
+
+    }
     return validPacket;
 }
 

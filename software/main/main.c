@@ -29,6 +29,8 @@ static const char *TAG = "main";
 static void system_send_to_queue(void *tx_buffer, uint8_t command_length);
 
 static void system_uwb_callback(uint8_t* rx_data, uint8_t packetId);
+
+static void uart_reception_task(void *param);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
@@ -47,11 +49,11 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Display LVGL animation");
 
-//    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
+    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
 
     xTaskCreatePinnedToCore(uart_transmission_task, "USART TX handling task", 10000, NULL, 4, NULL, 0);
 
-//    xTaskCreatePinnedToCore(uart_reception_task, "USART RX handling task", 10000, NULL, 4, NULL, 0);
+    xTaskCreatePinnedToCore(uart_reception_task, "USART RX handling task", 10000, NULL, 4, NULL, 0);
 
 
 
@@ -115,7 +117,9 @@ static void uart_reception_task(void *param)
       //Waiting for UART packet to get received.
       if(xQueueReceive(uartRxStore_queue, (void * )&uartHandler, portMAX_DELAY))
       {
-//    	  detectedDistance = hlk_ld1125h_parse_packet(hUart.uart_rxBuffer,(uint8_t*) &movementType);
+
+
+    	  ryuw122_packet_separator((char*) uartHandler.uart_rxBuffer, uartHandler.uart_rxPacketSize);
 //
 //    	  if(-1 != detectedDistance)
 //    	  {

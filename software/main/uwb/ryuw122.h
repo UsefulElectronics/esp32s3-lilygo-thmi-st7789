@@ -35,7 +35,7 @@
 #define TAG_SEND                "TAG_SEND"		//Send data to the module and wait for the anchor to re			AT+TAG_SEND=<Payload Length>,<Data
 #define ANCHOR_RCV              "+ANCHOR_RCV"	//Show the received data of ANCHOR actively.					+ANCHOR_RCV=<TAG Address>,< PAYLOAD LENGTH>,<TAG DATA>,<DISTANCE>
 #define TAG_RCV               	"+TAG_RCV"		//Show the received data of TAG actively.						+TAG_RCV=< PAYLOAD LENGTH>,<DATA>
-
+#define UWB_OK               	"+OK"
 
 #define UWB_NETWORK            	"REYAX123"
 #define UWB_ANCH_ADDRESS       	"ANC00001"
@@ -75,6 +75,8 @@ void ryuw122_init(void* port_send, void* uwb_callback, bool mode);
 
 module_mdoe_e ryuw122_get_mode(void);
 
+bool ryuw122_get_state(void);
+
 void ryuw122_set_mode(module_mdoe_e mode);
 
 void ryuw122_set_address(char* device_address);
@@ -83,6 +85,7 @@ void ryuw122_set_network_id(void);
 
 void ryuw122_set_password(void);
 
+bool ryuw122_packet_separator(char* packet, uint8_t packet_size);
 
 #endif /* MAIN_UWB_RYUW122_H_ */
 
