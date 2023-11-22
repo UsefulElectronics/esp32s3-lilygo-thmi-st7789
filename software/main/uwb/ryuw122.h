@@ -36,6 +36,7 @@
 #define ANCHOR_RCV              "+ANCHOR_RCV"	//Show the received data of ANCHOR actively.					+ANCHOR_RCV=<TAG Address>,< PAYLOAD LENGTH>,<TAG DATA>,<DISTANCE>
 #define TAG_RCV               	"+TAG_RCV"		//Show the received data of TAG actively.						+TAG_RCV=< PAYLOAD LENGTH>,<DATA>
 #define UWB_OK               	"+OK"
+#define UWB_ERROR               "+ERR"
 
 #define UWB_NETWORK            	"REYAX123"
 #define UWB_ANCH_ADDRESS       	"ANC00001"
@@ -47,14 +48,14 @@
 /* ENUMORATIONS --------------------------------------------------------------*/
 typedef enum
 {
-	RYUW122_TAG = 0,
+	RYUW122_TAG 		= 0,
 	RYUW122_ANCHOR ,
 
 }module_mdoe_e;
 
 typedef enum
 {
-	RYUW122_OK= 0,
+	RYUW122_OK			= 0,
 	RYUW122_ANCHOR_RX,
 	RYUW122_TAG_RX
 

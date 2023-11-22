@@ -18,9 +18,12 @@
 
 
 /* INCLUDES ------------------------------------------------------------------*/
-#define MAX_PRIMITIVE_BUFFER_SIZE 10
-/* MACROS --------------------------------------------------------------------*/
 
+
+#include <stdbool.h>
+#include <stdio.h>
+/* MACROS --------------------------------------------------------------------*/
+#define MAX_PRIMITIVE_BUFFER_SIZE 10
 /* ENUMORATIONS --------------------------------------------------------------*/
 
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
@@ -44,8 +47,10 @@ void primitive_buffer_init(primitive_buffer_t* buffer);
  * @brief Executes a primitive function stored in the primitive buffer.
  *
  * @param[in,out] buffer Pointer to the primitive buffer structure.
+ *
+ * @return Boolean value indicating function execution.
  */
-void primitive_execute(primitive_buffer_t* buffer);
+bool primitive_execute(primitive_buffer_t* buffer);
 /**
  * @brief Pushes a primitive function pointer into the primitive buffer.
  *

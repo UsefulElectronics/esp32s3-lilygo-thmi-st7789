@@ -91,7 +91,7 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
     uint8_t command_parameter_counter = 0;
 
-
+    char *pToken;
 
     if(strchr(command_string, COMMAND_HEADER) == NULL)
     {
@@ -107,32 +107,49 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 	if(parameter_check != NULL)
 	{
 
-		char *pToken = strtok((char *)command_string, COMMAND_PARAMETERS_BEGINNING);
+		pToken = strtok((char *)command_string, COMMAND_PARAMETERS_BEGINNING);
+
+
 
 		strcpy(command, pToken);
 
+
 	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
 
-	    strcpy(parameter_pointer[command_parameter_counter], pToken);
+	    ESP_LOGI(TAG, "%s", pToken);
 
-	    ++command_parameter_counter;
+
+	    if(NULL != pToken)
+	    {
+		    strcpy(parameter_pointer[command_parameter_counter], pToken);
+
+		    ++command_parameter_counter;
+
+		    pToken = strtok(NULL, COMMAND_SEPARATOR);
+	    }
 
 	    while(pToken != NULL)
 	    {
-
-	        pToken = strtok(NULL, COMMAND_SEPARATOR);
-
 	        strcpy(parameter_pointer[command_parameter_counter], pToken);
 
 	        ESP_LOGI(TAG, "%s", parameter_pointer[command_parameter_counter]);
 
 	        ++command_parameter_counter;
+
+	        pToken = strtok(NULL, COMMAND_SEPARATOR);
 	    }
+	    pToken = strtok((char *)parameter_pointer[command_parameter_counter], COMMAND_TERMINATOR);
+
+	    strcpy(parameter_pointer[command_parameter_counter], pToken);
 	}
 	else
 	{
+	    pToken = strtok((char *)command_string, COMMAND_TERMINATOR);
 
-		strcpy(command, command_string);
+	    strcpy(parameter_pointer[command_parameter_counter], pToken);
+
+//		strncpy(command, command_string, strlen(command_string) - 2);
+//		strcpy(command, command_string);
 	}
 
 

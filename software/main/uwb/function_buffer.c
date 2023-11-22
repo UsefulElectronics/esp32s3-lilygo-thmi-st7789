@@ -17,6 +17,7 @@
 /* INCLUDES ------------------------------------------------------------------*/
 #include "function_buffer.h"
 #include <stdbool.h>
+#include <stdio.h>
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
@@ -47,7 +48,7 @@ void primitive_buffer_init(primitive_buffer_t* buffer)
  */
 bool primitive_push(primitive_buffer_t* buffer, primitive function)
 {
-    uint8_t next = (buffer->head + 1) % MAX_BUFFER_SIZE;
+    uint8_t next = (buffer->head + 1) % MAX_PRIMITIVE_BUFFER_SIZE;
     if (next != buffer->tail)
     {
         buffer->primitives[buffer->head] = function;
@@ -63,17 +64,23 @@ bool primitive_push(primitive_buffer_t* buffer, primitive function)
  * @brief Executes a primitive function stored in the primitive buffer.
  *
  * @param[in,out] buffer Pointer to the primitive buffer structure.
+ *
+ * @return Boolean value indicating function execution.
  */
-void primitive_execute(primitive_buffer_t* buffer)
+bool primitive_execute(primitive_buffer_t* buffer)
 {
 	//Check if the buffer contains any function
     if (buffer->tail != buffer->head)
     {
     	primitive function = buffer->primitives[buffer->tail];
-        buffer->tail = (buffer->tail + 1) % MAX_BUFFER_SIZE;
+        buffer->tail = (buffer->tail + 1) % MAX_PRIMITIVE_BUFFER_SIZE;
         // Execute the function
         function();
+
+        return true;
     }
+
+    return false;
 }
 
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/

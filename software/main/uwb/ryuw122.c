@@ -17,6 +17,7 @@
 /* INCLUDES ------------------------------------------------------------------*/
 #include "ryuw122.h"
 #include "at_command.h"
+#include "function_buffer.h"
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 typedef struct
 {
@@ -30,6 +31,8 @@ typedef struct
 }ryuw122_handler;
 /* VARIABLES -----------------------------------------------------------------*/
 ryuw122_handler hRyuw122 = {0};
+
+primitive_buffer_t premetive_buffer = {0};
 
 char parameter_buffer[NUM_COMMAND_PARAM][MAX_PARAM_LENGTH] = {0};
 
@@ -49,11 +52,17 @@ void ryuw122_init(void* port_send, void* uwb_callback, bool mode)
 
 	hRyuw122.operation_mode		= mode;
 
+	primitive_buffer_init(&premetive_buffer);
+
 	ryuw122_set_mode(hRyuw122.operation_mode);
 
-	ryuw122_set_network_id();
+	primitive_push(&premetive_buffer, ryuw122_set_network_id);
 
-	ryuw122_set_password();
+	primitive_push(&premetive_buffer, ryuw122_set_password);
+
+//	ryuw122_set_network_id();
+//
+//	ryuw122_set_password();
 }
 
 module_mdoe_e ryuw122_get_mode(void)
@@ -185,16 +194,29 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
 
     if (strcmp(temp_command_header, UWB_OK) == 0)
     {
-    	hRyuw122.busy = false;
+
+
+    	if(false != primitive_execute(&premetive_buffer))
+    	{
+    		hRyuw122.busy = false;
+    	}
 
     }
+    else if (strcmp(temp_command_header, UWB_ERROR) == 0)
+    {
+    	if(false != primitive_execute(&premetive_buffer))
+    	{
+    		hRyuw122.busy = false;
+    	}
+    }
+
     else if (strcmp(temp_command_header, ANCHOR_RCV) == 0)
     {
-
+//    	hRyuw122.receiveCallback(void* rx_packet, packet_id_e packet_id);
     }
     else if (strcmp(temp_command_header, TAG_RCV) == 0)
     {
-
+//    	hRyuw122.receiveCallback(void* rx_packet, packet_id_e packet_id);
 
     }
     else
