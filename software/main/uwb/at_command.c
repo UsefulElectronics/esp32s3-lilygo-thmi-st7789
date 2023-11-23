@@ -59,6 +59,7 @@ uint8_t at_command_form(char* command, char parameter_pointer[][MAX_PARAM_LENGTH
 	for(uint8_t i = 1; i < parameter_count; ++i)
 	{
 		strcat(temp_command_string, COMMAND_SEPARATOR);
+
 		strcat(temp_command_string, parameter_pointer[i]);
 	}
 
@@ -109,23 +110,29 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
 		pToken = strtok((char *)command_string, COMMAND_PARAMETERS_BEGINNING);
 
-
-
 		strcpy(command, pToken);
-
 
 	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
 
+	    strcpy(parameter_pointer[command_parameter_counter], pToken);
+
 	    ESP_LOGI(TAG, "%s", pToken);
 
+	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
 
-	    if(NULL != pToken)
+	    if(NULL == pToken)
 	    {
+	    	ESP_LOGI(TAG, "token is null" );
+
+	    	pToken = strtok((char *)parameter_pointer[command_parameter_counter], COMMAND_TERMINATOR);
+
 		    strcpy(parameter_pointer[command_parameter_counter], pToken);
+
+		    ESP_LOGI(TAG, " string %s size %d", parameter_pointer[command_parameter_counter], strlen(parameter_pointer[command_parameter_counter]));
 
 		    ++command_parameter_counter;
 
-		    pToken = strtok(NULL, COMMAND_SEPARATOR);
+		    pToken = NULL;
 	    }
 
 	    while(pToken != NULL)
@@ -138,18 +145,15 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
 	        pToken = strtok(NULL, COMMAND_SEPARATOR);
 	    }
-	    pToken = strtok((char *)parameter_pointer[command_parameter_counter], COMMAND_TERMINATOR);
-
-	    strcpy(parameter_pointer[command_parameter_counter], pToken);
+//	    pToken = strtok((char *)parameter_pointer[command_parameter_counter], COMMAND_TERMINATOR);
+//
+//	    strcpy(parameter_pointer[command_parameter_counter], pToken);
 	}
 	else
 	{
 	    pToken = strtok((char *)command_string, COMMAND_TERMINATOR);
 
-	    strcpy(parameter_pointer[command_parameter_counter], pToken);
-
-//		strncpy(command, command_string, strlen(command_string) - 2);
-//		strcpy(command, command_string);
+	    strcpy(command, pToken);
 	}
 
 
