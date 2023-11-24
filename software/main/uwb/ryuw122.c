@@ -56,6 +56,8 @@ void ryuw122_init(void* port_send, void* uwb_callback, bool mode)
 
 	ryuw122_set_mode(hRyuw122.operation_mode);
 
+	primitive_push(&premetive_buffer, ryuw122_set_address);
+
 	primitive_push(&premetive_buffer, ryuw122_set_network_id);
 
 	primitive_push(&premetive_buffer, ryuw122_set_password);
@@ -108,7 +110,7 @@ void ryuw122_set_network_id(void)
 	 hRyuw122.busy = true;
 }
 
-void ryuw122_set_address(char* device_address)
+void ryuw122_set_address(void)
 {
 	char temp_command_string[MAX_COMMAND_LENGTH] = {0};
 

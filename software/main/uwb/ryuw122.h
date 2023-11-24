@@ -80,7 +80,9 @@ bool ryuw122_get_state(void);
 
 void ryuw122_set_mode(module_mdoe_e mode);
 
-void ryuw122_set_address(char* device_address);
+void ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size);
+
+void ryuw122_set_address();
 
 void ryuw122_set_network_id(void);
 

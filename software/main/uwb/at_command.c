@@ -116,19 +116,14 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
 	    strcpy(parameter_pointer[command_parameter_counter], pToken);
 
-	    ESP_LOGI(TAG, "%s", pToken);
-
 	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
 
 	    if(NULL == pToken)
 	    {
-	    	ESP_LOGI(TAG, "token is null" );
 
 	    	pToken = strtok((char *)parameter_pointer[command_parameter_counter], COMMAND_TERMINATOR);
 
 		    strcpy(parameter_pointer[command_parameter_counter], pToken);
-
-		    ESP_LOGI(TAG, " string %s size %d", parameter_pointer[command_parameter_counter], strlen(parameter_pointer[command_parameter_counter]));
 
 		    ++command_parameter_counter;
 
@@ -149,6 +144,7 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 //
 //	    strcpy(parameter_pointer[command_parameter_counter], pToken);
 	}
+	//Handle the packets that have no parameter
 	else
 	{
 	    pToken = strtok((char *)command_string, COMMAND_TERMINATOR);

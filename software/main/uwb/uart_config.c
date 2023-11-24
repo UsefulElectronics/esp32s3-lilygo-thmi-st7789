@@ -112,7 +112,7 @@ void uart_transmission_task(void *pvParameters)
 
 			dataTransmitted = uart_write_bytes(UART_AT_PORT, hUart.uart_txBuffer, hUart.uart_txPacketSize);
 
-			vTaskDelay(150/portTICK_PERIOD_MS);
+			vTaskDelay(200/portTICK_PERIOD_MS);
 		}
 	}
 }

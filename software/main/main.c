@@ -31,6 +31,8 @@ static void system_send_to_queue(void *tx_buffer, uint8_t command_length);
 static void system_uwb_callback(uint8_t* rx_data, uint8_t packetId);
 
 static void uart_reception_task(void *param);
+
+static void anchor_periodic_send_task(void *param);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
@@ -55,7 +57,7 @@ void app_main(void)
 
     xTaskCreatePinnedToCore(uart_reception_task, "USART RX handling task", 10000, NULL, 4, NULL, 0);
 
-
+    xTaskCreatePinnedToCore(anchor_periodic_send_task, "Anchor periodic send task", 10000, NULL, 4, NULL, 0);
 
     while (1)
     {
@@ -135,5 +137,20 @@ static void uart_reception_task(void *param)
       }
    }
 }
+
+static void anchor_periodic_send_task(void *param)
+{
+
+
+   for(;;)
+   {
+
+		ryuw122_anchor_send("test", 4);
+
+		vTaskDelay(200/portTICK_PERIOD_MS);
+   }
+}
+
+
 
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
