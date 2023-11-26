@@ -43,7 +43,7 @@
 #define UWB_TAG_ADDRESS       	"TAG00001"
 #define UWB_PASSWORD       		"FABC0002EEDCAA90FABC0002EEDCAA90"
 
-
+#define UWB_DISTANCE_POSITION	2
 
 /* ENUMORATIONS --------------------------------------------------------------*/
 typedef enum
@@ -57,7 +57,9 @@ typedef enum
 {
 	RYUW122_OK			= 0,
 	RYUW122_ANCHOR_RX,
-	RYUW122_TAG_RX
+	RYUW122_ANCHOR_DISTANCE,
+	RYUW122_TAG_RX,
+
 
 }packet_id_e;
 
@@ -89,6 +91,8 @@ void ryuw122_set_network_id(void);
 void ryuw122_set_password(void);
 
 bool ryuw122_packet_separator(char* packet, uint8_t packet_size);
+
+uint16_t  ryuw122_get_distance_from_string(char* distance_string);
 
 #endif /* MAIN_UWB_RYUW122_H_ */
 

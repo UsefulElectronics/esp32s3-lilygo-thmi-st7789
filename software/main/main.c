@@ -28,7 +28,7 @@ static const char *TAG = "main";
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 static void system_send_to_queue(void *tx_buffer, uint8_t command_length);
 
-static void system_uwb_callback(uint8_t* rx_data, uint8_t packetId);
+static void system_uwb_callback(void* rx_data, uint8_t packetId);
 
 static void uart_reception_task(void *param);
 
@@ -81,26 +81,34 @@ static void system_send_to_queue(void *tx_buffer, uint8_t command_length)
    xQueueSendToBack(uartTx_queue, (void*) &temp_buffer, portMAX_DELAY);
 }
 
-static void system_uwb_callback(uint8_t* rx_data, uint8_t packetId)
+static void system_uwb_callback(void* rx_data, uint8_t packetId)
 {
 
-//   uint8_t packetHandler[GPIO_CONTROL_PACKET_SIZE] = {0};
-//
-//   switch (packetId)
-//   {
-//      case RYLR993_TEMPERATURE:
-//         systemParam.temperature = rylr993_read_temperature();
-//         break;
-//      case RYLR993_PIN_CONTROL:
-//         memcpy(packetHandler, rx_data, GPIO_CONTROL_PACKET_SIZE);
-//
-//         gpio_pin_control(rx_data[RLYR993_GPIO_NUM_POS],
-//                           rx_data[RLYR993_GPIO_STATE_POS]);
-//         break;
-//
-//      default:
-//         break;
-//   }
+	uint16_t temp_distance = 0;
+
+	switch (packetId)
+	{
+		case RYUW122_ANCHOR_DISTANCE:
+
+			memcpy(&temp_distance, rx_data, 2);
+
+			lvgl_distance_set(temp_distance);
+
+			break;
+
+		case RYUW122_ANCHOR_RX:
+
+			break;
+
+		case RYUW122_TAG_RX:
+
+			break;
+
+		default:
+			break;
+	}
+
+
 }
 
 static void uart_reception_task(void *param)
@@ -141,11 +149,11 @@ static void uart_reception_task(void *param)
 static void anchor_periodic_send_task(void *param)
 {
 
-
+	const char* test_string = "test";
    for(;;)
    {
 
-		ryuw122_anchor_send("test", 4);
+		ryuw122_anchor_send(test_string, 4);
 
 		vTaskDelay(200/portTICK_PERIOD_MS);
    }

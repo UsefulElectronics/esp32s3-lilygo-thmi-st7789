@@ -18,6 +18,7 @@
 #include "ryuw122.h"
 #include "at_command.h"
 #include "function_buffer.h"
+#include <ctype.h>
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 typedef struct
 {
@@ -26,6 +27,8 @@ typedef struct
     communication_mode_e    networkStatus;
     module_mdoe_e			operation_mode;
     bool					busy;
+    bool					initialized;
+
 
 
 }ryuw122_handler;
@@ -136,6 +139,10 @@ void ryuw122_set_password(void)
 	 command_length = at_command_form(CPIN, parameter_buffer, 1, temp_command_string);
 
 	 hRyuw122.commandSend(temp_command_string, command_length);
+
+	 hRyuw122.initialized = true;
+
+	 hRyuw122.busy = true;
 }
 
 void ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size)
@@ -144,15 +151,26 @@ void ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size)
 
 	uint8_t command_length = 0;
 
-	 sprintf(parameter_buffer[0],"%s", UWB_TAG_ADDRESS);
+	if(hRyuw122.busy == false && hRyuw122.initialized == true)
+	{
+		 sprintf(parameter_buffer[0],"%s", UWB_TAG_ADDRESS);
 
-	 memcpy(parameter_buffer[2], tx_buffer, data_size);
+		 sprintf(parameter_buffer[1],"%d", data_size);
 
-	 sprintf(parameter_buffer[1],"%d", data_size);
+		 memset(parameter_buffer[2], 0, MAX_PARAM_LENGTH);
 
-	 command_length = at_command_form(ANCHOR_SEND, parameter_buffer, 3, temp_command_string);
+		 memcpy(parameter_buffer[2], tx_buffer, data_size);
 
-	 hRyuw122.commandSend(temp_command_string, command_length);
+
+
+		 command_length = at_command_form(ANCHOR_SEND, parameter_buffer, 3, temp_command_string);
+
+		 hRyuw122.commandSend(temp_command_string, command_length);
+
+		 hRyuw122.busy = true;
+	}
+
+
 }
 
 void ryuw122_tag_send(module_mdoe_e mode)
@@ -187,6 +205,8 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
 
     uint8_t parameter_count = 0;
 
+    uint16_t detected_distance = 0;
+
     char temp_command_header[MAX_PARAM_LENGTH] = {0};
 
     validPacket =  at_command_parser(temp_command_header, parameter_buffer, &parameter_count, packet);
@@ -214,7 +234,13 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
 
     else if (strcmp(temp_command_header, ANCHOR_RCV) == 0)
     {
-//    	hRyuw122.receiveCallback(void* rx_packet, packet_id_e packet_id);
+    	hRyuw122.busy = false;
+
+    	detected_distance = ryuw122_get_distance_from_string(parameter_buffer[parameter_count - 1]);
+
+    	hRyuw122.receiveCallback (&detected_distance, RYUW122_ANCHOR_DISTANCE);
+
+
     }
     else if (strcmp(temp_command_header, TAG_RCV) == 0)
     {
@@ -228,68 +254,9 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
     return validPacket;
 }
 
-//static bool ryuw122_packet_parser(uint8_t* packet)
-//{
-//    bool validPacket = false;
-//
-//    int unused = 0;
-//
-//    const uint8_t packetBase = 0;
-//
-//    char rxPacket[MAX_PACKET_SIZE] = {0};
-//
-//    int rxPacketSize = 0;
-//
-//    //Offset buffer if it starts with space character
-//    if(packet[packetBase] == SPACE)
-//    {
-//        ++packet;
-//    }
-//    //Module report packet check
-//    if(!strncmp((char*)packet ,MSG_REPORT ,strlen(MSG_REPORT)))
-//    {
-//
-//        //report header ignore
-//        packet = packet + strlen(MSG_REPORT) ;
-//
-//        // ESP_LOGI(TAG, "%s", packet);
-//
-//        if(isdigit(packet[packetBase]))
-//        {
-//            sscanf((char*)packet, "%d:%d:%s", &unused, &rxPacketSize, rxPacket);
-//
-//
-//            memcpy(rxPacket, rylr993_hex2raw(rxPacket, (uint8_t) rxPacketSize), rxPacketSize);
-//            //First byte is the pin number and the next one is the pin state
-//            hRlyr993.receiveCallback((uint8_t*) rxPacket, RYLR993_PIN_CONTROL);
-//        }
-//        if(!strncmp((char*)packet ,PARAM_REPORT ,strlen(PARAM_REPORT)))
-//        {
-//            sscanf((char*)packet, "RX_1, DR %d, RSSI %d, SNR %d", &hRlyr993.dr, &hRlyr993.rssi, &hRlyr993.snr);
-//
-//            validPacket = true;
-//
-//            hRlyr993.networkStatus = RYLR993_JOINED;
-//
-//        }
-//        else if(!strncmp((char*)packet ,JOIN_REPORT ,strlen(JOIN_REPORT)))
-//        {
-//            validPacket = true;
-//
-//            hRlyr993.networkStatus = RYLR993_JOINED;
-//
-//        }
-//    }
-//    else if(isdigit(packet[packetBase]))
-//    {
-//        validPacket = true;
-//
-//        hRlyr993.temperature = atoi((char*)packet);
-//
-//        hRlyr993.receiveCallback(NULL, RYLR993_TEMPERATURE);
-//
-//        ESP_LOGI(TAG, "temperature is %d", (int)hRlyr993.temperature);
-//    }
-//    return validPacket;
-//}
+uint16_t  ryuw122_get_distance_from_string(char* distance_string)
+{
+	return strtol(distance_string, NULL, 10);
+
+}
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/

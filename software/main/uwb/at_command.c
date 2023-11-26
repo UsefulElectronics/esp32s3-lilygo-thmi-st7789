@@ -88,7 +88,6 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 {
     bool validPacket = false;
 
-    uint8_t command_counter = 0;
 
     uint8_t command_parameter_counter = 0;
 
@@ -104,7 +103,7 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
     char* parameter_check = strchr(command_string, '=');
 
-
+    //The received packet has at least one parameter
 	if(parameter_check != NULL)
 	{
 
@@ -116,8 +115,10 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 
 	    strcpy(parameter_pointer[command_parameter_counter], pToken);
 
-	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
+	    ++command_parameter_counter;
 
+	    pToken = strtok((char *)NULL, COMMAND_SEPARATOR);
+	    //there are more parameters to extract
 	    if(NULL == pToken)
 	    {
 
@@ -134,15 +135,11 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 	    {
 	        strcpy(parameter_pointer[command_parameter_counter], pToken);
 
-	        ESP_LOGI(TAG, "%s", parameter_pointer[command_parameter_counter]);
-
 	        ++command_parameter_counter;
 
 	        pToken = strtok(NULL, COMMAND_SEPARATOR);
 	    }
-//	    pToken = strtok((char *)parameter_pointer[command_parameter_counter], COMMAND_TERMINATOR);
-//
-//	    strcpy(parameter_pointer[command_parameter_counter], pToken);
+
 	}
 	//Handle the packets that have no parameter
 	else
@@ -153,7 +150,7 @@ uint8_t at_command_parser(char* command, char parameter_pointer[][MAX_PARAM_LENG
 	}
 
 
-    *parameter_count = command_counter;
+    *parameter_count = command_parameter_counter;
 
     return validPacket;
 }

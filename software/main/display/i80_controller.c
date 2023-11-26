@@ -202,6 +202,6 @@ void i80_controller_init(void (*i80_gpio_set_level)(uint8_t gpio_num, uint8_t le
 
 	i80_controller_lvgl_init();
 
-	example_lvgl_demo_ui(hI80.disp);
+	lvgl_demo_ui(hI80.disp);
 }
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/

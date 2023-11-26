@@ -28,7 +28,11 @@
 /* VARIABLES -----------------------------------------------------------------*/
 
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
-void example_lvgl_demo_ui(lv_disp_t *disp);
+void lvgl_demo_ui(lv_disp_t *disp);
+
+void lvgl_distance_set(uint16_t distance);
+
+void lvgl_communication_status(bool communication_status);
 
 
 #endif /* MAIN_DISPLAY_LVGL_UI_H_ */

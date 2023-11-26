@@ -37,13 +37,19 @@
 #include <math.h>
 #include "lvgl.h"
 
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+
 #ifndef PI
 #define PI  (3.14159f)
 #endif
 
 // LVGL image declare
-//LV_IMG_DECLARE(esp_logo)
+LV_IMG_DECLARE(ui_img_background_png)
+LV_IMG_DECLARE(ui_img_rhomboid_png)
 LV_IMG_DECLARE(ui_img_ue_logo_png)
+LV_IMG_DECLARE(ui_img_status_png)
 //LV_IMG_DECLARE(esp_text)
 LV_IMG_DECLARE(ui_img_useful_electronics_png)
 typedef struct {
@@ -62,7 +68,17 @@ static lv_color_t arc_color[] = {
     LV_COLOR_MAKE(255, 255, 255),
     LV_COLOR_MAKE(90, 202, 228),
 };
+ lv_obj_t * ui_Screen1;
+ lv_obj_t * ui_Image1;
+ lv_obj_t * ui_Panel1;
+ lv_obj_t * ui_Panel2;
+ lv_obj_t * ui_Label1;
 
+lv_obj_t *display;
+lv_obj_t *tv1;
+lv_obj_t *tv2;
+
+void tv2_screen_init(void);
 
 static void anim_timer_cb(lv_timer_t *timer)
 {
@@ -104,6 +120,8 @@ static void anim_timer_cb(lv_timer_t *timer)
     // Delete timer when all animation finished
     if ((count += 5) == 220) {
         lv_timer_del(timer);
+        //switch screen
+        lv_obj_set_tile_id(display, 0, 1, LV_ANIM_ON);
 
         // Enable button
 //        lv_obj_clear_state(btn, LV_STATE_DISABLED);
@@ -155,28 +173,106 @@ static void btn_cb(lv_event_t * e)
     start_animation(scr);
 }
 
-void example_lvgl_demo_ui(lv_disp_t *disp)
+void tv2_screen_init(void)
+{
+
+    lv_obj_clear_flag(tv2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Image1 = lv_img_create(tv2);
+    lv_img_set_src(ui_Image1, &ui_img_background_png);
+    lv_obj_set_width(ui_Image1, LV_SIZE_CONTENT);   /// 240
+    lv_obj_set_height(ui_Image1, LV_SIZE_CONTENT);    /// 320
+    lv_obj_set_x(ui_Image1, -2);
+    lv_obj_set_y(ui_Image1, 0);
+    lv_obj_set_align(ui_Image1, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Image1, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_Image1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Panel1 = lv_obj_create(tv2);
+    lv_obj_set_width(ui_Panel1, 70);
+    lv_obj_set_height(ui_Panel1, 70);
+    lv_obj_set_x(ui_Panel1, 0);
+    lv_obj_set_y(ui_Panel1, 100);
+    lv_obj_set_align(ui_Panel1, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Panel1, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_clear_flag(ui_Panel1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_Panel1, &ui_img_status_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_opa(ui_Panel1, 220, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel1, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Panel2 = lv_obj_create(tv2);
+    lv_obj_set_width(ui_Panel2, 195);
+    lv_obj_set_height(ui_Panel2, 187);
+    lv_obj_set_align(ui_Panel2, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel2, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_Panel2, &ui_img_rhomboid_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_opa(ui_Panel2, 220, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel2, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel2, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label1 = lv_label_create(ui_Panel2);
+    lv_obj_set_width(ui_Label1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Label1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label1, "cm");
+    lv_obj_set_style_text_color(ui_Label1, lv_color_hex(0x0B5093), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label1, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+}
+
+void lvgl_distance_set(uint16_t distance)
+{
+	char temp_distance_string[10] = {0};
+
+	sprintf(temp_distance_string, "%d", distance);
+
+	lv_label_set_text(ui_Label1, temp_distance_string);
+}
+
+void lvgl_communication_status(bool communication_status)
+{
+	if(communication_status)
+	{
+		lv_obj_add_flag(ui_Panel1, LV_OBJ_FLAG_HIDDEN);
+	}
+	else
+	{
+		lv_obj_clear_flag(ui_Panel1, LV_OBJ_FLAG_HIDDEN);
+	}
+
+}
+
+
+
+void lvgl_demo_ui(lv_disp_t *disp)
 {
     lv_obj_t *scr = lv_disp_get_scr_act(disp);
-
-
 
     lv_theme_t * theme = lv_theme_default_init(disp, lv_palette_main(LV_PALETTE_BLUE), lv_palette_main(LV_PALETTE_RED),
                                                true, LV_FONT_DEFAULT);
     lv_disp_set_theme(disp, theme);
+
+	//Initialize 2 tiles that act as pages
+    display = lv_tileview_create(scr);
+	lv_obj_align(display, LV_ALIGN_TOP_RIGHT, 0, 0);
+	tv1 = lv_tileview_add_tile(display, 0, 0, LV_DIR_HOR);
+	tv2 = lv_tileview_add_tile(display, 0, 1, LV_DIR_HOR);
+
+	tv2_screen_init();
     // Create image
-    img_logo = lv_img_create(scr);
+
+	lv_obj_set_tile_id(display, 0, 0, LV_ANIM_ON);
+    img_logo = lv_img_create(tv1);
     lv_img_set_src(img_logo, &ui_img_ue_logo_png);
 
-//    btn = lv_btn_create(scr);
-//    lv_obj_t * lbl = lv_label_create(btn);
-//    lv_label_set_text_static(lbl, LV_SYMBOL_REFRESH" SHOW AGAIN");
-//    lv_obj_set_style_text_font(lbl, &lv_font_montserrat_20, 0);
-//    lv_obj_align(btn, LV_ALIGN_BOTTOM_LEFT, 30, -30);
-////     Button event
-//    lv_obj_add_event_cb(btn, btn_cb, LV_EVENT_CLICKED, scr);
 
-    start_animation(scr);
+    start_animation(tv1);
 }
 
 
