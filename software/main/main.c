@@ -25,6 +25,7 @@ static const char *TAG = "main";
 
 /* MACROS --------------------------------------------------------------------*/
 
+#define SYS_TICK()				(xTaskGetTickCount() * portTICK_PERIOD_MS)
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 static void system_send_to_queue(void *tx_buffer, uint8_t command_length);
 
@@ -33,6 +34,8 @@ static void system_uwb_callback(void* rx_data, uint8_t packetId);
 static void uart_reception_task(void *param);
 
 static void anchor_periodic_send_task(void *param);
+
+static uint32_t systick(void);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
@@ -92,6 +95,8 @@ static void system_uwb_callback(void* rx_data, uint8_t packetId)
 
 			memcpy(&temp_distance, rx_data, 2);
 
+			lvgl_communication_status(false);
+
 			lvgl_distance_set(temp_distance);
 
 			break;
@@ -130,33 +135,39 @@ static void uart_reception_task(void *param)
 
 
     	  ryuw122_packet_separator((char*) uartHandler.uart_rxBuffer, uartHandler.uart_rxPacketSize);
-//
-//    	  if(-1 != detectedDistance)
-//    	  {
-//    		//   ESP_LOGI(main, "dis = %d, move type %d", detectedDistance, movementType);
-//
-//    		  system_buffer.data[0] = detectedDistance;
-//    		  system_buffer.data[1] = movementType;
-//
-//    		  system_buffer.packet_size = 2;
-//
-//    		  xQueueSendToBack(system_queue, &system_buffer, portMAX_DELAY);
-//    	  }
+
       }
    }
 }
 
 static void anchor_periodic_send_task(void *param)
 {
+	static uint32_t return_idle_timer = 0;
+
+	bool send_status = false;
+
+	return_idle_timer =  SYS_TICK();
 
 	const char* test_string = "test";
-   for(;;)
-   {
+	for(;;)
+	{
 
-		ryuw122_anchor_send(test_string, 4);
+		if(ryuw122_anchor_send(test_string, 4) == false)
+		{
+
+			if((SYS_TICK() - return_idle_timer) >= 1000)
+			{
+				return_idle_timer = SYS_TICK();
+
+				ryuw122_return_idle();
+
+				lvgl_communication_status(true);
+			}
+		}
+
 
 		vTaskDelay(200/portTICK_PERIOD_MS);
-   }
+	}
 }
 
 

@@ -22,11 +22,20 @@ void ui_Screen1_screen_init(void)
     lv_img_set_src(ui_Image2, &ui_img_status_png);
     lv_obj_set_width(ui_Image2, LV_SIZE_CONTENT);   /// 70
     lv_obj_set_height(ui_Image2, LV_SIZE_CONTENT);    /// 70
-    lv_obj_set_x(ui_Image2, 0);
-    lv_obj_set_y(ui_Image2, 126);
+    lv_obj_set_x(ui_Image2, -1);
+    lv_obj_set_y(ui_Image2, 104);
     lv_obj_set_align(ui_Image2, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_Image2, LV_OBJ_FLAG_HIDDEN | LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_add_flag(ui_Image2, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_Image2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Label2 = lv_label_create(ui_Image2);
+    lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label2, "9999");
+    lv_obj_set_style_text_color(ui_Label2, lv_color_hex(0x181C62), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label2, &lv_font_montserrat_22, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Image3 = lv_img_create(ui_Screen1);
     lv_img_set_src(ui_Image3, &ui_img_rhomboid_png);

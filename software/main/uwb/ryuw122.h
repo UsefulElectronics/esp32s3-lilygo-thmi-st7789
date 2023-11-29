@@ -82,7 +82,7 @@ bool ryuw122_get_state(void);
 
 void ryuw122_set_mode(module_mdoe_e mode);
 
-void ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size);
+bool ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size);
 
 void ryuw122_set_address();
 
@@ -93,6 +93,8 @@ void ryuw122_set_password(void);
 bool ryuw122_packet_separator(char* packet, uint8_t packet_size);
 
 uint16_t  ryuw122_get_distance_from_string(char* distance_string);
+
+void ryuw122_return_idle(void);
 
 #endif /* MAIN_UWB_RYUW122_H_ */
 

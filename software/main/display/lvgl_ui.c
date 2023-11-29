@@ -73,6 +73,7 @@ static lv_color_t arc_color[] = {
  lv_obj_t * ui_Panel1;
  lv_obj_t * ui_Panel2;
  lv_obj_t * ui_Label1;
+ lv_obj_t * ui_Label2;
 
 lv_obj_t *display;
 lv_obj_t *tv1;
@@ -202,6 +203,15 @@ void tv2_screen_init(void)
     lv_obj_set_style_bg_img_opa(ui_Panel1, 220, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ui_Panel1, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui_Panel1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label2 = lv_label_create(ui_Panel1);
+    lv_obj_set_width(ui_Label2, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label2, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label2, "99");
+    lv_obj_set_style_text_color(ui_Label2, lv_color_hex(0x181C62), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label2, &lv_font_montserrat_22, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Panel2 = lv_obj_create(tv2);
     lv_obj_set_width(ui_Panel2, 195);

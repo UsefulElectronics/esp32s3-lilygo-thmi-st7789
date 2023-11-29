@@ -41,7 +41,6 @@
 /* MACROS --------------------------------------------------------------------*/
 
 
-
 // LCD data pins
 #define PIN_NUM_DATA0          48
 #define PIN_NUM_DATA1          47

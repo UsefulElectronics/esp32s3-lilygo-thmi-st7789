@@ -145,11 +145,13 @@ void ryuw122_set_password(void)
 	 hRyuw122.busy = true;
 }
 
-void ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size)
+bool ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size)
 {
 	char temp_command_string[MAX_COMMAND_LENGTH] = {0};
 
 	uint8_t command_length = 0;
+
+	bool retval = false;
 
 	if(hRyuw122.busy == false && hRyuw122.initialized == true)
 	{
@@ -161,16 +163,16 @@ void ryuw122_anchor_send(uint8_t* tx_buffer, uint8_t data_size)
 
 		 memcpy(parameter_buffer[2], tx_buffer, data_size);
 
-
-
 		 command_length = at_command_form(ANCHOR_SEND, parameter_buffer, 3, temp_command_string);
 
 		 hRyuw122.commandSend(temp_command_string, command_length);
 
+		 retval = true;
+
 		 hRyuw122.busy = true;
 	}
 
-
+	return retval;
 }
 
 void ryuw122_tag_send(module_mdoe_e mode)
@@ -252,6 +254,11 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
 
     }
     return validPacket;
+}
+
+void ryuw122_return_idle(void)
+{
+	hRyuw122.busy = false;
 }
 
 uint16_t  ryuw122_get_distance_from_string(char* distance_string)

@@ -3,7 +3,7 @@
 // LVGL version: 8.3.6
 // Project name: T-HMI
 
-#include "lvgl.h"
+#include "../ui.h"
 
 #ifndef LV_ATTRIBUTE_MEM_ALIGN
     #define LV_ATTRIBUTE_MEM_ALIGN
