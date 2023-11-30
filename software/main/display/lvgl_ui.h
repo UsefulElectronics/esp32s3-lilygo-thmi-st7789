@@ -32,6 +32,8 @@ void lvgl_demo_ui(lv_disp_t *disp);
 
 void lvgl_distance_set(uint16_t distance);
 
+void lvgl_packet_count_set(uint32_t packet_count);
+
 void lvgl_communication_status(bool communication_status);
 
 

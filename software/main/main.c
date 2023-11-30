@@ -86,18 +86,22 @@ static void system_send_to_queue(void *tx_buffer, uint8_t command_length)
 
 static void system_uwb_callback(void* rx_data, uint8_t packetId)
 {
+	static uint32_t packet_count = 0;
 
 	uint16_t temp_distance = 0;
 
 	switch (packetId)
 	{
 		case RYUW122_ANCHOR_DISTANCE:
-
 			memcpy(&temp_distance, rx_data, 2);
 
 			lvgl_communication_status(false);
 
 			lvgl_distance_set(temp_distance);
+
+			packet_count++;
+
+			lvgl_packet_count_set(packet_count);
 
 			break;
 

@@ -245,6 +245,15 @@ void lvgl_distance_set(uint16_t distance)
 	lv_label_set_text(ui_Label1, temp_distance_string);
 }
 
+void lvgl_packet_count_set(uint32_t packet_count)
+{
+	char temp_distance_string[10] = {0};
+
+	sprintf(temp_distance_string, "%d", (uint16_t)packet_count);
+
+	lv_label_set_text(ui_Label2, temp_distance_string);
+}
+
 void lvgl_communication_status(bool communication_status)
 {
 	if(communication_status)
