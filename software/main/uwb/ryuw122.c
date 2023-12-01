@@ -64,10 +64,6 @@ void ryuw122_init(void* port_send, void* uwb_callback, bool mode)
 	primitive_push(&premetive_buffer, ryuw122_set_network_id);
 
 	primitive_push(&premetive_buffer, ryuw122_set_password);
-
-//	ryuw122_set_network_id();
-//
-//	ryuw122_set_password();
 }
 
 module_mdoe_e ryuw122_get_mode(void)
@@ -96,7 +92,10 @@ void ryuw122_set_mode(module_mdoe_e mode)
 
 	 hRyuw122.busy = true;
 }
-
+/**
+ * @brief This function sets the network ID for the UWB module using a predefined value (UWB_NETWORK).
+ *
+ */
 void ryuw122_set_network_id(void)
 {
 	char temp_command_string[MAX_COMMAND_LENGTH] = {0};
@@ -192,15 +191,7 @@ void ryuw122_tag_send(module_mdoe_e mode)
 
 
 
-/**
- * @brief   Separator the packet received from the LoRaWAN module
- *
- * @param   packet      :   received packet data content
- *
- * @param   packet_size :   received packet size in bytes
- *
- * @return  bool        :   true if packet is valid
- */
+
 bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
 {
     bool validPacket = false;
@@ -210,7 +201,7 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
     uint16_t detected_distance = 0;
 
     char temp_command_header[MAX_PARAM_LENGTH] = {0};
-
+    // Parse the received packet and check for a valid packet
     validPacket =  at_command_parser(temp_command_header, parameter_buffer, &parameter_count, packet);
 
 
@@ -219,7 +210,7 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
     if (strcmp(temp_command_header, UWB_OK) == 0)
     {
 
-
+    	 // Execute primitive and update module state if successful
     	if(false != primitive_execute(&premetive_buffer))
     	{
     		hRyuw122.busy = false;
@@ -228,6 +219,7 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
     }
     else if (strcmp(temp_command_header, UWB_ERROR) == 0)
     {
+    	 // Execute primitive and update module state if successful
     	if(false != primitive_execute(&premetive_buffer))
     	{
     		hRyuw122.busy = false;
@@ -236,6 +228,7 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
 
     else if (strcmp(temp_command_header, ANCHOR_RCV) == 0)
     {
+    	// Update module state, extract distance, and invoke receiveCallback
     	hRyuw122.busy = false;
 
     	detected_distance = ryuw122_get_distance_from_string(parameter_buffer[parameter_count - 1]);
@@ -246,7 +239,7 @@ bool ryuw122_packet_separator(char* packet, uint8_t packet_size)
     }
     else if (strcmp(temp_command_header, TAG_RCV) == 0)
     {
-//    	hRyuw122.receiveCallback(void* rx_packet, packet_id_e packet_id);
+    	// Perform actions related to TAG_RCV (commented code)
 
     }
     else
