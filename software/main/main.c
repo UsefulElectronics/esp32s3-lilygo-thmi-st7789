@@ -35,7 +35,6 @@ static void uart_reception_task(void *param);
 
 static void anchor_periodic_send_task(void *param);
 
-static uint32_t systick(void);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
@@ -45,8 +44,6 @@ void app_main(void)
 	gpio_config_output(PWR_EN_PIN);
 
 	uart_config();
-//
-
 
 	i80_controller_init((void*)gpio_set_level);
 
@@ -128,9 +125,7 @@ static void uart_reception_task(void *param)
 
    int16_t detectedDistance = 0;
 
-//   system_packet system_buffer = {0};
 
-//   system_queue 		= xQueueCreate(10, sizeof(system_packet));
    for(;;)
    {
       //Waiting for UART packet to get received.
@@ -147,8 +142,6 @@ static void uart_reception_task(void *param)
 static void anchor_periodic_send_task(void *param)
 {
 	static uint32_t return_idle_timer = 0;
-
-	bool send_status = false;
 
 	return_idle_timer =  SYS_TICK();
 
