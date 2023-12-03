@@ -5,7 +5,7 @@
 ### PCBWay
 Tutorial Series Sponsor PCBWay Website. You can get extra free coupons using the link below:
 
-[<img src="https://github.com/UsefulElectronics/esp32s3-gc9a01-lvgl/blob/main/banner/banner(320x100).gif">](https://www.pcbway.com/setinvite.aspx?inviteid=582640)
+[<img src="https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/pcbwaybanner.jpg">](https://www.pcbway.com/setinvite.aspx?inviteid=582640)
 
 ***
 # ESP32S3 Lilygo T HMI Board Review
@@ -16,7 +16,7 @@ In this Tutorial, I am reviewing T-HMI ESP32-S3 based Development board from Lil
 
 The board has dual core ESP32-S3 MCU and internal 8MB PSRAM, 16MB  NOR Flash and 2.8 inch TFT display controlled over 8080 parallel interface. The board also has resistive touch panel mounted.
 
-![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-gc9a01-lvgl/blob/main/circuit%20diagram/cover1.png)
+![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/THMI.png)
 ***
 
 # ESP32S3 THMI Board Interfacing RYUW122 UWB Module
@@ -31,4 +31,4 @@ RYUW122 UWB module packets are analyzed using logic analyzer to demonstrate the 
 
 Squareline studio is used for nicely looking UI deisgn that outputs LVGL library components to be integrated in the ESP32S3 firmware.
 
-![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-gc9a01-lvgl/blob/main/circuit%20diagram/cover1.png)
+![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/uwb%20cover.png)
