@@ -27450,6 +27450,37 @@
                                 "type": "bool"
                             },
                             {
+                                "children": [
+                                    {
+                                        "children": [],
+                                        "depends_on": "LV_USE_FS_LITTLEFS",
+                                        "help": null,
+                                        "id": "LV_FS_LITTLEFS_LETTER",
+                                        "name": "LV_FS_LITTLEFS_LETTER",
+                                        "range": null,
+                                        "title": "Set an upper cased letter on which the drive will accessible (e.g. 'A' i.e. 65)",
+                                        "type": "int"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "LV_USE_FS_LITTLEFS",
+                                        "help": null,
+                                        "id": "LV_FS_LITTLEFS_CACHE_SIZE",
+                                        "name": "LV_FS_LITTLEFS_CACHE_SIZE",
+                                        "range": null,
+                                        "title": ">0 to cache this number of bytes in lv_fs_read()",
+                                        "type": "int"
+                                    }
+                                ],
+                                "depends_on": null,
+                                "help": null,
+                                "id": "LV_USE_FS_LITTLEFS",
+                                "name": "LV_USE_FS_LITTLEFS",
+                                "range": null,
+                                "title": "File system on top of LittleFS",
+                                "type": "bool"
+                            },
+                            {
                                 "children": [],
                                 "depends_on": null,
                                 "help": null,
@@ -27556,6 +27587,27 @@
                                 "name": "LV_USE_FREETYPE",
                                 "range": null,
                                 "title": "FreeType library",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "children": [],
+                                        "depends_on": "LV_USE_TINY_TTF",
+                                        "help": null,
+                                        "id": "LV_TINY_TTF_FILE_SUPPORT",
+                                        "name": "LV_TINY_TTF_FILE_SUPPORT",
+                                        "range": null,
+                                        "title": "Load TTF data from files",
+                                        "type": "bool"
+                                    }
+                                ],
+                                "depends_on": null,
+                                "help": null,
+                                "id": "LV_USE_TINY_TTF",
+                                "name": "LV_USE_TINY_TTF",
+                                "range": null,
+                                "title": "Tiny TTF library",
                                 "type": "bool"
                             },
                             {
