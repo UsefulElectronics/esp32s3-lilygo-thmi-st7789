@@ -25,6 +25,8 @@
 #include "uwb/uart_config.h"
 #include "uwb/ryuw122.h"
 
+#include "sgp40/driver_sgp40.h"
+
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

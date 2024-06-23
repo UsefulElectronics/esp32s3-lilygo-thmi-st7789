@@ -74,7 +74,7 @@ uint8_t sgp40_interface_iic_deinit(void)
  */
 uint8_t sgp40_interface_iic_write_cmd(uint8_t addr, uint8_t *buf, uint16_t len)
 {
-    return i2c_register_sequential_write(addr, buf, len);
+    return i2c_master_sequential_write(addr, buf, len);
 }
 
 /**
@@ -89,7 +89,7 @@ uint8_t sgp40_interface_iic_write_cmd(uint8_t addr, uint8_t *buf, uint16_t len)
  */
 uint8_t sgp40_interface_iic_read_cmd(uint8_t addr, uint8_t *buf, uint16_t len)
 {
-    return i2c_master_sequential_read();
+    return i2c_master_sequential_read(addr, buf, len);
 }
 
 /**
@@ -118,5 +118,5 @@ void sgp40_interface_debug_print(const char *const fmt, ...)
     vsnprintf((char *)str, 255, (char const *)fmt, args);
     va_end(args);
 
-    ESP_LOGI(TAG, str);
+    ESP_LOGI(TAG, "%s",str);
 }

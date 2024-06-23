@@ -35,6 +35,7 @@
  */
 
 #include "driver_sgp40.h"
+#include "driver_sgp40_interface.h"
 
 /**
  * @brief chip information definition
@@ -449,7 +450,7 @@ uint8_t sgp40_soft_reset(sgp40_handle_t *handle)
     }
 
     reg = 0x06;                                                          /* soft reset command */
-    res = handle->iic_write_cmd(0x00, (uint8_t *)&reg, 1);               /* write reset config */
+    res = handle->iic_write_cmd(SGP40_ADDRESS, (uint8_t *)&reg, 1);      /* write reset config */
     if (res != 0)                                                        /* check result */
     {
         handle->debug_print("sgp40: write soft reset failed.\n");        /* write soft reset failed */
@@ -566,6 +567,16 @@ uint8_t sgp40_get_serial_id(sgp40_handle_t *handle, uint16_t id[3])
  */
 uint8_t sgp40_init(sgp40_handle_t *handle)
 { 
+	uint8_t res;
+
+    DRIVER_SGP40_LINK_INIT(handle, sgp40_handle_t);
+    DRIVER_SGP40_LINK_IIC_INIT(handle, sgp40_interface_iic_init);
+    DRIVER_SGP40_LINK_IIC_DEINIT(handle, sgp40_interface_iic_deinit);
+    DRIVER_SGP40_LINK_IIC_WRITE_COMMAND(handle, sgp40_interface_iic_write_cmd);
+    DRIVER_SGP40_LINK_IIC_READ_COMMAND(handle, sgp40_interface_iic_read_cmd);
+    DRIVER_SGP40_LINK_DELAY_MS(handle, sgp40_interface_delay_ms);
+	DRIVER_SGP40_LINK_DEBUG_PRINT(handle, sgp40_interface_debug_print);
+
     if (handle == NULL)                                                      /* check handle */
     {
         return 2;                                                            /* return error */
@@ -611,7 +622,21 @@ uint8_t sgp40_init(sgp40_handle_t *handle)
     
         return 3;                                                            /* return error */
     }
-    handle->inited = 1;                                                      /* flag finish initialization */
+
+    handle->inited = 1;
+
+    res = sgp40_soft_reset(handle);
+    if (res != 0)
+    {
+        sgp40_interface_debug_print("sgp40: soft failed.\n");
+
+        (void)sgp40_deinit(handle);
+
+        return 3;
+    }
+
+
+                                                   /* flag finish initialization */
   
     return 0;                                                                /* success return 0 */
 }

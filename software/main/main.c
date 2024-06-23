@@ -21,6 +21,8 @@
 
 /* VARIABLES -----------------------------------------------------------------*/
 static const char *TAG = "main";
+
+sgp40_handle_t hSpg40 = {0};
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -35,6 +37,8 @@ static void uart_reception_task(void *param);
 
 static void anchor_periodic_send_task(void *param);
 
+static void air_quality_sensor_task(void *param);
+
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
@@ -43,21 +47,28 @@ void app_main(void)
 	gpio_config_output(PWR_ON_PIN);
 	gpio_config_output(PWR_EN_PIN);
 
-	uart_config();
+//	uart_config();
 
 	i80_controller_init((void*)gpio_set_level);
 
-	ryuw122_init(system_send_to_queue, system_uwb_callback, RYUW122_ANCHOR);
+
+//	sgp40_init(&hSpg40);
+
+
+
+//	ryuw122_init(system_send_to_queue, system_uwb_callback, RYUW122_ANCHOR);
 
     ESP_LOGI(TAG, "Display LVGL animation");
 
-    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
+//	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 0);
 
-    xTaskCreatePinnedToCore(uart_transmission_task, "USART TX handling task", 10000, NULL, 4, NULL, 0);
+//    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
 
-    xTaskCreatePinnedToCore(uart_reception_task, "USART RX handling task", 10000, NULL, 4, NULL, 0);
+//    xTaskCreatePinnedToCore(uart_transmission_task, "USART TX handling task", 10000, NULL, 4, NULL, 0);
 
-    xTaskCreatePinnedToCore(anchor_periodic_send_task, "Anchor periodic send task", 10000, NULL, 4, NULL, 0);
+//    xTaskCreatePinnedToCore(uart_reception_task, "USART RX handling task", 10000, NULL, 4, NULL, 0);
+
+//    xTaskCreatePinnedToCore(anchor_periodic_send_task, "Anchor periodic send task", 10000, NULL, 4, NULL, 0);
 
     while (1)
     {
@@ -161,12 +172,25 @@ static void anchor_periodic_send_task(void *param)
 				lvgl_communication_status(true);
 			}
 		}
-
-
 		vTaskDelay(200/portTICK_PERIOD_MS);
 	}
 }
 
+
+static void air_quality_sensor_task(void *param)
+{
+   uint16_t voc = 0;
+
+   for(;;)
+   {
+
+	   sgp40_get_measure_raw_without_compensation(&hSpg40, &voc);
+
+	   ESP_LOGI(TAG, "voc raw :%d", (int)voc);
+
+	   vTaskDelay(5000/portTICK_PERIOD_MS);
+   }
+}
 
 
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
