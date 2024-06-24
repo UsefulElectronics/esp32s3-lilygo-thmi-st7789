@@ -16,17 +16,22 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "i2c_config.h"
+#include "driver/i2c_master.h"
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
+static const char *TAG = "i2c";
 
+i2c_master_bus_config_t i2c_bus_config = {0};
+i2c_master_bus_handle_t bus_handle;
+i2c_device_config_t i2c_dev_conf[I2C_MASTER_SLAVE_COUNT] = {0};
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
 
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
-//MPU9250_SENSOR_ADDR
+static uint8_t i2c_master_new_device_check (uint8_t slave_address);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 /**
  * @brief   Write 2 bytes over I2C bus
@@ -59,9 +64,9 @@ esp_err_t i2c_register_write_byte(uint8_t i2c_address, uint8_t reg_addr, uint16_
  */
 esp_err_t i2c_master_sequential_write(uint8_t i2c_address, uint8_t* data, uint16_t length)
 {
-    int ret;
+    int ret = i2c_master_write_to_device(I2C_MASTER_NUM, i2c_address, data, length, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);;
 
-    ret = i2c_master_write_to_device(I2C_MASTER_NUM, i2c_address, data, length, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
+    ESP_LOGI(TAG, "error code: %d",ret);
 
     return ret;
 }
@@ -98,6 +103,26 @@ esp_err_t i2c_master_sequential_read(uint8_t i2c_address, uint8_t *data, size_t 
  */
 esp_err_t i2c_master_init(void)
 {
+	i2c_master_bus_config_t i2c_bus_config = 
+	{
+        .clk_source 					= I2C_CLK_SRC_DEFAULT,
+        .i2c_port 						= I2C_MASTER_NUM,
+        .scl_io_num 					= I2C_MASTER_SDA_IO,
+        .sda_io_num 					= I2C_MASTER_SCL_IO,
+        .flags.enable_internal_pullup 	= true,
+        .glitch_ignore_cnt 				= 7,
+    };
+    
+    i2c_master_bus_handle_t bus_handle;
+    
+
+    //ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_config, &bus_handle));
+    
+    //i2c_master_bus_add_device(bus_handle, i2c_dev_conf, &bus_handle);
+	
+	return i2c_new_master_bus(&i2c_bus_config, &bus_handle);
+	
+	/*
     int i2c_master_port = I2C_MASTER_NUM;
 
     i2c_config_t conf = 
@@ -112,7 +137,9 @@ esp_err_t i2c_master_init(void)
 
     i2c_param_config(i2c_master_port, &conf);
 
-    return i2c_driver_install(i2c_master_port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);
+//    i2c_set_timeout(i2c_master_port, 0x0000001F);
+
+    return i2c_driver_install(i2c_master_port, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0);*/
 }
 /**
  * @brief i2c master de-initialization
@@ -120,5 +147,26 @@ esp_err_t i2c_master_init(void)
 esp_err_t i2c_master_deinit (void)
 {
 	return i2c_driver_delete(I2C_MASTER_NUM);
+}
+
+static uint8_t i2c_master_new_device_check (uint8_t slave_address)
+{
+	uint8_t i = 0;
+	
+	for (; i < I2C_MASTER_SLAVE_COUNT; ++i) 
+	{
+		if(i2c_dev_conf[i] == NULL)
+		{
+			i2c_dev_conf[i].scl_speed_hz   = I2C_MASTER_FREQ_HZ;
+        	i2c_dev_conf[i].device_address = slave_address;
+        	break;
+		}
+		else if(slave_address == i2c_dev_conf[i].device_address)
+		{
+			break;
+		}
+	}
+	
+	return i;
 }
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/

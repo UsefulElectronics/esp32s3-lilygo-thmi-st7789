@@ -49,10 +49,12 @@ void app_main(void)
 
 //	uart_config();
 
+	sgp40_init(&hSpg40);
+
 	i80_controller_init((void*)gpio_set_level);
 
 
-//	sgp40_init(&hSpg40);
+
 
 
 
@@ -60,7 +62,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Display LVGL animation");
 
-//	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 0);
+	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 0);
 
 //    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
 
