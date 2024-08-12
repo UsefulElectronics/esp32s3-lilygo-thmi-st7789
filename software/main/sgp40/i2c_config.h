@@ -34,7 +34,11 @@
 #define I2C_MASTER_RX_BUF_DISABLE   0                       /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_TIMEOUT_MS       50
 #define I2C_MASTER_SLAVE_COUNT      2
+<<<<<<< HEAD
 #define I2C_TOOL_TIMEOUT_VALUE_MS   50
+=======
+#define I2C_TOOL_TIMEOUT_VALUE_MS (50)
+>>>>>>> a4b1cb792139c29ebf4ca0a2d689c2ac5eda357e
 /* ENUMORATIONS --------------------------------------------------------------*/
 
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/

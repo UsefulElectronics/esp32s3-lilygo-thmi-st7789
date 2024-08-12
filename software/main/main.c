@@ -62,7 +62,11 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Display LVGL animation");
 
+<<<<<<< HEAD
 	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 1);
+=======
+	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 0);
+>>>>>>> a4b1cb792139c29ebf4ca0a2d689c2ac5eda357e
 
 //    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
 

@@ -39,8 +39,13 @@
 
 #include "driver_sgp40.h"
 #include "i2c_config.h"
+<<<<<<< HEAD
 //#include "freertos/FreeRTOS.h"
 //#include "freertos/task.h"
+=======
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+>>>>>>> a4b1cb792139c29ebf4ca0a2d689c2ac5eda357e
 #include <stdarg.h>
 #ifdef __cplusplus
 extern "C"{
