@@ -2,34 +2,34 @@
 	"sources" : 
 	[
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/CMakeFiles/bootloader"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/CMakeFiles/bootloader"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/CMakeFiles/bootloader.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/CMakeFiles/bootloader.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/CMakeFiles/bootloader-complete.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/CMakeFiles/bootloader-complete.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule"
 		},
 		{
-			"file" : "C:/Espressif/frameworks/esp-idf-v5.1/examples/peripherals/lcd/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
+			"file" : "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule"
 		}
 	],
 	"target" : 

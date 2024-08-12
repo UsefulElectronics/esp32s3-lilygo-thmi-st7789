@@ -10,3 +10,4 @@ software/.project
 software/.cproject
 software/main/.cproject
 software/main/.project
+/build/

@@ -212,6 +212,7 @@ void tv2_screen_init(void)
     lv_obj_set_style_text_color(ui_Label2, lv_color_hex(0x181C62), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Label2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label2, &lv_font_montserrat_22, LV_PART_MAIN | LV_STATE_DEFAULT);
+    
 
     ui_Panel2 = lv_obj_create(tv2);
     lv_obj_set_width(ui_Panel2, 195);

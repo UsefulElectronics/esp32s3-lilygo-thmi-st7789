@@ -20,17 +20,21 @@
 /* INCLUDES ------------------------------------------------------------------*/
 #include <stdio.h>
 #include "esp_log.h"
-#include "driver/i2c.h"
+//#include "driver/i2c.h"
+#include "portmacro.h"
+#include "driver/i2c_master.h"
 #include "driver/gpio.h"
 #include "stdbool.h"
 /* MACROS --------------------------------------------------------------------*/
-#define I2C_MASTER_SCL_IO           GPIO_NUM_5      		/*!< GPIO number used for I2C master clock */
-#define I2C_MASTER_SDA_IO           GPIO_NUM_6     			/*!< GPIO number used for I2C master data  */
-#define I2C_MASTER_NUM              I2C_NUM_0               /*!< I2C master i2c port number, the number of i2c peripheral interfaces available will depend on the chip */
+#define I2C_MASTER_SCL_IO           GPIO_NUM_15    			/*!< GPIO number used for I2C master clock */
+#define I2C_MASTER_SDA_IO           GPIO_NUM_16     		/*!< GPIO number used for I2C master data  */
+#define I2C_MASTER_NUM              I2C_NUM_1               /*!< I2C master i2c port number, the number of i2c peripheral interfaces available will depend on the chip */
 #define I2C_MASTER_FREQ_HZ          100000                  /*!< I2C master clock frequency */
 #define I2C_MASTER_TX_BUF_DISABLE   0                       /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_RX_BUF_DISABLE   0                       /*!< I2C master doesn't need buffer */
-#define I2C_MASTER_TIMEOUT_MS       1000
+#define I2C_MASTER_TIMEOUT_MS       50
+#define I2C_MASTER_SLAVE_COUNT      2
+#define I2C_TOOL_TIMEOUT_VALUE_MS   50
 /* ENUMORATIONS --------------------------------------------------------------*/
 
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/

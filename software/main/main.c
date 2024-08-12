@@ -27,7 +27,7 @@ sgp40_handle_t hSpg40 = {0};
 
 /* MACROS --------------------------------------------------------------------*/
 
-#define SYS_TICK()				(xTaskGetTickCount() * portTICK_PERIOD_MS)
+
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 static void system_send_to_queue(void *tx_buffer, uint8_t command_length);
 
@@ -49,10 +49,12 @@ void app_main(void)
 
 //	uart_config();
 
+	sgp40_init(&hSpg40);
+
 	i80_controller_init((void*)gpio_set_level);
 
 
-//	sgp40_init(&hSpg40);
+
 
 
 
@@ -60,7 +62,7 @@ void app_main(void)
 
     ESP_LOGI(TAG, "Display LVGL animation");
 
-//	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 0);
+	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 1);
 
 //    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
 
@@ -142,8 +144,6 @@ static void uart_reception_task(void *param)
       //Waiting for UART packet to get received.
       if(xQueueReceive(uartRxStore_queue, (void * )&uartHandler, portMAX_DELAY))
       {
-
-
     	  ryuw122_packet_separator((char*) uartHandler.uart_rxBuffer, uartHandler.uart_rxPacketSize);
 
       }
@@ -180,6 +180,7 @@ static void anchor_periodic_send_task(void *param)
 static void air_quality_sensor_task(void *param)
 {
    uint16_t voc = 0;
+	
 
    for(;;)
    {

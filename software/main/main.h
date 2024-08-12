@@ -41,7 +41,7 @@
 
 
 /* MACROS --------------------------------------------------------------------*/
-
+#define SYS_TICK()				(xTaskGetTickCount() * portTICK_PERIOD_MS)
 
 // LCD data pins
 #define PIN_NUM_DATA0          48

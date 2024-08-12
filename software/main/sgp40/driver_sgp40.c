@@ -52,7 +52,7 @@
 /**
  * @brief chip address definition
  */
-#define SGP40_ADDRESS             (0x59 << 1)              /**< chip iic address */
+#define SGP40_ADDRESS             0x59//(0x59 << 1)              /**< chip iic address */
 
 /**
  * @brief chip command definition
@@ -343,9 +343,11 @@ uint8_t sgp40_get_measure_raw(sgp40_handle_t *handle, uint16_t raw_humidity,
  */
 uint8_t sgp40_get_measure_raw_without_compensation(sgp40_handle_t *handle, uint16_t *sraw_voc)
 {
-    uint8_t res;
+    uint8_t res = 1;
     uint8_t input[6];
     uint8_t buf[3];
+    
+    uint32_t read_counter = 0;
     
     if (handle == NULL)                                                                                /* check handle */
     {
@@ -363,7 +365,21 @@ uint8_t sgp40_get_measure_raw_without_compensation(sgp40_handle_t *handle, uint1
     input[3] = 0x66;                                                                                   /* index 3 */
     input[4] = 0x66;                                                                                   /* index 4 */
     input[5] = 0x93;                                                                                   /* index 5 */
-    res = a_sgp40_iic_read_with_param(handle, SGP40_COMMAND_MEASURE_RAW, input, 6, 50, buf, 3);        /* read measure raw */
+    
+    res = a_sgp40_iic_read_with_param(handle, SGP40_COMMAND_MEASURE_RAW, input, 6, 50, buf, 3);
+    /*
+    while (res) 
+    {
+		
+		
+		++read_counter;
+		
+		if(read_counter > 1000) 
+		{
+			break;
+		}
+	}
+          */ /* read measure raw */
     if (res != 0)                                                                                      /* check result */
     {
         handle->debug_print("sgp40: read measure raw failed.\n");                                      /* read measure failed */
