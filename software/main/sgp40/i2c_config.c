@@ -17,10 +17,9 @@
 /* INCLUDES ------------------------------------------------------------------*/
 #include "i2c_config.h"
 #include "driver/i2c_master.h"
-<<<<<<< HEAD
+
 #include "esp_err.h"
-=======
->>>>>>> a4b1cb792139c29ebf4ca0a2d689c2ac5eda357e
+
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
@@ -74,11 +73,6 @@ esp_err_t i2c_master_sequential_write(uint8_t i2c_address, uint8_t* data, uint16
 	uint8_t device_index = i2c_master_new_device_check(i2c_address);
 	
 	int ret = i2c_master_transmit(device_handle[device_index], data, length, I2C_TOOL_TIMEOUT_VALUE_MS);
-<<<<<<< HEAD
-=======
-	
-   // int ret = i2c_master_write_to_device(I2C_MASTER_NUM, i2c_address, data, length, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
->>>>>>> a4b1cb792139c29ebf4ca0a2d689c2ac5eda357e
 
     ESP_LOGI(TAG, "error code: %d",ret);
 
@@ -126,18 +120,10 @@ esp_err_t i2c_master_init(void)
 	{
         .clk_source 					= I2C_CLK_SRC_DEFAULT,
         .i2c_port 						= I2C_MASTER_NUM,
-<<<<<<< HEAD
         .scl_io_num 					= I2C_MASTER_SCL_IO,
         .sda_io_num 					= I2C_MASTER_SDA_IO,
         .flags.enable_internal_pullup 	= true,
         .glitch_ignore_cnt 				= 7,
-
-=======
-        .scl_io_num 					= I2C_MASTER_SDA_IO,
-        .sda_io_num 					= I2C_MASTER_SCL_IO,
-        .flags.enable_internal_pullup 	= true,
-        .glitch_ignore_cnt 				= 7,
->>>>>>> a4b1cb792139c29ebf4ca0a2d689c2ac5eda357e
     };
     
     //i2c_master_bus_handle_t bus_handle;
