@@ -16,6 +16,8 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "main.h"
+#include "sgp40/driver_sgp40.h"
+#include "sgp40/driver_sgp40_algorithm.h"
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
@@ -23,6 +25,7 @@
 static const char *TAG = "main";
 
 sgp40_handle_t hSpg40 = {0};
+sgp40_gas_index_algorithm_t hVoc = {0};
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -50,13 +53,10 @@ void app_main(void)
 //	uart_config();
 
 	sgp40_init(&hSpg40);
+	
+	sgp40_algorithm_init(&hVoc, SGP40_ALGORITHM_TYPE_VOC);
 
 	i80_controller_init((void*)gpio_set_level);
-
-
-
-
-
 
 //	ryuw122_init(system_send_to_queue, system_uwb_callback, RYUW122_ANCHOR);
 
@@ -180,17 +180,25 @@ static void anchor_periodic_send_task(void *param)
 
 static void air_quality_sensor_task(void *param)
 {
-   uint16_t voc = 0;
+   uint16_t sraw_voc = 0;
+   
+   uint16_t index_voc = 0;
 	
 
    for(;;)
    {
 
-	   sgp40_get_measure_raw_without_compensation(&hSpg40, &voc);
+	   sgp40_get_measure_raw_without_compensation(&hSpg40, &sraw_voc);
+	   
+	   sgp40_algorithm_process(&hVoc, (int)sraw_voc, (int*)&index_voc);
+	   
+	   sgp40_turn_heater_off(&hSpg40);
 
-	   ESP_LOGI(TAG, "voc raw :%d", (int)voc);
+	   ESP_LOGI(TAG, "voc raw :%d", (int)sraw_voc);
+	   
+	   ESP_LOGI(TAG, "voc index :%d", (int)index_voc);
 
-	   vTaskDelay(5000/portTICK_PERIOD_MS);
+	   vTaskDelay(10000/portTICK_PERIOD_MS);
    }
 }
 

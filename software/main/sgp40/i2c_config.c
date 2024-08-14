@@ -107,7 +107,7 @@ esp_err_t i2c_master_sequential_read(uint8_t i2c_address, uint8_t *data, size_t 
 {
 	uint8_t device_index = i2c_master_new_device_check(i2c_address);
 	
-	return i2c_master_receive(device_handle[device_index], data, len, I2C_TOOL_TIMEOUT_VALUE_MS);
+	return i2c_master_receive(device_handle[device_index], data, len, -1);//I2C_TOOL_TIMEOUT_VALUE_MS
 	
 	//return i2c_master_read_from_device(I2C_MASTER_NUM, i2c_address, data, len, I2C_MASTER_TIMEOUT_MS / portTICK_PERIOD_MS);
 }

@@ -590,7 +590,7 @@ uint8_t sgp40_init(sgp40_handle_t *handle)
     DRIVER_SGP40_LINK_IIC_DEINIT(handle, sgp40_interface_iic_deinit);
     DRIVER_SGP40_LINK_IIC_WRITE_COMMAND(handle, sgp40_interface_iic_write_cmd);
     DRIVER_SGP40_LINK_IIC_READ_COMMAND(handle, sgp40_interface_iic_read_cmd);
-    DRIVER_SGP40_LINK_DELAY_MS(handle, sgp40_interface_delay_ms);
+    DRIVER_SGP40_LINK_DELAY_MS(handle, sgp40_interface_delay_ms);	
 	DRIVER_SGP40_LINK_DEBUG_PRINT(handle, sgp40_interface_debug_print);
 
     if (handle == NULL)                                                      /* check handle */

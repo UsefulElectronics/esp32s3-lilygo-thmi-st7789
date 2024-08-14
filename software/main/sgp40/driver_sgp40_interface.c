@@ -102,7 +102,7 @@ uint8_t sgp40_interface_iic_read_cmd(uint8_t addr, uint8_t *buf, uint16_t len)
  */
 void sgp40_interface_delay_ms(uint32_t ms)
 {
-	/*
+	
 	for(uint32_t i = 0; i < ms * ms; ++i)
 	{
 		for(uint32_t j = 0; j < ms * ms; ++j)
@@ -110,7 +110,7 @@ void sgp40_interface_delay_ms(uint32_t ms)
 			asm("NOP");
 		}
 	}
-	*/
+	
 //	SYS_TICK()
 //	vTaskDelay(ms / 10);
 }

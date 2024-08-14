@@ -26,6 +26,7 @@
 #include "uwb/ryuw122.h"
 
 #include "sgp40/driver_sgp40.h"
+#include "sgp40/driver_sgp40_algorithm.h"
 
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
