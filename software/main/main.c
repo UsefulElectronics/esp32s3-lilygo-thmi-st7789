@@ -53,7 +53,7 @@ void app_main(void)
 //	uart_config();
 
 	sgp40_init(&hSpg40);
-	
+		
 	sgp40_algorithm_init(&hVoc, SGP40_ALGORITHM_TYPE_VOC);
 
 	i80_controller_init((void*)gpio_set_level);
@@ -182,23 +182,44 @@ static void air_quality_sensor_task(void *param)
 {
    uint16_t sraw_voc = 0;
    
-   uint16_t index_voc = 0;
+   int32_t index_voc = 0;
+   
+   TickType_t xLastWakeTime;
+   TickType_t task_period = 3000;
 	
+   uint8_t task_counter = 0; 
 
    for(;;)
    {
 
 	   sgp40_get_measure_raw_without_compensation(&hSpg40, &sraw_voc);
 	   
-	   sgp40_algorithm_process(&hVoc, (int)sraw_voc, (int*)&index_voc);
+	   if(sraw_voc != 0)
+	   {
+		   sgp40_algorithm_process(&hVoc, (int)sraw_voc, (int*)&index_voc);
+	   }
 	   
-	   sgp40_turn_heater_off(&hSpg40);
-
+	   
+	   if(task_counter >= 45)
+	   {
+		   sgp40_turn_heater_off(&hSpg40);
+		   
+		   sgp40_soft_reset(&hSpg40);
+		   
+		   task_counter = 0;
+		   
+		   task_period = 8000;
+	   }
+	   
+	   
 	   ESP_LOGI(TAG, "voc raw :%d", (int)sraw_voc);
 	   
 	   ESP_LOGI(TAG, "voc index :%d", (int)index_voc);
+	   
+	   ++task_counter;
 
-	   vTaskDelay(10000/portTICK_PERIOD_MS);
+	   vTaskDelayUntil( &xLastWakeTime, task_period/portTICK_PERIOD_MS );
+//	   vTaskDelay(10000/portTICK_PERIOD_MS);
    }
 }
 
