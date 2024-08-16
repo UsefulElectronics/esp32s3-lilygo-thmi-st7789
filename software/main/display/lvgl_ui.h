@@ -20,7 +20,30 @@
 /* INCLUDES ------------------------------------------------------------------*/
 #include "lvgl.h"
 /* MACROS --------------------------------------------------------------------*/
+#define COLOR_AIR_QUALITY_GOOD			0x39EA7B
+#define COLOR_AIR_QUALITY_FAIR			0x209D4A
+#define COLOR_AIR_QUALITY_MODERATE		0xFFDA29
+#define COLOR_AIR_QUALITY_POOR 			0xFFBE00
+#define COLOR_AIR_QUALITY_UNHEALTHY 	0xFF5052
+#define COLOR_AIR_QUALITY_SEVERE 		0xFF3431
 
+#define COLOR_BG_AIR_QUALITY_GOOD		0x8BF2AC
+#define COLOR_BG_AIR_QUALITY_FAIR		0x7BC694
+#define COLOR_BG_AIR_QUALITY_MODERATE	0xFFEA83
+#define COLOR_BG_AIR_QUALITY_POOR		0xFFDA6A
+#define COLOR_BG_AIR_QUALITY_UNHEALTHY	0xFF999C
+#define COLOR_BG_AIR_QUALITY_SEVERE		0xFF8583
+
+#define COLOR_AIR_QUALITY_CALIBRATION	0xC9C9C9
+
+#define STRING_AIR_QUALITY_GOOD			"GOOD"
+#define STRING_AIR_QUALITY_FAIR			"FAIR"
+#define STRING_AIR_QUALITY_MODERATE		"MODERATE"
+#define STRING_AIR_QUALITY_POOR 		"POOR"
+#define STRING_AIR_QUALITY_UNHEALTHY 	"UNHEALTHY"
+#define STRING_AIR_QUALITY_SEVERE 		"SEVERE"
+
+#define STRING_AIR_QUALITY_CALIBRATION	"WAIT"
 /* ENUMORATIONS --------------------------------------------------------------*/
 
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
