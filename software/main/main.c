@@ -50,28 +50,15 @@ void app_main(void)
 	gpio_config_output(PWR_ON_PIN);
 	gpio_config_output(PWR_EN_PIN);
 
-//	uart_config();
-
 	sgp40_init(&hSpg40);
 		
 	sgp40_algorithm_init(&hVoc, SGP40_ALGORITHM_TYPE_VOC);
 
 	i80_controller_init((void*)gpio_set_level);
 
-//	ryuw122_init(system_send_to_queue, system_uwb_callback, RYUW122_ANCHOR);
-
     ESP_LOGI(TAG, "Display LVGL animation");
 
 	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 1);
-
-
-//    xTaskCreatePinnedToCore(uart_event_task, "uart event", 10000, NULL, 4, NULL, 0);
-
-//    xTaskCreatePinnedToCore(uart_transmission_task, "USART TX handling task", 10000, NULL, 4, NULL, 0);
-
-//    xTaskCreatePinnedToCore(uart_reception_task, "USART RX handling task", 10000, NULL, 4, NULL, 0);
-
-//    xTaskCreatePinnedToCore(anchor_periodic_send_task, "Anchor periodic send task", 10000, NULL, 4, NULL, 0);
 
     while (1)
     {
@@ -180,6 +167,8 @@ static void anchor_periodic_send_task(void *param)
 
 static void air_quality_sensor_task(void *param)
 {
+	
+   static bool calibration_completed = false;
    uint16_t sraw_voc = 0;
    
    int32_t index_voc = 0;
@@ -188,6 +177,8 @@ static void air_quality_sensor_task(void *param)
    TickType_t task_period = 3000;
 	
    uint8_t task_counter = 0; 
+   
+
 
    for(;;)
    {
@@ -209,6 +200,13 @@ static void air_quality_sensor_task(void *param)
 		   task_counter = 0;
 		   
 		   task_period = 8000;
+		   
+		   calibration_completed = true;
+	   }
+	   
+	   if(calibration_completed)
+	   {
+		   lvgl_voc_index_update(index_voc);
 	   }
 	   
 	   

@@ -44,8 +44,17 @@
 #define STRING_AIR_QUALITY_SEVERE 		"SEVERE"
 
 #define STRING_AIR_QUALITY_CALIBRATION	"WAIT"
-/* ENUMORATIONS --------------------------------------------------------------*/
 
+#define COLOR_GAUGE_SECTION_COUNT		6
+#define COLOR_GAUGE_LAYER_COUNT			2
+#define COLOR_GAUGE_SSECTION_RANGE		83
+#define STRING_GAUGE_COMMENT_MAX_CHAR_COUNT	10
+/* ENUMORATIONS --------------------------------------------------------------*/
+enum
+{
+	LVGL_GAUGE_COLOR_FRONT = 0,
+	LVGL_GAUGE_COLOR_BACK = 1,
+};
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
@@ -56,6 +65,8 @@ void lvgl_demo_ui(lv_disp_t *disp);
 void lvgl_distance_set(uint16_t distance);
 
 void lvgl_packet_count_set(uint32_t packet_count);
+
+void lvgl_voc_index_update(uint32_t voc_index);
 
 void lvgl_communication_status(bool communication_status);
 
