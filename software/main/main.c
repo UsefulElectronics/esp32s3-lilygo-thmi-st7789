@@ -51,8 +51,8 @@ void app_main(void)
 	gpio_config_output(PWR_EN_PIN);
 
 	sgp40_init(&hSpg40);
-		
-	sgp40_algorithm_init(&hVoc, SGP40_ALGORITHM_TYPE_VOC);
+	
+	sgp40_algorithm_init_with_sampling_interval(&hVoc, SGP40_ALGORITHM_TYPE_VOC, 8);  
 
 	i80_controller_init((void*)gpio_set_level);
 
@@ -174,7 +174,7 @@ static void air_quality_sensor_task(void *param)
    int32_t index_voc = 0;
    
    TickType_t xLastWakeTime;
-   TickType_t task_period = 3000;
+   TickType_t task_period = 8000;
 	
    uint8_t task_counter = 0; 
    
@@ -198,8 +198,6 @@ static void air_quality_sensor_task(void *param)
 		   sgp40_soft_reset(&hSpg40);
 		   
 		   task_counter = 0;
-		   
-		   task_period = 8000;
 		   
 		   calibration_completed = true;
 	   }
