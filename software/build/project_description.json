@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "i80_controller",
-    "project_version":    "RYUW122-9-ga9b7a69-dirty",
+    "project_version":    "RYUW122-11-geef911d-dirty",
     "project_path":       "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.3",
     "build_dir":          "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build",

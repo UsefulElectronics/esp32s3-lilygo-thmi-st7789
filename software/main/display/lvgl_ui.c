@@ -80,7 +80,8 @@ static lv_obj_t * btn;
 static lv_obj_t *arc[3];
 static lv_obj_t *img_logo;
 static lv_obj_t *img_text = NULL;
-static lv_color_t arc_color[] = {
+static lv_color_t arc_color[] = 
+{
 //    LV_COLOR_MAKE(232, 87, 116),
 	LV_COLOR_MAKE(22, 242, 255),
     LV_COLOR_MAKE(255, 255, 255),
@@ -92,11 +93,14 @@ static lv_color_t arc_color[] = {
  lv_obj_t * ui_Panel2;
  lv_obj_t * ui_Label1;
  lv_obj_t * ui_Label2;
+ lv_obj_t * ui_Chart1;
 
 lv_obj_t *display;
 lv_obj_t *tv1;
 lv_obj_t *tv2;
 
+lv_coord_t ui_Chart1_series_1_array[CHART_DATA_COUNT_LIMIT] = { 0, 10, 20, 40, 80, 80, 40, 210, 10, 0, 4, 1, 250, 490 };
+lv_chart_series_t * ui_Chart1_series_1 = {0};
 void tv2_screen_init(void);
 
 static void anim_timer_cb(lv_timer_t *timer)
@@ -263,6 +267,32 @@ void tv2_screen_init(void)
     lv_obj_set_y(ui_Label2, -8);
     lv_obj_set_align(ui_Label2, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label2, "WAIT");
+    
+    ui_Chart1 = lv_chart_create(tv2);
+    lv_obj_set_width(ui_Chart1, 240);
+    lv_obj_set_height(ui_Chart1, 114);
+    lv_obj_set_x(ui_Chart1, 0);
+    lv_obj_set_y(ui_Chart1, 102);
+    lv_obj_set_align(ui_Chart1, LV_ALIGN_CENTER);
+    lv_chart_set_type(ui_Chart1, LV_CHART_TYPE_BAR);
+    lv_chart_set_point_count(ui_Chart1, 15);
+    lv_chart_set_range(ui_Chart1, LV_CHART_AXIS_PRIMARY_Y, 0, 500);
+    lv_chart_set_range(ui_Chart1, LV_CHART_AXIS_SECONDARY_Y, 0, 0);
+    lv_chart_set_axis_tick(ui_Chart1, LV_CHART_AXIS_PRIMARY_X, 0, 0, 50, 0, false, 50);
+    lv_chart_set_axis_tick(ui_Chart1, LV_CHART_AXIS_PRIMARY_Y, 0, 0, 0, 0, false, 50);
+    lv_chart_set_axis_tick(ui_Chart1, LV_CHART_AXIS_SECONDARY_Y, 0, 0, 0, 0, false, 25);
+    ui_Chart1_series_1 = lv_chart_add_series(ui_Chart1, lv_color_hex(0x209D4A),
+                                                                 LV_CHART_AXIS_PRIMARY_Y);
+                                                                 
+    lv_chart_set_ext_y_array(ui_Chart1, ui_Chart1_series_1, ui_Chart1_series_1_array);
+    lv_obj_set_style_bg_color(ui_Chart1, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Chart1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Chart1, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Chart1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_blend_mode(ui_Chart1, LV_BLEND_MODE_NORMAL, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_opa(ui_Chart1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_color(ui_Chart1, lv_color_hex(0x4040FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_opa(ui_Chart1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }
 
@@ -305,6 +335,22 @@ void lvgl_voc_index_update(uint32_t voc_index)
 	lv_label_set_text(ui_Label2, lvgl_gauge_comment_string[gauge_section]);
 				  							
 	lv_arc_set_value(ui_Arc1, voc_index);
+	
+	lvgl_voc_index_chart_insert(voc_index);
+}
+
+void lvgl_voc_index_chart_insert(uint32_t voc_index)
+{
+	uint8_t gauge_section = voc_index / COLOR_GAUGE_SSECTION_RANGE;
+	
+	//shift the other values to the left
+	memcpy(ui_Chart1_series_1_array, ui_Chart1_series_1_array + 1, (CHART_DATA_COUNT_LIMIT - 1)*sizeof(lv_coord_t));
+	//Insert new value 
+	ui_Chart1_series_1_array[CHART_DATA_COUNT_LIMIT - 1] = (uint16_t) voc_index;
+	//Update chart
+	lv_chart_set_series_color(ui_Chart1, ui_Chart1_series_1, lv_color_hex(lvgl_gauge_color_array[gauge_section][LVGL_GAUGE_COLOR_FRONT]));
+                                                              
+	lv_chart_set_ext_y_array(ui_Chart1, ui_Chart1_series_1, ui_Chart1_series_1_array);
 }
 
 void lvgl_communication_status(bool communication_status)

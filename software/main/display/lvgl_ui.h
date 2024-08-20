@@ -49,6 +49,8 @@
 #define COLOR_GAUGE_LAYER_COUNT			2
 #define COLOR_GAUGE_SSECTION_RANGE		83
 #define STRING_GAUGE_COMMENT_MAX_CHAR_COUNT	10
+
+#define CHART_DATA_COUNT_LIMIT			15
 /* ENUMORATIONS --------------------------------------------------------------*/
 enum
 {
@@ -67,6 +69,8 @@ void lvgl_distance_set(uint16_t distance);
 void lvgl_packet_count_set(uint32_t packet_count);
 
 void lvgl_voc_index_update(uint32_t voc_index);
+
+void lvgl_voc_index_chart_insert(uint32_t voc_index);
 
 void lvgl_communication_status(bool communication_status);
 
