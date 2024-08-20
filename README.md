@@ -32,3 +32,19 @@ RYUW122 UWB module packets are analyzed using logic analyzer to demonstrate the 
 Squareline studio is used for nicely looking UI deisgn that outputs LVGL library components to be integrated in the ESP32S3 firmware.
 
 ![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/uwb%20cover.png)
+
+***
+# ESP32S3 SGP40 Air Quality Sensor
+***
+### [Tutorial Link](https://youtu.be/_cIWVNCPDKA) On [![Build Status](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/wardzx1) 
+
+Having an air quality sensor at home helps you monitor indoor air quality, ensuring a healthier and safer living environment.
+
+In this video we are going to use SGP40 air quality sensor and interface it over I2C using ESP32S3 Micro controller which is driving 2.8 inch TFT display over parallel interface.
+
+The dual core MCU that we are using reads the sensor data processes it using sensirion algorithm to obtain VOC index Volatile Organic Compound an air quality measure and drives the LCD on separate cores using FreeRTOS Operation system.
+
+The MCU Prints the the sensor data on the LCD with a nicely looking User interface designed with the help of LVGL library and square line studio. We are going to learn about the surrounding air quality today so lets put the show on the road.
+
+![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/spg40%20thumnail.png)
+***
