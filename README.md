@@ -48,3 +48,16 @@ The MCU Prints the the sensor data on the LCD with a nicely looking User interfa
 
 ![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/spg40%20thumnail.png)
 ***
+
+# ESP32S3 SGP40 Air Quality Sensor
+***
+### [Tutorial Link](https://youtu.be/A8EMmGQPYvc) On [![Build Status](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/wardzx1) 
+
+Design Stunning GUIs for Your Microcontroller Projects with Squareline Studio & LVGL!
+
+Ever dreamed of creating your own graphical user interface (GUI) on your PC and seamlessly importing it to your hardware? In this video, we're diving deep into the process of designing a dynamic user interface using Squareline Studio and then integrating it with an ESP32-S3 project powered by the LVGL library.
+
+We'll break down every element of the UI, including the round value gauge, the smoothly shifting bar chart, and the eye-catching background gradient. You'll learn how to initialize and control each component with your microcontroller, ensuring your sensor data is displayed in a sleek and professional manner.
+
+![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/AIR%20QUALITY%20SENSOR%20GUI.png)
+***
