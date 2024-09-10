@@ -837,6 +837,13 @@ C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/bui
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/espressif__esp_lcd_touch_tt21100/CMakeFiles/install.dir
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/espressif__esp_lcd_touch_tt21100/CMakeFiles/install/local.dir
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/espressif__esp_lcd_touch_tt21100/CMakeFiles/install/strip.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/CMakeFiles/__idf_grstat__hdc1080.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/CMakeFiles/edit_cache.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/CMakeFiles/rebuild_cache.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/CMakeFiles/list_install_components.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/CMakeFiles/install.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/CMakeFiles/install/local.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/CMakeFiles/install/strip.dir
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/lvgl__lvgl/CMakeFiles/__idf_lvgl__lvgl.dir
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/lvgl__lvgl/CMakeFiles/edit_cache.dir
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/lvgl__lvgl/CMakeFiles/rebuild_cache.dir
