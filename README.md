@@ -10,8 +10,8 @@ Tutorial Series Sponsor PCBWay Website. You can get extra free coupons using the
 ***
 | Project | Tag |
 | ------ | ------ |
-| RYUW122 UWB module  | [tree/RYUW122][PlDb] |
-| SGP40 Air Quality Sensor | [tree/SGP40][PlGh] |
+| RYUW122 UWB module  | [RYUW122](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-st7789/tree/RYUW122)|
+| SGP40 Air Quality Sensor | [SGP40][https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-st7789/tree/SGP40] |
 
 ***
 # ESP32S3 Lilygo T HMI Board Review
