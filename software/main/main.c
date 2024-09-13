@@ -53,6 +53,8 @@ void app_main(void)
 	sgp40_init(&hSpg40);
 	
 	sgp40_algorithm_init_with_sampling_interval(&hVoc, SGP40_ALGORITHM_TYPE_VOC, 3);  
+	
+	
 
 	i80_controller_init((void*)gpio_set_level);
 
