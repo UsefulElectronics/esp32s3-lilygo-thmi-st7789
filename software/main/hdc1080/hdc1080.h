@@ -30,6 +30,7 @@
 #include <esp_timer.h>
 
 /* MACROS --------------------------------------------------------------------*/
+#define HDC1080_REG_SIZE			0x01 // 1 Byte
 #define HDC1080_TEMPERATURE_REG     0x00    /* TEMPERATURE MEASUREMENT OUTPUT */
 #define HDC1080_HUMIDITY_REG        0x01    /* RELATIVE HUMIDITY MEASUREMENT OUTPUT */
 #define HDC1080_CONFIG_REG          0x02    /* HDC1080 CONFIGURATION DATA */
@@ -57,6 +58,8 @@
 #define HDC1080_ERR_ID              0xFF
 #define HDC1080_CONVERTING          0xFE
 #define HDC1080_CONVERSION_WAIT_PERIOD   (500000) /* CONVERSION WAIT PERIOD */
+
+
 
 /* CONVERT CELSIUS TO FAHRENHEIT */
 #define CEL2FAH(CELSIUS) ((1.8 * CELSIUS) + 32)

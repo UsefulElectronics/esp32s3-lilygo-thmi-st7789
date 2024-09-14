@@ -554,11 +554,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/grstat__hdc1080/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
   include("C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/lvgl__lvgl/cmake_install.cmake")
 endif()
 

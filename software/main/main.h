@@ -38,7 +38,7 @@
 
 #include "esp_err.h"
 #include "esp_log.h"
-#include "hdc1080.h"
+#include "hdc1080/hdc1080.h"
 
 
 
