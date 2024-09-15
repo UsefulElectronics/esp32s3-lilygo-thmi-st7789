@@ -32,6 +32,7 @@
 static esp_timer_handle_t hdc1080_conversion_timer_h;
 static bool awaiting_conversion = false;
 static hdc1080_handle_t hHdc1080 = {0};
+static hdc1080_sensor_readings_t sens_readings = {0};
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS- --------------------------------------------------------------------*/
@@ -39,12 +40,13 @@ static hdc1080_handle_t hHdc1080 = {0};
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
 static esp_err_t check_hdc1080_error(esp_err_t hdc_err);
 static esp_err_t read_hdc100_data(uint8_t i2c_register, uint8_t * read_buff, size_t read_len);
+static void hdc1080_conversion_completed(void* arg);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
-esp_err_t hdc1080_driver_init(hdc1080_config_t* hdc_cfg)
+esp_err_t hdc1080_driver_init(hdc1080_handle_t* hdc_driver)
 {
 	esp_err_t err_ck = ESP_OK;
 	
-	memcpy(&hHdc1080, hdc_cfg, sizeof(hdc1080_config_t));
+	memcpy(&hHdc1080, hdc_driver, sizeof(hdc1080_config_t));
 	
 	if(hHdc1080.iic_read_cmd 	== NULL ||
 		hHdc1080.debug_print 	== NULL ||
@@ -63,13 +65,13 @@ esp_err_t hdc1080_configure(hdc1080_config_t* hdc_configuration)
 {
   if(awaiting_conversion){ return HDC1080_CONVERTING; }
   uint8_t temp_buff[3] = {0};
-  uint16_t cfg_s = 0;
 
   // CAPTURE THE SETTINGS TO THE FILE GLOBAL SCOPE
 
   temp_buff[0] = HDC1080_CONFIG_REG;
   memcpy(temp_buff + HDC1080_REG_SIZE, hdc_configuration, sizeof(hdc1080_config_t));
-  esp_err_t err_ck = i2c_master_sequential_write(HDC1080_I2C_ADDRESS, temp_buff, HDC1080_REG_SIZE + sizeof(hdc1080_config_t));
+  //esp_err_t err_ck = i2c_master_sequential_write(HDC1080_I2C_ADDRESS, temp_buff, HDC1080_REG_SIZE + sizeof(hdc1080_config_t));
+  esp_err_t err_ck =  hHdc1080.iic_write_cmd(HDC1080_I2C_ADDRESS, temp_buff, HDC1080_REG_SIZE + sizeof(hdc1080_config_t));
   
   check_hdc1080_error(err_ck);
 
@@ -81,6 +83,7 @@ esp_err_t hdc1080_configure(hdc1080_config_t* hdc_configuration)
     .callback = &hdc1080_conversion_completed,
     .name = "hdc1080_conversion_timer"
   };
+
   /* CREATE THE TEMPERATURE TRIGGER TIMER */
   err_ck = esp_timer_create(&hdc1080_conversion_timer_args, &hdc1080_conversion_timer_h);
   return err_ck;
@@ -103,30 +106,51 @@ esp_err_t hdc1080_get_configuration(hdc1080_config_t * hdc_cfg)
   return err_ck;
 }
 
-/* -------------------------------------------------------------
- * @name void hdc1080_conversion_completed(void* arg)
- * -------------------------------------------------------------
- * @brief callback from the conversion timer. Gets the current
- * sensor readings and callsback to the original request set
- * during configuration
- */
-static void hdc1080_conversion_completed(void* arg)
+esp_err_t hdc1080_conversion_request(void)
 {
-  hdc1080_sensor_readings_t sens_readings = {0};
-  unsigned char read_buff[4];
-  // READ IN THE DATA
-  esp_err_t err_ck = check_hdc1080_error(read_hdc100_data(HDC1080_CONFIG_REG, hdc_buff, 2))
-  
-  check_hdc1080_error(i2c_master_read_from_device(hdc1080_set.i2c_port_number, hdc1080_set.i2c_address, (unsigned char *)read_buff, sizeof(read_buff), hdc1080_set.timeout_length));
-  if(err_ck == ESP_OK){
-    // IF NO ERROR OCCURED THEN DO THE FLOAT CONVERSION 
-    // OTHERWISE 0 WILL BE RETURNED FOR BOTH VALUES TO SIGNAL AND ISSUE
-    sens_readings.temperature = ((((float)((read_buff[0] << 8) | read_buff[1])/65536) * 165) - 40);   /* pow(2, 16) ==  65536 */
-    sens_readings.humidity = (((float)((read_buff[2] << 8) | read_buff[3])/65536) * 100);
-  }
-  awaiting_conversion = false;  // MARK THE FINISHED STATE
-  hdc1080_set.callback(sens_readings);  // RUN THE CONFIGURED CALLBACK
+	uint8_t temp_buffer = HDC1080_TEMPERATURE_REG;
+	
+	esp_err_t err_ck = hHdc1080.iic_write_cmd(HDC1080_I2C_ADDRESS, &temp_buffer, HDC1080_REG_SIZE);
+	// Start wait conversion timer that will execute read operation at the timer timeout
+	err_ck = esp_timer_start_once(hdc1080_conversion_timer_h, HDC1080_CONVERSION_WAIT_PERIOD);
+	
+	return err_ck;
 }
+
+float hdc1080_get_temperature(void)
+{
+	float temperature_value = 0;
+	
+	uint8_t temp_buffer[2] = {0};
+	
+	esp_err_t err_ck = read_hdc100_data(HDC1080_TEMPERATURE_REG, temp_buffer, 2);
+	
+	temperature_value = ((((float)((temp_buffer[0] << 8) | temp_buffer[1])/65536) * 165) - 40);   /* pow(2, 16) ==  65536 */
+	
+	check_hdc1080_error(err_ck);
+	
+	return temperature_value;
+}
+
+float hdc1080_get_humidity(void)
+{
+	float humidity_value = 0;
+	
+	uint8_t temp_buffer[2] = {0};
+	
+	esp_err_t err_ck = read_hdc100_data(HDC1080_TEMPERATURE_REG, temp_buffer, 2);
+
+    humidity_value = (((float)((temp_buffer[0] << 8) | temp_buffer[1])/65536) * 100);
+    
+    check_hdc1080_error(err_ck);
+    
+    return humidity_value;
+}
+hdc1080_sensor_readings_t* hdc1080_read_data(void)
+{
+	return &sens_readings;
+}
+
 
 /* --------------------------------------------------------------------------------------------------
  * @name static esp_err_t read_hdc100_data(unsigned char i2c_register, unsigned char * read_buff, size_t read_len)
@@ -140,12 +164,13 @@ static void hdc1080_conversion_completed(void* arg)
 static esp_err_t read_hdc100_data(uint8_t i2c_register, uint8_t * read_buff, size_t read_len)
 {
   /* CHANGE TO THE CORRECT REGISTER BEFORE THE READ */
-  
-  esp_err_t err_ck = i2c_master_sequential_write(HDC1080_I2C_ADDRESS, &i2c_register, HDC1080_REG_SIZE);
+  esp_err_t err_ck = hHdc1080.iic_write_cmd(HDC1080_I2C_ADDRESS, &i2c_register, HDC1080_REG_SIZE);
+  //esp_err_t err_ck = i2c_master_sequential_write(HDC1080_I2C_ADDRESS, &i2c_register, HDC1080_REG_SIZE);
   
   if(ESP_OK == err_ck)
   {
-	  err_ck = i2c_master_sequential_read(HDC1080_I2C_ADDRESS, read_buff, read_len);
+	  err_ck = hHdc1080.iic_read_cmd(HDC1080_I2C_ADDRESS, read_buff, read_len);
+	  //err_ck = i2c_master_sequential_read(HDC1080_I2C_ADDRESS, read_buff, read_len);
   }
 
   return err_ck;
@@ -164,5 +189,28 @@ static esp_err_t check_hdc1080_error(esp_err_t hdc_err)
   if(hdc_err == ESP_OK){ return ESP_OK; }
   ESP_LOGE("HDC1080", "ERROR HAS OCCURED: %s", esp_err_to_name(hdc_err));
   return hdc_err;
+}
+
+/* -------------------------------------------------------------
+ * @name void hdc1080_conversion_completed(void* arg)
+ * -------------------------------------------------------------
+ * @brief callback from the conversion timer. Gets the current
+ * sensor readings and callsback to the original request set
+ * during configuration
+ */
+static void hdc1080_conversion_completed(void* arg)
+{
+  hdc1080_sensor_readings_t sens_readings = {0};
+  unsigned char read_buff[4];
+  // READ IN THE DATA
+  esp_err_t err_ck = hHdc1080.iic_read_cmd(HDC1080_I2C_ADDRESS, read_buff, sizeof(read_buff));
+ 
+  if(err_ck == ESP_OK){
+    // IF NO ERROR OCCURED THEN DO THE FLOAT CONVERSION 
+    // OTHERWISE 0 WILL BE RETURNED FOR BOTH VALUES TO SIGNAL AND ISSUE
+    sens_readings.temperature = ((((float)((read_buff[0] << 8) | read_buff[1])/65536) * 165) - 40);   /* pow(2, 16) ==  65536 */
+    sens_readings.humidity = (((float)((read_buff[2] << 8) | read_buff[3])/65536) * 100);
+  }
+  awaiting_conversion = false;  // MARK THE FINISHED STATE
 }
 /********* (c) Copyright 2012-2024; Bilgi Elektronik A.S. *****END OF FILE****/

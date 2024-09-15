@@ -107,7 +107,7 @@ typedef struct
     uint8_t inited;                                                            /**< inited flag */
 } hdc1080_handle_t;
 
-typedef struct HDC1080_SENSOR_READINGS 
+typedef struct  
 {
 	float humidity;
 	float temperature;
@@ -115,7 +115,13 @@ typedef struct HDC1080_SENSOR_READINGS
 /* VARIABLES -----------------------------------------------------------------*/
 
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
+float hdc1080_get_temperature(void);
 
+float hdc1080_get_humidity(void);
+
+esp_err_t hdc1080_configure(hdc1080_config_t* hdc_configuration);
+
+esp_err_t hdc1080_driver_init(hdc1080_handle_t* hdc_cfg);
 
 
 #endif /* MAIN_HDC1080_H_ */

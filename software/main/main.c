@@ -16,6 +16,7 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "main.h"
+#include "hdc1080/hdc1080.h"
 #include "sgp40/driver_sgp40.h"
 #include "sgp40/driver_sgp40_algorithm.h"
 
@@ -54,7 +55,7 @@ void app_main(void)
 	
 	sgp40_algorithm_init_with_sampling_interval(&hVoc, SGP40_ALGORITHM_TYPE_VOC, 3);  
 	
-	
+	hdc1080_driver_init((hdc1080_handle_t*) &hSpg40);
 
 	i80_controller_init((void*)gpio_set_level);
 
