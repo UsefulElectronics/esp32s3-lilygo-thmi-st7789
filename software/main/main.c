@@ -27,6 +27,7 @@ static const char *TAG = "main";
 
 sgp40_handle_t hSpg40 = {0};
 sgp40_gas_index_algorithm_t hVoc = {0};
+hdc1080_config_t hdc_settings = {0};
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -46,7 +47,6 @@ static void air_quality_sensor_task(void *param);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
-
 	gpio_config_output(PIN_NUM_BK_LIGHT);
 	gpio_config_output(PWR_ON_PIN);
 	gpio_config_output(PWR_EN_PIN);
@@ -56,6 +56,13 @@ void app_main(void)
 	sgp40_algorithm_init_with_sampling_interval(&hVoc, SGP40_ALGORITHM_TYPE_VOC, 3);  
 	
 	hdc1080_driver_init((hdc1080_handle_t*) &hSpg40);
+	
+	hdc_settings.bits.heater 								= HDC1080_HEATER_DISABLED;
+	hdc_settings.bits.humidity_measurement_resolution 		= HDC1080_HUMIDITY_RESOLUTION_14BIT;
+	hdc_settings.bits.temperature_measurement_resolution 	= HDC1080_TEMPERATURE_RESOLUTION_14BIT;
+	hdc_settings.bits.mode_of_acquisition 					= HDC1080_ACQUISITION_HUMIDITY_AND_TEMPERATURE;
+	
+	hdc1080_configure(&hdc_settings);
 
 	i80_controller_init((void*)gpio_set_level);
 
@@ -188,6 +195,8 @@ static void air_quality_sensor_task(void *param)
 
 	   sgp40_get_measure_raw_without_compensation(&hSpg40, &sraw_voc);
 	   
+	   hdc1080_conversion_request();
+	   
 	   if(sraw_voc != 0)
 	   {
 		   sgp40_algorithm_process(&hVoc, (int)sraw_voc, (int*)&index_voc);
@@ -214,6 +223,9 @@ static void air_quality_sensor_task(void *param)
 	   ESP_LOGI(TAG, "voc raw :%d", (int)sraw_voc);
 	   
 	   ESP_LOGI(TAG, "voc index :%d", (int)index_voc);
+	   
+	   ESP_LOGI(TAG, "temperature :%f degree", hdc1080_sensor_read()->temperature);
+	   ESP_LOGI(TAG, "humidity :%f %%", hdc1080_sensor_read()->humidity);
 	   
 	   ++task_counter;
 

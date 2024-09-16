@@ -46,7 +46,14 @@ esp_err_t hdc1080_driver_init(hdc1080_handle_t* hdc_driver)
 {
 	esp_err_t err_ck = ESP_OK;
 	
-	memcpy(&hHdc1080, hdc_driver, sizeof(hdc1080_config_t));
+	//memcpy(&hHdc1080, hdc_driver, sizeof(hdc1080_config_t));
+	
+	hHdc1080.iic_read_cmd 	= hdc_driver->iic_read_cmd;
+	hHdc1080.debug_print 	= hdc_driver->debug_print;
+	hHdc1080.delay_ms 	 	= hdc_driver->delay_ms;
+	hHdc1080.iic_deinit  	= hdc_driver->iic_deinit;
+	hHdc1080.iic_init    	= hdc_driver->iic_init;
+	hHdc1080.iic_write_cmd 	= hdc_driver->iic_write_cmd;
 	
 	if(hHdc1080.iic_read_cmd 	== NULL ||
 		hHdc1080.debug_print 	== NULL ||
@@ -56,6 +63,7 @@ esp_err_t hdc1080_driver_init(hdc1080_handle_t* hdc_driver)
 		hHdc1080.iic_write_cmd 	== NULL )
 		{
 			err_ck = ESP_FAIL;
+			check_hdc1080_error(err_ck);
 		}
 	hHdc1080.inited = true;
 	
@@ -63,7 +71,7 @@ esp_err_t hdc1080_driver_init(hdc1080_handle_t* hdc_driver)
 }
 esp_err_t hdc1080_configure(hdc1080_config_t* hdc_configuration)
 {
-  if(awaiting_conversion){ return HDC1080_CONVERTING; }
+
   uint8_t temp_buff[3] = {0};
 
   // CAPTURE THE SETTINGS TO THE FILE GLOBAL SCOPE
@@ -117,36 +125,7 @@ esp_err_t hdc1080_conversion_request(void)
 	return err_ck;
 }
 
-float hdc1080_get_temperature(void)
-{
-	float temperature_value = 0;
-	
-	uint8_t temp_buffer[2] = {0};
-	
-	esp_err_t err_ck = read_hdc100_data(HDC1080_TEMPERATURE_REG, temp_buffer, 2);
-	
-	temperature_value = ((((float)((temp_buffer[0] << 8) | temp_buffer[1])/65536) * 165) - 40);   /* pow(2, 16) ==  65536 */
-	
-	check_hdc1080_error(err_ck);
-	
-	return temperature_value;
-}
-
-float hdc1080_get_humidity(void)
-{
-	float humidity_value = 0;
-	
-	uint8_t temp_buffer[2] = {0};
-	
-	esp_err_t err_ck = read_hdc100_data(HDC1080_TEMPERATURE_REG, temp_buffer, 2);
-
-    humidity_value = (((float)((temp_buffer[0] << 8) | temp_buffer[1])/65536) * 100);
-    
-    check_hdc1080_error(err_ck);
-    
-    return humidity_value;
-}
-hdc1080_sensor_readings_t* hdc1080_read_data(void)
+hdc1080_sensor_readings_t* hdc1080_sensor_read(void)
 {
 	return &sens_readings;
 }
@@ -200,12 +179,12 @@ static esp_err_t check_hdc1080_error(esp_err_t hdc_err)
  */
 static void hdc1080_conversion_completed(void* arg)
 {
-  hdc1080_sensor_readings_t sens_readings = {0};
   unsigned char read_buff[4];
   // READ IN THE DATA
   esp_err_t err_ck = hHdc1080.iic_read_cmd(HDC1080_I2C_ADDRESS, read_buff, sizeof(read_buff));
  
-  if(err_ck == ESP_OK){
+  if(err_ck == ESP_OK)
+  {
     // IF NO ERROR OCCURED THEN DO THE FLOAT CONVERSION 
     // OTHERWISE 0 WILL BE RETURNED FOR BOTH VALUES TO SIGNAL AND ISSUE
     sens_readings.temperature = ((((float)((read_buff[0] << 8) | read_buff[1])/65536) * 165) - 40);   /* pow(2, 16) ==  65536 */

@@ -57,7 +57,7 @@
 #define HDC1080_BATTERY_STATUS_LOW  0x01
 #define HDC1080_ERR_ID              0xFF
 #define HDC1080_CONVERTING          0xFE
-#define HDC1080_CONVERSION_WAIT_PERIOD   (500000) /* CONVERSION WAIT PERIOD */
+#define HDC1080_CONVERSION_WAIT_PERIOD   (100000) /* CONVERSION WAIT PERIOD IN us */
 
 
 
@@ -115,9 +115,9 @@ typedef struct
 /* VARIABLES -----------------------------------------------------------------*/
 
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
-float hdc1080_get_temperature(void);
+hdc1080_sensor_readings_t* hdc1080_sensor_read(void);
 
-float hdc1080_get_humidity(void);
+esp_err_t hdc1080_conversion_request(void);
 
 esp_err_t hdc1080_configure(hdc1080_config_t* hdc_configuration);
 
