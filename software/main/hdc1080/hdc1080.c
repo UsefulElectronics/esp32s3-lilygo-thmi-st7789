@@ -32,7 +32,9 @@
 static esp_timer_handle_t hdc1080_conversion_timer_h;
 static bool awaiting_conversion = false;
 static hdc1080_handle_t hHdc1080 = {0};
+static hdc1080_config_t hdc_config = {0};
 static hdc1080_sensor_readings_t sens_readings = {0};
+
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS- --------------------------------------------------------------------*/
@@ -104,14 +106,17 @@ esp_err_t hdc1080_configure(hdc1080_config_t* hdc_configuration)
  * @param hdc_cfg -> pointer to an hdc1080_config_t to fill
  * @return ESP_OK on success* 
  */
-esp_err_t hdc1080_get_configuration(hdc1080_config_t * hdc_cfg)
+hdc1080_config_t* hdc1080_get_configuration(void)
 {
-  if(awaiting_conversion){ return HDC1080_CONVERTING; }
-  unsigned char hdc_buff[2] = {0};
-  esp_err_t err_ck = check_hdc1080_error(read_hdc100_data(HDC1080_CONFIG_REG, hdc_buff, 2));
-  if(err_ck != ESP_OK){ return err_ck; }
-  hdc_cfg->config_register = hdc_buff[0];
-  return err_ck;
+	  unsigned char hdc_buff[2] = {0};
+	  esp_err_t err_ck = check_hdc1080_error(read_hdc100_data(HDC1080_CONFIG_REG, hdc_buff, 2));
+	  check_hdc1080_error(err_ck);
+	  
+	  ESP_LOGE("HDC1080", "configuration: %02x %02x", hdc_buff[0], hdc_buff[1]);
+	  
+	  memcpy(&hdc_config, hdc_buff, sizeof(hdc1080_config_t));
+	
+	  return &hdc_config;
 }
 
 esp_err_t hdc1080_conversion_request(void)

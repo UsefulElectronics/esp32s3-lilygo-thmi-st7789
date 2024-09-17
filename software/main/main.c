@@ -63,6 +63,11 @@ void app_main(void)
 	hdc_settings.bits.mode_of_acquisition 					= HDC1080_ACQUISITION_HUMIDITY_AND_TEMPERATURE;
 	
 	hdc1080_configure(&hdc_settings);
+	
+	//while(0 != memcmp(&hdc1080_get_configuration()->config_register, &hdc_settings.config_register, sizeof(hdc1080_config_t)))
+	//{
+	//	hdc1080_configure(&hdc_settings);
+	//}
 
 	i80_controller_init((void*)gpio_set_level);
 

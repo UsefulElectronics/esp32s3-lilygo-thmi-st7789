@@ -85,7 +85,6 @@ typedef union
 	uint16_t config_register;
 	struct 
 	{
-		uint16_t reserved:                          8;
 		uint16_t humidity_measurement_resolution:   2;
 		uint16_t temperature_measurement_resolution:1;
 		uint16_t battery_status:                    1;
@@ -93,6 +92,7 @@ typedef union
 		uint16_t heater:                            1;
 		uint16_t reserved_bit:                      1;
 		uint16_t software_reset:                    1;
+		uint16_t reserved:                          8;
 	} bits;
 } hdc1080_config_t;
 
@@ -122,6 +122,8 @@ esp_err_t hdc1080_conversion_request(void);
 esp_err_t hdc1080_configure(hdc1080_config_t* hdc_configuration);
 
 esp_err_t hdc1080_driver_init(hdc1080_handle_t* hdc_cfg);
+
+hdc1080_config_t* hdc1080_get_configuration(void);
 
 
 #endif /* MAIN_HDC1080_H_ */
