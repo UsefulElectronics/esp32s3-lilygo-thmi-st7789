@@ -193,14 +193,27 @@ static void air_quality_sensor_task(void *param)
 	
    uint8_t task_counter = 0; 
    
+   uint16_t humidity_reg = 0;
+   uint16_t temperature_reg = 0;
+   
+   
 
 
    for(;;)
    {
 
-	   sgp40_get_measure_raw_without_compensation(&hSpg40, &sraw_voc);
+	   //sgp40_get_measure_raw_without_compensation(&hSpg40, &sraw_voc);
 	   
 	   hdc1080_conversion_request();
+	   
+	   sgp40_humidity_convert_to_register(&hSpg40, hdc1080_sensor_read()->humidity, &humidity_reg);
+	   
+	   sgp40_temperature_convert_to_register(&hSpg40, hdc1080_sensor_read()->temperature, &temperature_reg);
+	   
+	   sgp40_get_measure_raw(&hSpg40, humidity_reg,
+                              temperature_reg, &sraw_voc);
+	   
+	   
 	   
 	   if(sraw_voc != 0)
 	   {
