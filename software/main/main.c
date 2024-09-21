@@ -16,9 +16,13 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "main.h"
+#include "hal/gpio_types.h"
 #include "hdc1080/hdc1080.h"
+#include "rom/gpio.h"
 #include "sgp40/driver_sgp40.h"
 #include "sgp40/driver_sgp40_algorithm.h"
+#include "gpio/button.h"
+#include "gpio/esp_interrupt.h"
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
@@ -28,6 +32,8 @@ static const char *TAG = "main";
 sgp40_handle_t hSpg40 = {0};
 sgp40_gas_index_algorithm_t hVoc = {0};
 hdc1080_config_t hdc_settings = {0};
+
+TaskHandle_t hMain_eventTask			= NULL;
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -38,11 +44,23 @@ static void system_send_to_queue(void *tx_buffer, uint8_t command_length);
 
 static void system_uwb_callback(void* rx_data, uint8_t packetId);
 
+static uint32_t main_get_systick(void);
+
+
+
+static void main_down_button_handler(void);
+
+static void main_up_button_handler(void);
+
+
+
 static void uart_reception_task(void *param);
 
 static void anchor_periodic_send_task(void *param);
 
 static void air_quality_sensor_task(void *param);
+
+static void event_handle_task(void *param);
 
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
@@ -50,6 +68,13 @@ void app_main(void)
 	gpio_config_output(PIN_NUM_BK_LIGHT);
 	gpio_config_output(PWR_ON_PIN);
 	gpio_config_output(PWR_EN_PIN);
+	
+	gpio_config_ext_interrupt(GPIO_ID_PIN(BUTTON1_PIN), GPIO_INTR_NEGEDGE, gpio_isr_handle);
+	gpio_config_ext_interrupt(GPIO_ID_PIN(BUTTON2_PIN), GPIO_INTR_POSEDGE, gpio_isr_handle);
+	
+	button_init(main_get_systick, gpio_get_level);
+	button_add(GPIO_ID_PIN(BUTTON1_PIN), 1, 1000,  main_up_button_handler);
+	button_add(GPIO_ID_PIN(BUTTON2_PIN), 1, 1000,  main_down_button_handler);
 
 	sgp40_init(&hSpg40);
 	
@@ -74,6 +99,8 @@ void app_main(void)
     ESP_LOGI(TAG, "Display LVGL animation");
 
 	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 1);
+	
+	xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000, NULL, 4, &hMain_eventTask, 1);
 
     while (1)
     {
@@ -252,5 +279,62 @@ static void air_quality_sensor_task(void *param)
    }
 }
 
+static void event_handle_task(void* param)
+{
+	while(1)
+	{
+		//Note: CallbackID is cleared immediately after executing this task
+		if(xTaskNotifyWait(0, ULONG_MAX, &interrupt_id, portMAX_DELAY ))
+		{
+			switch (interrupt_id)
+			{
+			case BUTTON1_PIN:
+				button_debounce(BUTTON1_PIN);
+				break;
+				
+			case BUTTON2_PIN:
+				button_debounce(BUTTON2_PIN);
+				break;
+				
+			
+			default:
+				break;
+			}
+		}
+	}
+}
+
+static uint32_t main_get_systick(void)
+{
+	return SYS_TICK();
+}
+
+static void main_up_button_handler(void)
+{
+	
+	button_state_t button_state = button_state_get(GPIO_ID_PIN(BUTTON1_PIN));
+	if(button_state == BUTTON_CLICKED) 
+	{
+		ESP_LOGI(TAG, "Button1 pressed");
+	}
+	else if (button_state == BUTTON_LONG_PRESSED)
+	{
+		ESP_LOGI(TAG, "Button1 long pressed");
+	}
+}
+
+static void main_down_button_handler(void)
+{
+
+	button_state_t button_state = button_state_get(GPIO_ID_PIN(BUTTON2_PIN));
+	if(button_state == BUTTON_CLICKED) 
+	{
+		ESP_LOGI(TAG, "Button2 pressed");
+	}
+	else if (button_state == BUTTON_LONG_PRESSED)
+	{
+		ESP_LOGI(TAG, "Button2 long pressed");
+	}
+}
 
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
