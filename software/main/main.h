@@ -65,8 +65,8 @@
 #define PWR_EN_PIN 				10
 #define PWR_ON_PIN 				14
 #define BAT_ADC_PIN				5
-#define BUTTON1_PIN				0
-#define BUTTON2_PIN				21
+#define BUTTON1_PIN				GPIO_NUM_0
+#define BUTTON2_PIN				GPIO_NUM_21
 
 // The pixel number in horizontal and vertical
 
@@ -76,7 +76,7 @@
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
-TaskHandle_t hMain_eventTask;
+extern TaskHandle_t hMain_eventTask;
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
 
 

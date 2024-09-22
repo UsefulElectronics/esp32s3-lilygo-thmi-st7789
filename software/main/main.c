@@ -24,6 +24,7 @@
 #include "gpio/button.h"
 #include "gpio/esp_interrupt.h"
 
+
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
@@ -60,6 +61,8 @@ static void anchor_periodic_send_task(void *param);
 
 static void air_quality_sensor_task(void *param);
 
+static void manager_task(void *param);
+
 static void event_handle_task(void *param);
 
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
@@ -69,8 +72,8 @@ void app_main(void)
 	gpio_config_output(PWR_ON_PIN);
 	gpio_config_output(PWR_EN_PIN);
 	
-	gpio_config_ext_interrupt(GPIO_ID_PIN(BUTTON1_PIN), GPIO_INTR_NEGEDGE, gpio_isr_handle);
-	gpio_config_ext_interrupt(GPIO_ID_PIN(BUTTON2_PIN), GPIO_INTR_POSEDGE, gpio_isr_handle);
+	gpio_config_ext_interrupt(BUTTON1_PIN, GPIO_INTR_NEGEDGE, gpio_isr_handle);
+	gpio_config_ext_interrupt(BUTTON2_PIN, GPIO_INTR_POSEDGE, gpio_isr_handle);
 	
 	button_init(main_get_systick, gpio_get_level);
 	button_add(GPIO_ID_PIN(BUTTON1_PIN), 1, 1000,  main_up_button_handler);
@@ -99,6 +102,8 @@ void app_main(void)
     ESP_LOGI(TAG, "Display LVGL animation");
 
 	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 1);
+	
+	xTaskCreatePinnedToCore(manager_task, "managers_task", 10000, NULL, 4, NULL, 1);
 	
 	xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000, NULL, 4, &hMain_eventTask, 1);
 
@@ -272,10 +277,26 @@ static void air_quality_sensor_task(void *param)
 	   ESP_LOGI(TAG, "temperature :%f degree", hdc1080_sensor_read()->temperature);
 	   ESP_LOGI(TAG, "humidity :%f %%", hdc1080_sensor_read()->humidity);
 	   
+	  
+	   
 	   ++task_counter;
 
 	   vTaskDelayUntil( &xLastWakeTime, task_period/portTICK_PERIOD_MS );
 //	   vTaskDelay(10000/portTICK_PERIOD_MS);
+   }
+}
+
+static void manager_task(void *param)
+{
+
+   TickType_t xLastWakeTime;
+   TickType_t task_period = 50;
+   
+   for(;;)
+   {
+		button_manager();
+
+	    vTaskDelayUntil( &xLastWakeTime, task_period/portTICK_PERIOD_MS );
    }
 }
 
@@ -286,6 +307,7 @@ static void event_handle_task(void* param)
 		//Note: CallbackID is cleared immediately after executing this task
 		if(xTaskNotifyWait(0, ULONG_MAX, &interrupt_id, portMAX_DELAY ))
 		{
+			ESP_LOGI(TAG, "event received");
 			switch (interrupt_id)
 			{
 			case BUTTON1_PIN:
@@ -302,6 +324,7 @@ static void event_handle_task(void* param)
 			}
 		}
 	}
+	
 }
 
 static uint32_t main_get_systick(void)
