@@ -68,16 +68,17 @@ static void event_handle_task(void *param);
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
-	gpio_config_output(PIN_NUM_BK_LIGHT);
-	gpio_config_output(PWR_ON_PIN);
-	gpio_config_output(PWR_EN_PIN);
-	
 	gpio_config_ext_interrupt(BUTTON1_PIN, GPIO_INTR_NEGEDGE, gpio_isr_handle);
 	gpio_config_ext_interrupt(BUTTON2_PIN, GPIO_INTR_POSEDGE, gpio_isr_handle);
 	
 	button_init(main_get_systick, gpio_get_level);
-	button_add(GPIO_ID_PIN(BUTTON1_PIN), 1, 1000,  main_up_button_handler);
-	button_add(GPIO_ID_PIN(BUTTON2_PIN), 1, 1000,  main_down_button_handler);
+	button_add(GPIO_ID_PIN(BUTTON1_PIN), 1, 2000,  main_up_button_handler);
+	button_add(GPIO_ID_PIN(BUTTON2_PIN), 0, 2000,  main_down_button_handler);
+	
+	gpio_config_output(PIN_NUM_BK_LIGHT);
+	gpio_config_output(PWR_ON_PIN);
+	gpio_config_output(PWR_EN_PIN);
+	
 
 	sgp40_init(&hSpg40);
 	
@@ -307,7 +308,6 @@ static void event_handle_task(void* param)
 		//Note: CallbackID is cleared immediately after executing this task
 		if(xTaskNotifyWait(0, ULONG_MAX, &interrupt_id, portMAX_DELAY ))
 		{
-			ESP_LOGI(TAG, "event received");
 			switch (interrupt_id)
 			{
 			case BUTTON1_PIN:
@@ -338,11 +338,11 @@ static void main_up_button_handler(void)
 	button_state_t button_state = button_state_get(GPIO_ID_PIN(BUTTON1_PIN));
 	if(button_state == BUTTON_CLICKED) 
 	{
-		ESP_LOGI(TAG, "Button1 pressed");
+		ESP_LOGW(TAG, "Button1 pressed");
 	}
 	else if (button_state == BUTTON_LONG_PRESSED)
 	{
-		ESP_LOGI(TAG, "Button1 long pressed");
+		ESP_LOGW(TAG, "Button1 long pressed");
 	}
 }
 
@@ -352,11 +352,11 @@ static void main_down_button_handler(void)
 	button_state_t button_state = button_state_get(GPIO_ID_PIN(BUTTON2_PIN));
 	if(button_state == BUTTON_CLICKED) 
 	{
-		ESP_LOGI(TAG, "Button2 pressed");
+		ESP_LOGW(TAG, "Button2 pressed");
 	}
 	else if (button_state == BUTTON_LONG_PRESSED)
 	{
-		ESP_LOGI(TAG, "Button2 long pressed");
+		ESP_LOGW(TAG, "Button2 long pressed");
 	}
 }
 

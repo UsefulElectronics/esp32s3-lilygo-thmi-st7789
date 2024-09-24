@@ -16,12 +16,15 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "gpio_config.h"
+#include "driver/gpio.h"
 #include "esp_err.h"
 #include "esp_log.h"
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
 static const char *TAG = "gpio";
+
+
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -57,10 +60,14 @@ void gpio_config_ext_interrupt(uint8_t gpio_pin, gpio_int_type_t interrupt_type,
 
 	gpio_handler.pull_up_en = GPIO_PULLUP_DISABLE;
 	
+	gpio_set_direction(gpio_pin, GPIO_MODE_INPUT);
+	
+	gpio_set_intr_type(gpio_pin, interrupt_type);
+	
 	ESP_LOGI(TAG, "%d gpio mask", gpio_pin); 
 	ESP_LOGI(TAG, "%" PRIu64 "\n", gpio_handler.pin_bit_mask);
 
-	gpio_config((const gpio_config_t *)&gpio_config);
+	//gpio_config((const gpio_config_t *)&gpio_config);
 
 	gpio_install_isr_service(ESP_INTR_FLAG_LEVEL2);
 
