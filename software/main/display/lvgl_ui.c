@@ -68,6 +68,10 @@ LV_IMG_DECLARE(ui_img_gauge_full_png)
 LV_IMG_DECLARE(ui_img_gauge_empty_png)
 LV_IMG_DECLARE(ui_img_ue_logo_png)
 LV_IMG_DECLARE(ui_img_status_png)
+
+LV_IMG_DECLARE(ui_img_525640412)
+LV_IMG_DECLARE(ui_img_1062568172)
+LV_IMG_DECLARE(ui_img_1282837856)
 //LV_IMG_DECLARE(esp_text)
 LV_IMG_DECLARE(ui_img_useful_electronics_png)
 typedef struct {
@@ -94,14 +98,30 @@ static lv_color_t arc_color[] =
  lv_obj_t * ui_Label1;
  lv_obj_t * ui_Label2;
  lv_obj_t * ui_Chart1;
+ 
+ 
+ //screen 3 objects
+lv_obj_t * ui_Panel4;
+lv_obj_t * ui_Panel7;
+lv_obj_t * ui_Chart3;
+lv_obj_t * ui_Panel6;
+lv_obj_t * ui_Chart2;
+lv_obj_t * ui_Panel3;
+lv_obj_t * ui_Label3;
+lv_obj_t * ui_Image3;
+lv_obj_t * ui_Image4;
+lv_obj_t * ui_Label4;
+lv_obj_t * ui_Panel5;
 
 lv_obj_t *display;
 lv_obj_t *tv1;
 lv_obj_t *tv2;
+lv_obj_t *tv3;
 
 lv_coord_t ui_Chart1_series_1_array[CHART_DATA_COUNT_LIMIT] = { 0, 10, 20, 40, 80, 80, 40, 210, 10, 0, 4, 1, 250, 490 };
 lv_chart_series_t * ui_Chart1_series_1 = {0};
 void tv2_screen_init(void);
+void tv3_screen_init(void);
 
 static void anim_timer_cb(lv_timer_t *timer)
 {
@@ -296,6 +316,189 @@ void tv2_screen_init(void)
 
 }
 
+void tv3_screen_init(void)
+{
+	lv_obj_clear_flag(tv3, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Panel4 = lv_obj_create(tv3);
+    lv_obj_set_width(ui_Panel4, 239);
+    lv_obj_set_height(ui_Panel4, 320);
+    lv_obj_set_align(ui_Panel4, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel4, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_Panel4, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Panel4, lv_color_hex(0x31B2FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_color(ui_Panel4, lv_color_hex(0x000C24), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_main_stop(ui_Panel4, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_stop(ui_Panel4, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui_Panel4, LV_GRAD_DIR_VER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel4, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel4, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Panel7 = lv_obj_create(ui_Panel4);
+    lv_obj_set_width(ui_Panel7, 240);
+    lv_obj_set_height(ui_Panel7, 92);
+    lv_obj_set_x(ui_Panel7, -1);
+    lv_obj_set_y(ui_Panel7, 12);
+    lv_obj_set_align(ui_Panel7, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel7, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel7, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel7, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel7, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel7, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Chart3 = lv_chart_create(ui_Panel7);
+    lv_obj_set_width(ui_Chart3, 215);
+    lv_obj_set_height(ui_Chart3, 87);
+    lv_obj_set_x(ui_Chart3, 7);
+    lv_obj_set_y(ui_Chart3, 4);
+    lv_obj_set_align(ui_Chart3, LV_ALIGN_CENTER);
+    lv_chart_set_type(ui_Chart3, LV_CHART_TYPE_LINE);
+    lv_chart_set_point_count(ui_Chart3, 28);
+    lv_chart_set_range(ui_Chart3, LV_CHART_AXIS_PRIMARY_Y, 10, 20);
+    lv_chart_set_range(ui_Chart3, LV_CHART_AXIS_SECONDARY_Y, 0, 0);
+    lv_chart_set_div_line_count(ui_Chart3, 5, 7);
+    lv_chart_set_axis_tick(ui_Chart3, LV_CHART_AXIS_PRIMARY_X, 0, 0, 5, 2, false, 50);
+    lv_chart_set_axis_tick(ui_Chart3, LV_CHART_AXIS_PRIMARY_Y, 0, 0, 5, 2, true, 50);
+    lv_chart_set_axis_tick(ui_Chart3, LV_CHART_AXIS_SECONDARY_Y, 0, 0, 0, 0, false, 25);
+    lv_chart_series_t * ui_Chart3_series_1 = lv_chart_add_series(ui_Chart3, lv_color_hex(0x31B2FF),
+                                                                 LV_CHART_AXIS_PRIMARY_Y);
+    static lv_coord_t ui_Chart3_series_1_array[] = { 15, 15, 16, 16, 15, 15, 15, 14, 14, 14, 14, 15, 15, 14, 14, 13, 13, 13, 13, 12, 12, 12, 11, 12, 13, 14, 15, 15 };
+    lv_chart_set_ext_y_array(ui_Chart3, ui_Chart3_series_1, ui_Chart3_series_1_array);
+    lv_obj_set_style_radius(ui_Chart3, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Chart3, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Chart3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Chart3, lv_color_hex(0x31B2FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Chart3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_color(ui_Chart3, lv_color_hex(0x000C20), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_opa(ui_Chart3, 50, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_width(ui_Chart3, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_line_width(ui_Chart3, 2, LV_PART_ITEMS | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_size(ui_Chart3, 0, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_text_color(ui_Chart3, lv_color_hex(0x31B2FF), LV_PART_TICKS | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Chart3, 255, LV_PART_TICKS | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Chart3, &lv_font_montserrat_10, LV_PART_TICKS | LV_STATE_DEFAULT);
+
+    ui_Panel6 = lv_obj_create(ui_Panel4);
+    lv_obj_set_width(ui_Panel6, 240);
+    lv_obj_set_height(ui_Panel6, 92);
+    lv_obj_set_x(ui_Panel6, 0);
+    lv_obj_set_y(ui_Panel6, 107);
+    lv_obj_set_align(ui_Panel6, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel6, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel6, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel6, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel6, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel6, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Chart2 = lv_chart_create(ui_Panel6);
+    lv_obj_set_width(ui_Chart2, 215);
+    lv_obj_set_height(ui_Chart2, 87);
+    lv_obj_set_x(ui_Chart2, 8);
+    lv_obj_set_y(ui_Chart2, 2);
+    lv_obj_set_align(ui_Chart2, LV_ALIGN_CENTER);
+    lv_chart_set_type(ui_Chart2, LV_CHART_TYPE_LINE);
+    lv_chart_set_point_count(ui_Chart2, 28);
+    lv_chart_set_range(ui_Chart2, LV_CHART_AXIS_PRIMARY_Y, 10, 20);
+    lv_chart_set_range(ui_Chart2, LV_CHART_AXIS_SECONDARY_Y, 0, 0);
+    lv_chart_set_div_line_count(ui_Chart2, 5, 7);
+    lv_chart_set_axis_tick(ui_Chart2, LV_CHART_AXIS_PRIMARY_X, 0, 0, 5, 2, false, 50);
+    lv_chart_set_axis_tick(ui_Chart2, LV_CHART_AXIS_PRIMARY_Y, 0, 0, 5, 2, true, 50);
+    lv_chart_set_axis_tick(ui_Chart2, LV_CHART_AXIS_SECONDARY_Y, 0, 0, 0, 0, false, 25);
+    lv_chart_series_t * ui_Chart2_series_1 = lv_chart_add_series(ui_Chart2, lv_color_hex(0x31B2FF),
+                                                                 LV_CHART_AXIS_PRIMARY_Y);
+    static lv_coord_t ui_Chart2_series_1_array[] = { 15, 15, 16, 16, 15, 15, 15, 14, 14, 14, 14, 15, 15, 14, 14, 13, 13, 13, 13, 12, 12, 12, 11, 12, 13, 14, 15, 15 };
+    lv_chart_set_ext_y_array(ui_Chart2, ui_Chart2_series_1, ui_Chart2_series_1_array);
+    lv_obj_set_style_radius(ui_Chart2, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Chart2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Chart2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Chart2, lv_color_hex(0x31B2FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Chart2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_color(ui_Chart2, lv_color_hex(0x000C20), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_opa(ui_Chart2, 50, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_line_width(ui_Chart2, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_line_width(ui_Chart2, 2, LV_PART_ITEMS | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_size(ui_Chart2, 0, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_text_color(ui_Chart2, lv_color_hex(0x31B2FF), LV_PART_TICKS | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Chart2, 255, LV_PART_TICKS | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Chart2, &lv_font_montserrat_10, LV_PART_TICKS | LV_STATE_DEFAULT);
+
+    ui_Panel3 = lv_obj_create(ui_Panel4);
+    lv_obj_set_width(ui_Panel3, 240);
+    lv_obj_set_height(ui_Panel3, 120);
+    lv_obj_set_x(ui_Panel3, 0);
+    lv_obj_set_y(ui_Panel3, -100);
+    lv_obj_set_align(ui_Panel3, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel3, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_Panel3, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Panel3, lv_color_hex(0x30B2FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_main_stop(ui_Panel3, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_stop(ui_Panel3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel3, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel3, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_color(ui_Panel3, lv_color_hex(0x31B2FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_opa(ui_Panel3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui_Panel3, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_spread(ui_Panel3, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label3 = lv_label_create(ui_Panel3);
+    lv_obj_set_width(ui_Label3, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label3, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label3, -38);
+    lv_obj_set_y(ui_Label3, 10);
+    lv_obj_set_align(ui_Label3, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label3, "27");
+    lv_obj_set_style_text_font(ui_Label3, &lv_font_montserrat_46, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Image3 = lv_img_create(ui_Panel3);
+    lv_img_set_src(ui_Image3, &ui_img_1282837856);
+    lv_obj_set_width(ui_Image3, LV_SIZE_CONTENT);   /// 64
+    lv_obj_set_height(ui_Image3, LV_SIZE_CONTENT);    /// 64
+    lv_obj_set_x(ui_Image3, 92);
+    lv_obj_set_y(ui_Image3, 10);
+    lv_obj_set_align(ui_Image3, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Image3, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_Image3, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Image4 = lv_img_create(ui_Panel3);
+    lv_img_set_src(ui_Image4, &ui_img_525640412);
+    lv_obj_set_width(ui_Image4, LV_SIZE_CONTENT);   /// 64
+    lv_obj_set_height(ui_Image4, LV_SIZE_CONTENT);    /// 64
+    lv_obj_set_x(ui_Image4, -98);
+    lv_obj_set_y(ui_Image4, 10);
+    lv_obj_set_align(ui_Image4, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Image4, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_Image4, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_Label4 = lv_label_create(ui_Panel3);
+    lv_obj_set_width(ui_Label4, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label4, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label4, 36);
+    lv_obj_set_y(ui_Label4, 10);
+    lv_obj_set_align(ui_Label4, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label4, "56");
+    lv_obj_set_style_text_font(ui_Label4, &lv_font_montserrat_46, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Panel5 = lv_obj_create(ui_Panel3);
+    lv_obj_set_width(ui_Panel5, 6);
+    lv_obj_set_height(ui_Panel5, 97);
+    lv_obj_set_align(ui_Panel5, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel5, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel5, lv_color_hex(0x000C20), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel5, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel5, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+
+}
+
 void lvgl_distance_set(uint16_t distance)
 {
 	char temp_distance_string[10] = {0};
@@ -381,8 +584,9 @@ void lvgl_demo_ui(lv_disp_t *disp)
 	lv_obj_align(display, LV_ALIGN_TOP_RIGHT, 0, 0);
 	tv1 = lv_tileview_add_tile(display, 0, 0, LV_DIR_HOR);
 	tv2 = lv_tileview_add_tile(display, 0, 1, LV_DIR_HOR);
-
+	tv3 = lv_tileview_add_tile(display, 0, 2, LV_DIR_HOR);
 	tv2_screen_init();
+	tv3_screen_init();
     // Create image
 
 	lv_obj_set_tile_id(display, 0, 0, LV_ANIM_ON);

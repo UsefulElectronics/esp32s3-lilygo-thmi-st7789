@@ -63,9 +63,6 @@ void gpio_config_ext_interrupt(uint8_t gpio_pin, gpio_int_type_t interrupt_type,
 	gpio_set_direction(gpio_pin, GPIO_MODE_INPUT);
 	
 	gpio_set_intr_type(gpio_pin, interrupt_type);
-	
-	ESP_LOGI(TAG, "%d gpio mask", gpio_pin); 
-	ESP_LOGI(TAG, "%" PRIu64 "\n", gpio_handler.pin_bit_mask);
 
 	//gpio_config((const gpio_config_t *)&gpio_config);
 
