@@ -94,6 +94,8 @@ void lvgl_voc_index_chart_insert(uint32_t voc_index);
 
 void lvgl_communication_status(bool communication_status);
 
+void lvgl_screen_navigate(lvgl_nav_e action);
+
 
 #endif /* MAIN_DISPLAY_LVGL_UI_H_ */
 

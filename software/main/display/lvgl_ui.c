@@ -455,7 +455,7 @@ void tv3_screen_init(void)
     lv_obj_set_y(ui_Label3, 10);
     lv_obj_set_align(ui_Label3, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label3, "27");
-    lv_obj_set_style_text_font(ui_Label3, &lv_font_montserrat_46, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label3, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Image3 = lv_img_create(ui_Panel3);
     lv_img_set_src(ui_Image3, &ui_img_1282837856);
@@ -484,7 +484,7 @@ void tv3_screen_init(void)
     lv_obj_set_y(ui_Label4, 10);
     lv_obj_set_align(ui_Label4, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Label4, "56");
-    lv_obj_set_style_text_font(ui_Label4, &lv_font_montserrat_46, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label4, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Panel5 = lv_obj_create(ui_Panel3);
     lv_obj_set_width(ui_Panel5, 6);
@@ -573,8 +573,6 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 {
 	static uint8_t current_tv_id = SCREEN_AIR_QUALITY_ID;
 	
-	
-	
 	switch (action) 
 	{
 		case LVGL_MENU_NEXT:
@@ -596,7 +594,7 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 		case LVGL_MENU_BACK:
 			--current_tv_id;
 			
-			if(SCREEN_OVERFLOW== current_tv_id)
+			if(SCREEN_OVERFLOW == current_tv_id)
 			{
 				current_tv_id = SCREEN_TEMPERATURE_HUMIDITY_ID;
 			}

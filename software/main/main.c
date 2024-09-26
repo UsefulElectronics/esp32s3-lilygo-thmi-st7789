@@ -16,6 +16,7 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "main.h"
+#include "display/lvgl_ui.h"
 #include "hal/gpio_types.h"
 #include "hdc1080/hdc1080.h"
 #include "rom/gpio.h"
@@ -339,10 +340,12 @@ static void main_up_button_handler(void)
 	if(button_state == BUTTON_CLICKED) 
 	{
 		ESP_LOGW(TAG, "Button1 pressed");
+		lvgl_screen_navigate(LVGL_MENU_NEXT);
 	}
 	else if (button_state == BUTTON_LONG_PRESSED)
 	{
 		ESP_LOGW(TAG, "Button1 long pressed");
+		lvgl_screen_navigate(LVGL_MENU_ENTER);
 	}
 }
 
@@ -353,10 +356,12 @@ static void main_down_button_handler(void)
 	if(button_state == BUTTON_CLICKED) 
 	{
 		ESP_LOGW(TAG, "Button2 pressed");
+		lvgl_screen_navigate(LVGL_MENU_BACK);
 	}
 	else if (button_state == BUTTON_LONG_PRESSED)
 	{
 		ESP_LOGW(TAG, "Button2 long pressed");
+		lvgl_screen_navigate(LVGL_MENU_EXIT);
 	}
 }
 
