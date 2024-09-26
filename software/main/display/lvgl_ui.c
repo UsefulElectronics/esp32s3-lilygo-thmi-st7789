@@ -164,7 +164,7 @@ static void anim_timer_cb(lv_timer_t *timer)
     if ((count += 5) == 220) {
         lv_timer_del(timer);
         //switch screen
-        lv_obj_set_tile_id(display, 0, 1, LV_ANIM_ON);
+        lv_obj_set_tile_id(display, 0, SCREEN_AIR_QUALITY_ID, LV_ANIM_ON);
 
         // Enable button
 //        lv_obj_clear_state(btn, LV_STATE_DISABLED);
@@ -569,6 +569,45 @@ void lvgl_communication_status(bool communication_status)
 
 }
 
+void lvgl_screen_navigate(lvgl_nav_e action)
+{
+	static uint8_t current_tv_id = SCREEN_AIR_QUALITY_ID;
+	
+	
+	
+	switch (action) 
+	{
+		case LVGL_MENU_NEXT:
+			++current_tv_id;
+			
+			if(SCREEN_TOTAL == current_tv_id)
+			{
+				current_tv_id = SCREEN_AIR_QUALITY_ID;
+			}
+			
+			lv_obj_set_tile_id(display, 0, current_tv_id, LV_ANIM_ON);
+			break;
+		case LVGL_MENU_ENTER:
+			//animation in 
+			break;
+		case LVGL_MENU_EXIT:
+			//animaton out
+			break;
+		case LVGL_MENU_BACK:
+			--current_tv_id;
+			
+			if(SCREEN_OVERFLOW== current_tv_id)
+			{
+				current_tv_id = SCREEN_TEMPERATURE_HUMIDITY_ID;
+			}
+			
+			lv_obj_set_tile_id(display, 0, current_tv_id, LV_ANIM_ON);
+		
+			break;
+
+	}
+}
+
 
 
 void lvgl_demo_ui(lv_disp_t *disp)
@@ -582,9 +621,9 @@ void lvgl_demo_ui(lv_disp_t *disp)
 	//Initialize 2 tiles that act as pages
     display = lv_tileview_create(scr);
 	lv_obj_align(display, LV_ALIGN_TOP_RIGHT, 0, 0);
-	tv1 = lv_tileview_add_tile(display, 0, 0, LV_DIR_HOR);
-	tv2 = lv_tileview_add_tile(display, 0, 1, LV_DIR_HOR);
-	tv3 = lv_tileview_add_tile(display, 0, 2, LV_DIR_HOR);
+	tv1 = lv_tileview_add_tile(display, 0, SCREEN_INTRO_ID, LV_DIR_HOR);
+	tv2 = lv_tileview_add_tile(display, 0, SCREEN_AIR_QUALITY_ID, LV_DIR_HOR);
+	tv3 = lv_tileview_add_tile(display, 0, SCREEN_TEMPERATURE_HUMIDITY_ID, LV_DIR_HOR);
 	tv2_screen_init();
 	tv3_screen_init();
     // Create image

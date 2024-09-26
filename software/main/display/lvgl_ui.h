@@ -51,12 +51,32 @@
 #define STRING_GAUGE_COMMENT_MAX_CHAR_COUNT	10
 
 #define CHART_DATA_COUNT_LIMIT			15
+
+
 /* ENUMORATIONS --------------------------------------------------------------*/
 enum
 {
 	LVGL_GAUGE_COLOR_FRONT = 0,
 	LVGL_GAUGE_COLOR_BACK = 1,
 };
+
+typedef enum
+{
+	LVGL_MENU_NEXT = 0,
+	LVGL_MENU_BACK,
+	LVGL_MENU_ENTER,
+	LVGL_MENU_EXIT,
+}lvgl_nav_e;
+
+typedef enum
+{
+	SCREEN_INTRO_ID = 0,
+	SCREEN_AIR_QUALITY_ID,
+	SCREEN_TEMPERATURE_HUMIDITY_ID,
+	SCREEN_TOTAL,
+	SCREEN_OVERFLOW = 255,
+	
+}lvgl_screen_id_e;
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
