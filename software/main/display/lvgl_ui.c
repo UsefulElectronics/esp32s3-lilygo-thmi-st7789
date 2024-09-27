@@ -122,6 +122,12 @@ lv_coord_t ui_Chart1_series_1_array[CHART_DATA_COUNT_LIMIT] = { 0, 10, 20, 40, 8
 lv_chart_series_t * ui_Chart1_series_1 = {0};
 void tv2_screen_init(void);
 void tv3_screen_init(void);
+static void lvgl_shrink_Animation(void);
+static void lvgl_extern_Animation(void)
+
+static void _ui_anim_callback_set_height(lv_anim_t * a, int32_t v);
+static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v);
+static void _ui_anim_callback_free_user_data(lv_anim_t * a);
 
 static void anim_timer_cb(lv_timer_t *timer)
 {
@@ -587,9 +593,19 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 			break;
 		case LVGL_MENU_ENTER:
 			//animation in 
+			if(SCREEN_AIR_QUALITY_ID == current_tv_id)
+			{
+				lvgl_extern_Animation();
+			}
+			
 			break;
 		case LVGL_MENU_EXIT:
 			//animaton out
+			if(SCREEN_AIR_QUALITY_ID == current_tv_id)
+			{
+				lvgl_shrink_Animation();
+			}
+			
 			break;
 		case LVGL_MENU_BACK:
 			--current_tv_id;
@@ -606,7 +622,103 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 	}
 }
 
+///////////////////// ANIMATIONS ////////////////////
+static void lvgl_extend_Animation(void)
+{
+	lv_obj_t * TargetObject = ui_Panel3;
+	int delay = 1000;
+    ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+    PropertyAnimation_0_user_data->target = TargetObject;
+    PropertyAnimation_0_user_data->val = -1;
+    lv_anim_t PropertyAnimation_0;
+    lv_anim_init(&PropertyAnimation_0);
+    lv_anim_set_time(&PropertyAnimation_0, 1000);
+    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_height);
+    lv_anim_set_values(&PropertyAnimation_0, 120, 290);
+    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_in_out);
+    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
+    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
+    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_early_apply(&PropertyAnimation_0, false);
+    lv_anim_start(&PropertyAnimation_0);
 
+}
+static void lvgl_shrink_Animation(void)
+{
+	lv_obj_t * TargetObject = ui_Panel3;
+	int delay = 1000;
+    ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+    PropertyAnimation_0_user_data->target = TargetObject;
+    PropertyAnimation_0_user_data->val = -1;
+    lv_anim_t PropertyAnimation_0;
+    lv_anim_init(&PropertyAnimation_0);
+    lv_anim_set_time(&PropertyAnimation_0, 1000);
+    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_height);
+    lv_anim_set_values(&PropertyAnimation_0, 290, 120);
+    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_in_out);
+    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
+    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
+    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_early_apply(&PropertyAnimation_0, false);
+    lv_anim_start(&PropertyAnimation_0);
+
+}
+static void lvgl_hide_Animation(lv_obj_t * TargetObject, int delay)
+{
+	//lv_obj_t * TargetObject = ;
+	//int delay = 1000;
+    ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+    PropertyAnimation_0_user_data->target = TargetObject;
+    PropertyAnimation_0_user_data->val = -1;
+    lv_anim_t PropertyAnimation_0;
+    lv_anim_init(&PropertyAnimation_0);
+    lv_anim_set_time(&PropertyAnimation_0, 1000);
+    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_opacity);
+    lv_anim_set_values(&PropertyAnimation_0, 255, 0);
+    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_linear);
+    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
+    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
+    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_early_apply(&PropertyAnimation_0, false);
+    lv_anim_start(&PropertyAnimation_0);
+
+}
+static void lvgl_show_Animation(lv_obj_t * TargetObject, int delay)
+{
+	//lv_obj_t * TargetObject = ;
+	//int delay = 1000;
+    ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+    PropertyAnimation_0_user_data->target = TargetObject;
+    PropertyAnimation_0_user_data->val = -1;
+    lv_anim_t PropertyAnimation_0;
+    lv_anim_init(&PropertyAnimation_0);
+    lv_anim_set_time(&PropertyAnimation_0, 1000);
+    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_opacity);
+    lv_anim_set_values(&PropertyAnimation_0, 0, 255);
+    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_linear);
+    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
+    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
+    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_early_apply(&PropertyAnimation_0, false);
+    lv_anim_start(&PropertyAnimation_0);
+
+}
 
 void lvgl_demo_ui(lv_disp_t *disp)
 {
@@ -635,4 +747,24 @@ void lvgl_demo_ui(lv_disp_t *disp)
 }
 
 
+static void _ui_anim_callback_free_user_data(lv_anim_t * a)
+{
+    lv_mem_free(a->user_data);
+    a->user_data = NULL;
+}
+static void _ui_anim_callback_set_height(lv_anim_t * a, int32_t v)
+{
+
+    ui_anim_user_data_t * usr = (ui_anim_user_data_t *)a->user_data;
+    lv_obj_set_height(usr->target, v);
+
+}
+
+static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v)
+{
+
+    ui_anim_user_data_t * usr = (ui_anim_user_data_t *)a->user_data;
+    lv_obj_set_style_opa(usr->target, v, 0);
+
+}
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
