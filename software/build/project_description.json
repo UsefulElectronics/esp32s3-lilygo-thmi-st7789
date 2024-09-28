@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "i80_controller",
-    "project_version":    "SGP40-17-g98e747e-dirty",
+    "project_version":    "SGP40-18-ge64b768-dirty",
     "project_path":       "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software",
     "idf_path":           "C:/Espressif/frameworks/esp-idf-v5.3",
     "build_dir":          "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build",

@@ -96,6 +96,8 @@ void lvgl_packet_count_set(uint32_t packet_count);
 
 void lvgl_voc_index_update(uint32_t voc_index);
 
+void lvgl_temperature_humidity_update(float temperature, float humidity);
+
 void lvgl_voc_index_chart_insert(uint32_t voc_index);
 
 void lvgl_communication_status(bool communication_status);

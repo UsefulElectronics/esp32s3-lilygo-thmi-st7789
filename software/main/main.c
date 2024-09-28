@@ -244,12 +244,13 @@ static void air_quality_sensor_task(void *param)
 	   
 	   sgp40_temperature_convert_to_register(&hSpg40, hdc1080_sensor_read()->temperature, &temperature_reg);
 	   
-	   sgp40_get_measure_raw(&hSpg40, humidity_reg,
-                              temperature_reg, &sraw_voc);
+	 //  sgp40_get_measure_raw(&hSpg40, humidity_reg,
+       //                       temperature_reg, &sraw_voc);
 	   
 	   
 	   
-	   if(sraw_voc != 0)
+	   if(0 == sgp40_get_measure_raw(&hSpg40, humidity_reg,
+               temperature_reg, &sraw_voc))
 	   {
 		   sgp40_algorithm_process(&hVoc, (int)sraw_voc, (int*)&index_voc);
 	   }
@@ -271,6 +272,7 @@ static void air_quality_sensor_task(void *param)
 		   lvgl_voc_index_update(index_voc);
 	   }
 	   
+	   lvgl_temperature_humidity_update(hdc1080_sensor_read()->temperature, hdc1080_sensor_read()->humidity);
 	   
 	   ESP_LOGI(TAG, "voc raw :%d", (int)sraw_voc);
 	   
