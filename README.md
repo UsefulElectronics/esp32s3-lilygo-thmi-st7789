@@ -67,3 +67,16 @@ We'll break down every element of the UI, including the round value gauge, the s
 
 ![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/AIR%20QUALITY%20SENSOR%20GUI.png)
 ***
+
+# ESP32S3 HDC1080 Humidity and Temperature Sensor
+***
+### [Tutorial Link](https://youtu.be/_COrWrPWUgU) On [![Build Status](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/wardzx1) 
+
+In this tutorial, we build a complete indoor environment monitoring device by interfacing the HDC1080 temperature and humidity sensor alongside the SGP40 air quality sensor, both running on the same I2C bus. We'll walk through the sensor driver integration with the ESP32S3 microcontroller and use a logic analyzer to inspect the data exchanged between the sensors and the MCU.
+
+The collected data is displayed on a 2.8" TFT screen in both graphical and numerical formats. We're using the LVGL library in the ESP32S3 firmware to create a clean, functional GUI, making the data presentation look sleek and user-friendly. The UI is designed on a PC using Square Line Studio, and its LVGL output is integrated directly into the firmware. You'll also see how to use board-side buttons to switch between data views and activate animations.
+
+By the end of this video, you'll have a better understanding of how to monitor indoor temperature, humidity, and air quality all in one device!.
+
+![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/HDC1080.png)
+***
