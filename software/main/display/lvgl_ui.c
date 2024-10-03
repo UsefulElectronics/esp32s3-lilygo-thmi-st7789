@@ -98,7 +98,9 @@ static lv_color_t arc_color[] =
  lv_obj_t * ui_Label1;
  lv_obj_t * ui_Label2;
  lv_obj_t * ui_Chart1;
- 
+ lv_obj_t * ui_Panel8;
+ lv_obj_t * ui_Image1;
+ lv_obj_t * ui_Label5;
  
  //screen 3 objects
 lv_obj_t * ui_Panel4;
@@ -321,6 +323,48 @@ void tv2_screen_init(void)
     lv_obj_set_style_opa(ui_Chart1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_line_color(ui_Chart1, lv_color_hex(0x4040FF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_line_opa(ui_Chart1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    
+    
+    ui_Panel8 = lv_obj_create(tv2);
+    lv_obj_set_width(ui_Panel8, 167);
+    lv_obj_set_height(ui_Panel8, 65);
+    lv_obj_set_x(ui_Panel8, 0);
+    lv_obj_set_y(ui_Panel8, 46);
+    lv_obj_set_align(ui_Panel8, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel8, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel8, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel8, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel8, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel8, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_blend_mode(ui_Panel8, LV_BLEND_MODE_NORMAL, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Image1 = lv_img_create(ui_Panel8);
+    lv_img_set_src(ui_Image1, &ui_img_1062568172);
+    lv_obj_set_width(ui_Image1, LV_SIZE_CONTENT);   /// 256
+    lv_obj_set_height(ui_Image1, LV_SIZE_CONTENT);    /// 256
+    lv_obj_set_align(ui_Image1, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Image1, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_Image1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_img_set_angle(ui_Image1, 1);
+    lv_img_set_zoom(ui_Image1, 160);
+    lv_obj_set_style_outline_color(ui_Image1, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_outline_opa(ui_Image1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_outline_width(ui_Image1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_outline_pad(ui_Image1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_opa(ui_Image1, 120, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_img_recolor(ui_Image1, lv_color_hex(0x939393), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_img_recolor_opa(ui_Image1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label5 = lv_label_create(ui_Panel8);
+    lv_obj_set_width(ui_Label5, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label5, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Label5, 1);
+    lv_obj_set_y(ui_Label5, -4);
+    lv_obj_set_align(ui_Label5, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label5, "12°C 45%");
+    lv_obj_set_style_text_color(ui_Label5, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label5, &lv_font_montserrat_28, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }
 
@@ -692,10 +736,10 @@ static void lvgl_shrink_Animation(void)
     lv_anim_start(&PropertyAnimation_0);
 
 }
-static void lvgl_hide_Animation(lv_obj_t * TargetObject, int delay)
+static void lvgl_hide_Animation(void)
 {
-	//lv_obj_t * TargetObject = ;
-	//int delay = 1000;
+	lv_obj_t * TargetObject = ;
+	int delay = 0;
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
     PropertyAnimation_0_user_data->val = -1;
