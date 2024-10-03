@@ -129,6 +129,9 @@ void tv3_screen_init(void);
 static void lvgl_shrink_Animation(void);
 static void lvgl_extend_Animation(void);
 
+static void lvgl_show_Animation(void);
+static void lvgl_hide_Animation(void);
+
 static void _ui_anim_callback_set_height(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_free_user_data(lv_anim_t * a);
@@ -738,7 +741,7 @@ static void lvgl_shrink_Animation(void)
 }
 static void lvgl_hide_Animation(void)
 {
-	lv_obj_t * TargetObject = ;
+	lv_obj_t * TargetObject = ui_Panel8;
 	int delay = 0;
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
@@ -760,10 +763,10 @@ static void lvgl_hide_Animation(void)
     lv_anim_start(&PropertyAnimation_0);
 
 }
-static void lvgl_show_Animation(lv_obj_t * TargetObject, int delay)
+static void lvgl_show_Animation(void)
 {
-	//lv_obj_t * TargetObject = ;
-	//int delay = 1000;
+	lv_obj_t * TargetObject = ui_Panel8;
+	int delay = 0;
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
     PropertyAnimation_0_user_data->val = -1;
