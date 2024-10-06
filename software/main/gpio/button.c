@@ -123,7 +123,7 @@ bool button_debounce(uint8_t pin)
 	bool ret = DISABLE;
 
 	const uint16_t	start_boundary 		= 500;
-	const uint16_t	end_boundary	 	= 10000;
+	const uint16_t	end_boundary	 	= 14000;
 
 	const uint16_t	middle_value	 	= 4000;
 

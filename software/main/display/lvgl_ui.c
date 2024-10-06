@@ -551,7 +551,6 @@ void tv3_screen_init(void)
     lv_obj_set_style_border_color(ui_Panel5, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui_Panel5, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-
 }
 
 void lvgl_distance_set(uint16_t distance)
@@ -663,22 +662,35 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 			break;
 		case LVGL_MENU_ENTER:
 			//animation in 
-
-			lvgl_extend_Animation();
+			if(SCREEN_TEMPERATURE_HUMIDITY_ID == current_tv_id)
+			{
+				lvgl_extend_Animation();
+			}
+			else if(SCREEN_AIR_QUALITY_ID == current_tv_id)
+			{
+				lvgl_show_Animation();
+			}
 
 			
 			break;
 		case LVGL_MENU_EXIT:
 			//animaton out
-
-			lvgl_shrink_Animation();
+			if(SCREEN_TEMPERATURE_HUMIDITY_ID == current_tv_id)
+			{
+				lvgl_shrink_Animation();
+			}
+			else if(SCREEN_AIR_QUALITY_ID == current_tv_id)
+			{
+				lvgl_hide_Animation();
+			}
+			
 
 			
 			break;
 		case LVGL_MENU_BACK:
 			--current_tv_id;
 			
-			if(SCREEN_OVERFLOW == current_tv_id)
+			if(SCREEN_INTRO_ID == current_tv_id)
 			{
 				current_tv_id = SCREEN_TEMPERATURE_HUMIDITY_ID;
 			}
