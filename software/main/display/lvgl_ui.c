@@ -72,6 +72,8 @@ LV_IMG_DECLARE(ui_img_status_png)
 LV_IMG_DECLARE(ui_img_525640412)
 LV_IMG_DECLARE(ui_img_1062568172)
 LV_IMG_DECLARE(ui_img_1282837856)
+LV_IMG_DECLARE(ui_img_air_quality_gauge_png)
+LV_IMG_DECLARE(ui_img_gauge_pointer_png)
 //LV_IMG_DECLARE(esp_text)
 LV_IMG_DECLARE(ui_img_useful_electronics_png)
 typedef struct {
@@ -102,7 +104,7 @@ static lv_color_t arc_color[] =
  lv_obj_t * ui_Image1;
  lv_obj_t * ui_Label5;
  
- //screen 3 objects
+//screen 3 objects
 lv_obj_t * ui_Panel4;
 lv_obj_t * ui_Panel7;
 lv_obj_t * ui_Chart3;
@@ -114,6 +116,11 @@ lv_obj_t * ui_Image3;
 lv_obj_t * ui_Image4;
 lv_obj_t * ui_Label4;
 lv_obj_t * ui_Panel5;
+lv_obj_t * ui_Panel10;
+lv_obj_t * ui_Image5;
+lv_obj_t * ui_Image2;
+lv_obj_t * ui_Panel9;
+lv_obj_t * ui_Label6;
 
 lv_obj_t *display;
 lv_obj_t *tv1;
@@ -134,6 +141,8 @@ static void lvgl_hide_Animation(void);
 
 static void _ui_anim_callback_set_height(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v);
+static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a);
+static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_free_user_data(lv_anim_t * a);
 
 static void anim_timer_cb(lv_timer_t *timer)
@@ -550,6 +559,62 @@ void tv3_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Panel5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ui_Panel5, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui_Panel5, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    
+    ui_Panel10 = lv_obj_create(ui_Panel3);
+    lv_obj_set_width(ui_Panel10, 236);
+    lv_obj_set_height(ui_Panel10, 96);
+    lv_obj_set_x(ui_Panel10, 0);
+    lv_obj_set_y(ui_Panel10, 97);
+    lv_obj_set_align(ui_Panel10, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel10, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel10, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_Panel10, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Image5 = lv_img_create(ui_Panel10);
+    lv_img_set_src(ui_Image5, &ui_img_air_quality_gauge_png);
+    lv_obj_set_width(ui_Image5, LV_SIZE_CONTENT);   /// 339
+    lv_obj_set_height(ui_Image5, LV_SIZE_CONTENT);    /// 271
+    lv_obj_set_align(ui_Image5, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Image5, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_Image5, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_img_set_zoom(ui_Image5, 150);
+
+    ui_Image2 = lv_img_create(ui_Panel10);
+    lv_img_set_src(ui_Image2, &ui_img_gauge_pointer_png);
+    lv_obj_set_width(ui_Image2, LV_SIZE_CONTENT);   /// 48
+    lv_obj_set_height(ui_Image2, LV_SIZE_CONTENT);    /// 84
+    lv_obj_set_align(ui_Image2, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_Image2, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_Image2, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_img_set_pivot(ui_Image2, 23, 60);
+    lv_img_set_angle(ui_Image2, 1100);
+    lv_img_set_zoom(ui_Image2, 300);
+    lv_obj_set_style_blend_mode(ui_Image2, LV_BLEND_MODE_SUBTRACTIVE, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_opa(ui_Image2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Panel9 = lv_obj_create(ui_Panel10);
+    lv_obj_set_width(ui_Panel9, 60);
+    lv_obj_set_height(ui_Panel9, 60);
+    lv_obj_set_x(ui_Panel9, 0);
+    lv_obj_set_y(ui_Panel9, 16);
+    lv_obj_set_align(ui_Panel9, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel9, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_Panel9, 180, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_Panel9, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel9, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel9, lv_color_hex(0x31B2FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel9, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_Panel9, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Label6 = lv_label_create(ui_Panel9);
+    lv_obj_set_width(ui_Label6, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Label6, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_Label6, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Label6, "500");
+    lv_obj_set_style_text_color(ui_Label6, lv_color_hex(0x31B2FF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_Label6, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_Label6, &lv_font_montserrat_28, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }
 
@@ -730,7 +795,7 @@ static void lvgl_extend_Animation(void)
 static void lvgl_shrink_Animation(void)
 {
 	lv_obj_t * TargetObject = ui_Panel3;
-	int delay = 0;
+	int delay = 1000;
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
     PropertyAnimation_0_user_data->val = -1;
@@ -799,6 +864,81 @@ static void lvgl_show_Animation(void)
     lv_anim_start(&PropertyAnimation_0);
 
 }
+static void addvoc_Animation()
+{
+	lv_obj_t * TargetObject = ui_Panel10;
+	int delay = 1000;
+    ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+    PropertyAnimation_0_user_data->target = TargetObject;
+    PropertyAnimation_0_user_data->val = -1;
+    lv_anim_t PropertyAnimation_0;
+    lv_anim_init(&PropertyAnimation_0);
+    lv_anim_set_time(&PropertyAnimation_0, 1000);
+    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_opacity);
+    lv_anim_set_values(&PropertyAnimation_0, 0, 255);
+    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_linear);
+    lv_anim_set_delay(&PropertyAnimation_0, delay + 1000);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
+    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
+    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_early_apply(&PropertyAnimation_0, false);
+    lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_opacity);
+    lv_anim_start(&PropertyAnimation_0);
+
+}
+static void removevoc_Animation()
+{
+	lv_obj_t * TargetObject = ui_Panel10;
+	int delay = 0;
+    ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+    PropertyAnimation_0_user_data->target = TargetObject;
+    PropertyAnimation_0_user_data->val = -1;
+    lv_anim_t PropertyAnimation_0;
+    lv_anim_init(&PropertyAnimation_0);
+    lv_anim_set_time(&PropertyAnimation_0, 1000);
+    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_opacity);
+    lv_anim_set_values(&PropertyAnimation_0, 255, 0);
+    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_linear);
+    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
+    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
+    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_early_apply(&PropertyAnimation_0, false);
+    lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_opacity);
+    lv_anim_start(&PropertyAnimation_0);
+
+}
+static void indicator_Animation()
+{
+	lv_obj_t * TargetObject = ui_Image2;
+	int delay = 1000;
+    ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
+    PropertyAnimation_0_user_data->target = TargetObject;
+    PropertyAnimation_0_user_data->val = -1;
+    lv_anim_t PropertyAnimation_0;
+    lv_anim_init(&PropertyAnimation_0);
+    lv_anim_set_time(&PropertyAnimation_0, 3000);
+    lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
+    lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_image_angle);
+    lv_anim_set_values(&PropertyAnimation_0, 1100, -1100);
+    lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_out);
+    lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
+    lv_anim_set_playback_time(&PropertyAnimation_0, 0);
+    lv_anim_set_playback_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
+    lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
+    lv_anim_set_early_apply(&PropertyAnimation_0, false);
+    lv_anim_start(&PropertyAnimation_0);
+
+}
+
 
 void lvgl_demo_ui(lv_disp_t *disp)
 {
@@ -845,6 +985,23 @@ static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v)
 
     ui_anim_user_data_t * usr = (ui_anim_user_data_t *)a->user_data;
     lv_obj_set_style_opa(usr->target, v, 0);
+
+}
+
+static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a)
+{
+
+    ui_anim_user_data_t * usr = (ui_anim_user_data_t *)a->user_data;
+    return lv_obj_get_style_opa(usr->target, 0);
+
+}
+
+static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v)
+
+{
+
+    ui_anim_user_data_t * usr = (ui_anim_user_data_t *)a->user_data;
+    lv_img_set_angle(usr->target, v);
 
 }
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
