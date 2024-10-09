@@ -139,6 +139,10 @@ static void lvgl_extend_Animation(void);
 static void lvgl_show_Animation(void);
 static void lvgl_hide_Animation(void);
 
+static void lvgl_addvoc_Animation();
+static void lvgl_removevoc_Animation();
+static void lvgl_indicator_Animation();
+
 static void _ui_anim_callback_set_height(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v);
 static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a);
@@ -590,7 +594,7 @@ void tv3_screen_init(void)
     lv_img_set_pivot(ui_Image2, 23, 60);
     lv_img_set_angle(ui_Image2, 1100);
     lv_img_set_zoom(ui_Image2, 300);
-    lv_obj_set_style_blend_mode(ui_Image2, LV_BLEND_MODE_SUBTRACTIVE, LV_PART_MAIN | LV_STATE_DEFAULT);
+    //lv_obj_set_style_blend_mode(ui_Image2, LV_BLEND_MODE_SUBTRACTIVE, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_opa(ui_Image2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Panel9 = lv_obj_create(ui_Panel10);
@@ -616,6 +620,7 @@ void tv3_screen_init(void)
     lv_obj_set_style_text_opa(ui_Label6, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label6, &lv_font_montserrat_28, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+	lvgl_removevoc_Animation();
 }
 
 void lvgl_distance_set(uint16_t distance)
@@ -730,6 +735,8 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 			if(SCREEN_TEMPERATURE_HUMIDITY_ID == current_tv_id)
 			{
 				lvgl_extend_Animation();
+				lvgl_addvoc_Animation();
+				lvgl_indicator_Animation();
 			}
 			else if(SCREEN_AIR_QUALITY_ID == current_tv_id)
 			{
@@ -742,6 +749,7 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 			//animaton out
 			if(SCREEN_TEMPERATURE_HUMIDITY_ID == current_tv_id)
 			{
+				lvgl_removevoc_Animation();
 				lvgl_shrink_Animation();
 			}
 			else if(SCREEN_AIR_QUALITY_ID == current_tv_id)
@@ -864,10 +872,10 @@ static void lvgl_show_Animation(void)
     lv_anim_start(&PropertyAnimation_0);
 
 }
-static void addvoc_Animation()
+static void lvgl_addvoc_Animation()
 {
 	lv_obj_t * TargetObject = ui_Panel10;
-	int delay = 1000;
+	int delay = 0;
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
     PropertyAnimation_0_user_data->val = -1;
@@ -885,11 +893,10 @@ static void addvoc_Animation()
     lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
     lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
     lv_anim_set_early_apply(&PropertyAnimation_0, false);
-    lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_opacity);
     lv_anim_start(&PropertyAnimation_0);
 
 }
-static void removevoc_Animation()
+static void lvgl_removevoc_Animation()
 {
 	lv_obj_t * TargetObject = ui_Panel10;
 	int delay = 0;
@@ -910,14 +917,13 @@ static void removevoc_Animation()
     lv_anim_set_repeat_count(&PropertyAnimation_0, 0);
     lv_anim_set_repeat_delay(&PropertyAnimation_0, 0);
     lv_anim_set_early_apply(&PropertyAnimation_0, false);
-    lv_anim_set_get_value_cb(&PropertyAnimation_0, &_ui_anim_callback_get_opacity);
     lv_anim_start(&PropertyAnimation_0);
 
 }
-static void indicator_Animation()
+static void lvgl_indicator_Animation()
 {
 	lv_obj_t * TargetObject = ui_Image2;
-	int delay = 1000;
+	int delay = 200;
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
     PropertyAnimation_0_user_data->val = -1;
