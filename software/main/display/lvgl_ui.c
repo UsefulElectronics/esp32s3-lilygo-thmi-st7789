@@ -143,6 +143,9 @@ static void lvgl_addvoc_Animation();
 static void lvgl_removevoc_Animation();
 static void lvgl_indicator_Animation();
 
+static int lvgl_convert_angle2voc(int meter_angle);
+static int lvgl_convert_voc2angle(int voc_data); 
+
 static void _ui_anim_callback_set_height(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v);
 static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a);
@@ -881,7 +884,7 @@ static void lvgl_addvoc_Animation()
     PropertyAnimation_0_user_data->val = -1;
     lv_anim_t PropertyAnimation_0;
     lv_anim_init(&PropertyAnimation_0);
-    lv_anim_set_time(&PropertyAnimation_0, 1000);
+    lv_anim_set_time(&PropertyAnimation_0, 500);
     lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
     lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_opacity);
     lv_anim_set_values(&PropertyAnimation_0, 0, 255);
@@ -923,7 +926,7 @@ static void lvgl_removevoc_Animation()
 static void lvgl_indicator_Animation()
 {
 	lv_obj_t * TargetObject = ui_Image2;
-	int delay = 200;
+	int delay = 500;
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
     PropertyAnimation_0_user_data->val = -1;
@@ -1005,9 +1008,47 @@ static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a)
 static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v)
 
 {
-
+	char voc_text[4] = {0};
+	
+	int temp_voc = 0;
     ui_anim_user_data_t * usr = (ui_anim_user_data_t *)a->user_data;
     lv_img_set_angle(usr->target, v);
+    
+    temp_voc = lvgl_convert_angle2voc(v);
+    
+    sprintf(voc_text, "%d", temp_voc);
+    
+    lv_label_set_text(ui_Label6, voc_text);
 
 }
+
+
+
+static int lvgl_convert_angle2voc(int meter_angle) 
+{
+    // Define the range limits
+    int voc_min = 0;
+    int voc_max = 500;
+    int angle_min = -1100;
+    int angle_max = 1100;
+
+    // Convert the meter angle to VOC data using reverse linear mapping
+    int voc_data = (int)(((meter_angle - angle_min) / (float)(angle_max - angle_min)) * (voc_max - voc_min) + voc_min);
+
+    return voc_data;
+} 
+
+static int lvgl_convert_voc2angle(int voc_data) 
+{
+    // Define the range limits
+    int voc_min = 0;
+    int voc_max = 500;
+    int angle_min = -1100;
+    int angle_max = 1100;
+
+    // Convert the VOC data to meter angle using linear mapping
+    int meter_angle = ((int)(voc_data - voc_min) / (voc_max - voc_min)) * (angle_max - angle_min) + angle_min;
+
+    return meter_angle;
+} 
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
