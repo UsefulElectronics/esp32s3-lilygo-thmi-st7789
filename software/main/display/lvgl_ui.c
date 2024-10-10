@@ -131,6 +131,19 @@ lv_coord_t ui_Chart1_series_1_array[CHART_DATA_COUNT_LIMIT] = { 0, 10, 20, 40, 8
 lv_chart_series_t * ui_Chart1_series_1 = {0};
 lv_chart_series_t * ui_Chart2_series_1 = {0};
 lv_chart_series_t * ui_Chart3_series_1 = {0};
+
+lv_anim_t PropertyAnimation_0 = {0};
+
+typedef struct
+{
+	int16_t temperature;
+	int16_t humidity;
+	int16_t air_quality;
+	int16_t reserved;
+}lvgl_sensor_data_t;
+
+lvgl_sensor_data_t hSensor = {0};
+
 void tv2_screen_init(void);
 void tv3_screen_init(void);
 static void lvgl_shrink_Animation(void);
@@ -151,6 +164,7 @@ static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v);
 static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a);
 static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_free_user_data(lv_anim_t * a);
+static void lvgl_voc_gauge_angle(int32_t voc_value);
 
 static void anim_timer_cb(lv_timer_t *timer)
 {
@@ -652,6 +666,13 @@ void lvgl_voc_index_update(uint32_t voc_index)
 	
 	itoa(voc_index, voc_index_string, 10);
 	
+	hSensor.air_quality = voc_index;
+	if(PropertyAnimation_0.playback_now == false)
+	{
+		lvgl_voc_gauge_angle(hSensor.air_quality);
+	}
+	//
+	
 	lv_obj_set_style_bg_color(ui_Panel1, 								//round panel color 
 	 							lv_color_hex(lvgl_gauge_color_array[gauge_section][LVGL_GAUGE_COLOR_FRONT]),
 	  							LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -671,15 +692,23 @@ void lvgl_voc_index_update(uint32_t voc_index)
 
 void lvgl_temperature_humidity_update(float temperature, float humidity)
 {
-	char voc_index_string[5] = {0};
+	char sensor_data_string[20] = {0};
 	
-	itoa((uint8_t)temperature, voc_index_string, 10);
+	hSensor.temperature = (int16_t) temperature;
 	
-	lv_label_set_text(ui_Label3, voc_index_string);
+	hSensor.humidity 	= (uint16_t) humidity;
 	
-	itoa((uint8_t)humidity, voc_index_string, 10);
-		
-	lv_label_set_text(ui_Label4, voc_index_string);
+	itoa((int8_t)temperature, sensor_data_string, 10);
+	
+	lv_label_set_text(ui_Label3, sensor_data_string);
+	
+	itoa((uint8_t)humidity, sensor_data_string, 10);
+	
+	lv_label_set_text(ui_Label4, sensor_data_string);
+	
+	sprintf(sensor_data_string, "%2d°C %2d%%",(int16_t)temperature, (uint16_t)humidity);
+	
+	lv_label_set_text(ui_Label5, sensor_data_string);
 	
 	lv_chart_set_next_value(ui_Chart2, ui_Chart2_series_1, (uint32_t) temperature);
 	
@@ -927,15 +956,17 @@ static void lvgl_indicator_Animation()
 {
 	lv_obj_t * TargetObject = ui_Image2;
 	int delay = 500;
+	int32_t end_angle = lvgl_convert_voc2angle(hSensor.air_quality);;
+
     ui_anim_user_data_t * PropertyAnimation_0_user_data = lv_mem_alloc(sizeof(ui_anim_user_data_t));
     PropertyAnimation_0_user_data->target = TargetObject;
     PropertyAnimation_0_user_data->val = -1;
-    lv_anim_t PropertyAnimation_0;
+
     lv_anim_init(&PropertyAnimation_0);
     lv_anim_set_time(&PropertyAnimation_0, 3000);
     lv_anim_set_user_data(&PropertyAnimation_0, PropertyAnimation_0_user_data);
     lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_image_angle);
-    lv_anim_set_values(&PropertyAnimation_0, 1100, -1100);
+    lv_anim_set_values(&PropertyAnimation_0, 1100, end_angle);
     lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_out);
     lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
     lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
@@ -1006,7 +1037,6 @@ static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a)
 }
 
 static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v)
-
 {
 	char voc_text[4] = {0};
 	
@@ -1022,7 +1052,20 @@ static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v)
 
 }
 
-
+static void lvgl_voc_gauge_angle(int32_t voc_value)
+{
+	char voc_text[4] = {0};
+	
+	int temp_voc = voc_value;
+	
+	int temp_angle = lvgl_convert_voc2angle(voc_value);;
+	
+	lv_img_set_angle(ui_Image2, temp_angle);
+    
+    sprintf(voc_text, "%d", temp_voc);
+    
+    lv_label_set_text(ui_Label6, voc_text);
+}
 
 static int lvgl_convert_angle2voc(int meter_angle) 
 {
@@ -1033,7 +1076,7 @@ static int lvgl_convert_angle2voc(int meter_angle)
     int angle_max = 1100;
 
     // Convert the meter angle to VOC data using reverse linear mapping
-    int voc_data = (int)(((meter_angle - angle_min) / (float)(angle_max - angle_min)) * (voc_max - voc_min) + voc_min);
+    int voc_data = (int)(((float)(float)(meter_angle - angle_min) / (float)(angle_max - angle_min)) * (voc_max - voc_min) + voc_min);
 
     return voc_data;
 } 
@@ -1047,7 +1090,7 @@ static int lvgl_convert_voc2angle(int voc_data)
     int angle_max = 1100;
 
     // Convert the VOC data to meter angle using linear mapping
-    int meter_angle = ((int)(voc_data - voc_min) / (voc_max - voc_min)) * (angle_max - angle_min) + angle_min;
+    int meter_angle = (int)((float)((float)(voc_data - voc_min) / (float)(voc_max - voc_min)) * (angle_max - angle_min) + angle_min);
 
     return meter_angle;
 } 
