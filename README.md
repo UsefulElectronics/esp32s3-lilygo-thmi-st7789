@@ -5,13 +5,14 @@
 ### PCBWay
 Tutorial Series Sponsor PCBWay Website. You can get extra free coupons using the link below:
 
-[<img src="https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/pcbwaybanner.jpg">](https://www.pcbway.com/setinvite.aspx?inviteid=582640)
+[<img src="https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/pcbwaybanner.gif">](https://www.pcbway.com/setinvite.aspx?inviteid=582640)
 
 ***
 | Project | Tag |
 | ------ | ------ |
 | RYUW122 UWB module  | [RYUW122](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-st7789/tree/RYUW122)|
 | SGP40 Air Quality Sensor | [SGP40](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-st7789/tree/SGP40) |
+| HDC1080 Temperature and Humidity Sensor | [HDC1080](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-st7789/tree/HDC1080) |
 
 ***
 # ESP32S3 Lilygo T HMI Board Review
