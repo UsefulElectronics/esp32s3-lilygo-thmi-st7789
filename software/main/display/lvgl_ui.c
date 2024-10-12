@@ -16,6 +16,7 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "lvgl_ui.h"
+#include "misc/lv_anim.h"
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
@@ -164,6 +165,7 @@ static void _ui_anim_callback_set_opacity(lv_anim_t * a, int32_t v);
 static int32_t _ui_anim_callback_get_opacity(lv_anim_t * a);
 static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v);
 static void _ui_anim_callback_free_user_data(lv_anim_t * a);
+static void _ui_anim_callback_delete_animation(lv_anim_t * a);
 static void lvgl_voc_gauge_angle(int32_t voc_value);
 
 static void anim_timer_cb(lv_timer_t *timer)
@@ -667,7 +669,10 @@ void lvgl_voc_index_update(uint32_t voc_index)
 	itoa(voc_index, voc_index_string, 10);
 	
 	hSensor.air_quality = voc_index;
-	if(PropertyAnimation_0.playback_now == false)
+	
+	//If the timer animation is busy do not update the gauge value to prevent animation interruption
+	if(lv_anim_get_timer()->paused)
+	//if(PropertyAnimation_0.current_value == hSensor.air_quality)
 	{
 		lvgl_voc_gauge_angle(hSensor.air_quality);
 	}
@@ -968,6 +973,7 @@ static void lvgl_indicator_Animation()
     lv_anim_set_custom_exec_cb(&PropertyAnimation_0, _ui_anim_callback_set_image_angle);
     lv_anim_set_values(&PropertyAnimation_0, 1100, end_angle);
     lv_anim_set_path_cb(&PropertyAnimation_0, lv_anim_path_ease_out);
+    lv_anim_set_deleted_cb(&PropertyAnimation_0,  _ui_anim_callback_delete_animation);
     lv_anim_set_delay(&PropertyAnimation_0, delay + 0);
     lv_anim_set_deleted_cb(&PropertyAnimation_0, _ui_anim_callback_free_user_data);
     lv_anim_set_playback_time(&PropertyAnimation_0, 0);
@@ -1049,7 +1055,11 @@ static void _ui_anim_callback_set_image_angle(lv_anim_t * a, int32_t v)
     sprintf(voc_text, "%d", temp_voc);
     
     lv_label_set_text(ui_Label6, voc_text);
+}
 
+static void _ui_anim_callback_delete_animation(lv_anim_t * a)
+{
+	memset(a, 0, sizeof(lv_anim_t));
 }
 
 static void lvgl_voc_gauge_angle(int32_t voc_value)

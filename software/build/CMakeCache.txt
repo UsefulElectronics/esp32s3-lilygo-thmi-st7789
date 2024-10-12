@@ -15,7 +15,7 @@
 ########################
 
 //No help, variable specified on the command line.
-CCACHE_ENABLE:UNINITIALIZED=1
+CCACHE_ENABLE:UNINITIALIZED=0
 
 //Path to a program.
 CCACHE_FOUND:FILEPATH=C:/Espressif/tools/ccache/4.8/ccache-4.8-windows-x86_64/ccache.exe
@@ -307,6 +307,9 @@ ENABLE_PROGRAMS:BOOL=
 //Build Mbed TLS tests.
 ENABLE_TESTING:BOOL=
 
+//No help, variable specified on the command line.
+ESP_PLATFORM:UNINITIALIZED=1
+
 //Generate the auto-generated files as needed
 GEN_FILES:BOOL=
 
@@ -345,6 +348,12 @@ Mbed TLS_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 Mbed TLS_SOURCE_DIR:STATIC=C:/Espressif/frameworks/esp-idf-v5.3/components/mbedtls/mbedtls
+
+//No help, variable specified on the command line.
+PYTHON:UNINITIALIZED=C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe
+
+//No help, variable specified on the command line.
+PYTHON_DEPS_CHECKED:UNINITIALIZED=1
 
 //Allow unsafe builds. These builds ARE NOT SECURE.
 UNSAFE_BUILD:BOOL=OFF
