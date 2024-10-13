@@ -81,3 +81,15 @@ By the end of this video, you'll have a better understanding of how to monitor i
 
 ![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/HDC1080.png)
 ***
+
+# ESP32S3 LVGL SquareLine Studio Animation
+***
+### [Tutorial Link](https://youtu.be/f-f3m9twZU8) On [![Build Status](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/wardzx1) 
+
+
+ESP32-S3 microcontroller can power smooth, high-frame-rate animations on a parallel TFT screen? Using the LVGL library and Square Line Studio, creating stunning graphical user interfaces (GUIs) has never been easier.
+
+In this tutorial, I designed a GUI to display real-time data from temperature, humidity, and air quality sensors—all with dynamic, eye-catching animations. If you're interested in seeing how it's done or learning more about integrating sensor data into GUIs, check out the link above.
+
+![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/ESP32S3%20GUI%20ANIMATION%20DESIGN.png)
+***

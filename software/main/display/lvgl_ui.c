@@ -672,7 +672,6 @@ void lvgl_voc_index_update(uint32_t voc_index)
 	
 	//If the timer animation is busy do not update the gauge value to prevent animation interruption
 	if(lv_anim_get_timer()->paused)
-	//if(PropertyAnimation_0.current_value == hSensor.air_quality)
 	{
 		lvgl_voc_gauge_angle(hSensor.air_quality);
 	}
