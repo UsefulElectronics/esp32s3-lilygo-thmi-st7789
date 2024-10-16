@@ -15,6 +15,13 @@ extern "C" {
 #include "ui_helpers.h"
 #include "ui_events.h"
 
+void extend_Animation(lv_obj_t * TargetObject, int delay);
+void shrink_Animation(lv_obj_t * TargetObject, int delay);
+void hide_Animation(lv_obj_t * TargetObject, int delay);
+void show_Animation(lv_obj_t * TargetObject, int delay);
+void addvoc_Animation(lv_obj_t * TargetObject, int delay);
+void removevoc_Animation(lv_obj_t * TargetObject, int delay);
+void indicator_Animation(lv_obj_t * TargetObject, int delay);
 // SCREEN: ui_Screen1
 void ui_Screen1_screen_init(void);
 extern lv_obj_t * ui_Screen1;
@@ -24,11 +31,38 @@ extern lv_obj_t * ui_Panel1;
 extern lv_obj_t * ui_Label1;
 extern lv_obj_t * ui_Label2;
 extern lv_obj_t * ui_Chart1;
+extern lv_obj_t * ui_Panel8;
+extern lv_obj_t * ui_Image1;
+extern lv_obj_t * ui_Label5;
+// SCREEN: ui_Screen2
+void ui_Screen2_screen_init(void);
+extern lv_obj_t * ui_Screen2;
+extern lv_obj_t * ui_Panel4;
+extern lv_obj_t * ui_Panel7;
+extern lv_obj_t * ui_Chart3;
+extern lv_obj_t * ui_Panel6;
+extern lv_obj_t * ui_Chart2;
+extern lv_obj_t * ui_Panel3;
+extern lv_obj_t * ui_Label3;
+extern lv_obj_t * ui_Image3;
+extern lv_obj_t * ui_Image4;
+extern lv_obj_t * ui_Label4;
+extern lv_obj_t * ui_Panel5;
+extern lv_obj_t * ui_Panel10;
+extern lv_obj_t * ui_Image5;
+extern lv_obj_t * ui_Image2;
+extern lv_obj_t * ui_Panel9;
+extern lv_obj_t * ui_Label6;
 extern lv_obj_t * ui____initial_actions0;
 
 
 LV_IMG_DECLARE(ui_img_gauge_empty_png);    // assets/gauge Empty.png
 LV_IMG_DECLARE(ui_img_gauge_full_png);    // assets/Gauge Full.png
+LV_IMG_DECLARE(ui_img_1062568172);    // assets/Untitled_design_15_-removebg-preview.png
+LV_IMG_DECLARE(ui_img_1282837856);    // assets/humidity(1).png
+LV_IMG_DECLARE(ui_img_525640412);    // assets/celsius(2).png
+LV_IMG_DECLARE(ui_img_air_quality_gauge_png);    // assets/air quality gauge.png
+LV_IMG_DECLARE(ui_img_gauge_pointer_png);    // assets/gauge pointer.png
 
 
 
