@@ -251,7 +251,7 @@ IGNORE_EXTRA_COMPONENT:UNINITIALIZED=
 PROJECT_SOURCE_DIR:UNINITIALIZED=C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software
 
 //No help, variable specified on the command line.
-PYTHON:UNINITIALIZED=C:/Espressif/python_env/idf5.3_py3.11_env/Scripts/python.exe
+PYTHON:UNINITIALIZED=python
 
 //No help, variable specified on the command line.
 PYTHON_DEPS_CHECKED:UNINITIALIZED=1

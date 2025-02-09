@@ -10,6 +10,9 @@ file(GLOB_RECURSE SGP_SOURCES sgp40/*.c)
 
 file(GLOB_RECURSE HDC1080_SOURCES hdc1080/*.c)
 
+file(GLOB_RECURSE WIRELESS wireless/*.c)
+
+
 idf_component_register(SRCS "main.c" 
 						"lvgl_demo_ui.c" 
 						"images/ui_img_useful_electronics_png.c" 
@@ -21,4 +24,5 @@ idf_component_register(SRCS "main.c"
 						${UWB_SOURCES}
 						${SGP_SOURCES}
 						${HDC1080_SOURCES}
+						${WIRELESS}
                        INCLUDE_DIRS ".")

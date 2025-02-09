@@ -25,6 +25,8 @@
 #include "gpio/button.h"
 #include "gpio/esp_interrupt.h"
 
+#include "wireless/wifi_connect.h"
+#include "wireless/mqtt.h"
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
@@ -48,17 +50,15 @@ static void system_uwb_callback(void* rx_data, uint8_t packetId);
 
 static uint32_t main_get_systick(void);
 
-
-
 static void main_down_button_handler(void);
 
 static void main_up_button_handler(void);
 
-
-
 static void uart_reception_task(void *param);
 
 static void anchor_periodic_send_task(void *param);
+
+static void wirless_init_task(void* param);
 
 static void air_quality_sensor_task(void *param);
 
@@ -97,6 +97,8 @@ void app_main(void)
 	i80_controller_init((void*)gpio_set_level);
 
     ESP_LOGI(TAG, "Display LVGL animation");
+    
+    xTaskCreatePinnedToCore(wirless_init_task, "WiFi init", 10000, NULL, 4, NULL, 0);
 
 	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 1);
 	
@@ -325,6 +327,15 @@ static void event_handle_task(void* param)
 	
 }
 
+static void wirless_init_task(void* param)
+{
+	wifi_connect();
+
+	mqtt_app_start();
+
+	vTaskDelete(NULL);
+}
+
 static uint32_t main_get_systick(void)
 {
 	return SYS_TICK();
@@ -361,5 +372,7 @@ static void main_down_button_handler(void)
 		lvgl_screen_navigate(LVGL_MENU_EXIT);
 	}
 }
+
+
 
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/
