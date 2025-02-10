@@ -38,18 +38,11 @@ extern QueueHandle_t mqttSubscribe_queue;
 #define MQTT_MAX_TOPIC_LENGTH	30
 #define MQTT_MAX_DATA_LENGTH	30
 
-#define MQTT_COLOR_TOPIC 		"lampColor"
-#define MQTT_MODE_TOPIC 		"lampMode"
-#define MQTT_SWITCH_TOPIC 		"switch"
-#define MQTT_FREQUENCY_TOPIC 	"lampFreq"
-#define MQTT_REQUEST_TOPIC 		"request"
-#define MQTT_TEMPERATURE_TOPIC	"temperature"
-
-#define MQTT_AIR_QUALITY_GETPPM			"1/air_quality/getppm"
-#define MQTT_AIR_QUALITY_GETHUMIDITY	"1/air_quality/gethumidity"
-#define MQTT_AIR_QUALITY_GETTEMPRATURE	"1/air_quality/gettemperature"
-#define MQTT_AIR_QUALITY_GETVOC			"1/air_quality/getvoc"
-#define MQTT_AIR_QUALITY_GETACTIVE		"1/air_quality/getactive"
+#define MQTT_AIR_QUALITY_SETPPM			"1/air_quality/setppm"
+#define MQTT_AIR_QUALITY_SETHUMIDITY	"1/air_quality/sethumidity"
+#define MQTT_AIR_QUALITY_SETTEMPRATURE	"1/air_quality/settemperature"
+#define MQTT_AIR_QUALITY_SETVOC			"1/air_quality/setvoc"
+#define MQTT_AIR_QUALITY_SETACTIVE		"1/air_quality/setactive"
 
 #define MQTT_BROKER_URI			"mqtt://192.168.1.103:1883"
 #define MQTT_CLIENT_ID			"Encoder"

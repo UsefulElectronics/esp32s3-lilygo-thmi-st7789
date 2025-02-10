@@ -336,6 +336,38 @@ static void wirless_init_task(void* param)
 	vTaskDelete(NULL);
 }
 
+static void mqtt_msg_pars_task(void* param)
+{
+	mqtt_buffer_t mqttBuffer = {0};
+
+	const char publishRequest = 1;
+
+	while(1)
+	{
+		if(xQueueReceive(mqttSubscribe_queue, (void *)&mqttBuffer, portMAX_DELAY))
+		{
+			switch (mqttBuffer.eventType)
+			{
+				case MQTT_BROKER_CONNECT:
+
+					//active state publish
+					mqtt_publish(MQTT_AIR_QUALITY_SETACTIVE, &publishRequest, 0);
+					
+					break;
+				case MQTT_BROKER_DISCONNECT:
+
+					break;
+				case MQTT_TOPIC_DATA_RX:
+
+
+					break;
+				default:
+					break;
+			}
+		}
+	}
+}
+
 static uint32_t main_get_systick(void)
 {
 	return SYS_TICK();
