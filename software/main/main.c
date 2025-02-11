@@ -60,6 +60,10 @@ static void anchor_periodic_send_task(void *param);
 
 static void wirless_init_task(void* param);
 
+static void mqtt_msg_pars_task(void* param);
+
+static void mqtt_msg_send_task(void* param);
+
 static void air_quality_sensor_task(void *param);
 
 static void manager_task(void *param);
@@ -105,6 +109,11 @@ void app_main(void)
 	xTaskCreatePinnedToCore(manager_task, "managers_task", 10000, NULL, 4, NULL, 1);
 	
 	xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000, NULL, 4, &hMain_eventTask, 1);
+	
+	
+	xTaskCreatePinnedToCore(mqtt_msg_pars_task, "MQTT parser", 10000, NULL, 4, NULL, 1);
+	
+	xTaskCreatePinnedToCore(mqtt_msg_send_task, "MQTT sender", 10000, NULL, 4, NULL, 1);
 
     while (1)
     {
