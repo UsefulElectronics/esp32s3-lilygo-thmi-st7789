@@ -27,6 +27,7 @@
 
 #include "wireless/wifi_connect.h"
 #include "wireless/mqtt.h"
+#include <string.h>
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
@@ -69,6 +70,19 @@ static void air_quality_sensor_task(void *param);
 static void manager_task(void *param);
 
 static void event_handle_task(void *param);
+// VOC function array 
+
+static void temp_air_quality_strings();
+
+static void main_mqtt_msg_ppm();
+
+static void main_mqtt_msg_humidity();
+
+static void main_mqtt_msg_temperature();
+
+static void main_mqtt_msg_active();
+
+static void main_mqtt_msg_voc();
 
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
@@ -110,7 +124,10 @@ void app_main(void)
 	
 	xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000, NULL, 4, &hMain_eventTask, 1);
 	
-	
+	//Wait for WiFi and MQTT broker connection to be established.
+
+ 	vTaskDelay(pdMS_TO_TICKS(15000));
+		
 	xTaskCreatePinnedToCore(mqtt_msg_pars_task, "MQTT parser", 10000, NULL, 4, NULL, 1);
 	
 	xTaskCreatePinnedToCore(mqtt_msg_send_task, "MQTT sender", 10000, NULL, 4, NULL, 1);
@@ -377,6 +394,33 @@ static void mqtt_msg_pars_task(void* param)
 	}
 }
 
+static void mqtt_msg_send_task(void* param)
+{
+   	TickType_t xLastWakeTime;
+   	TickType_t task_period = 10000;		//10s
+   
+   	uint8_t message_id = 0;
+   	   	
+   	void (*mqtt_message_sequence[])(void) = 
+   	{
+		temp_air_quality_strings,
+		main_mqtt_msg_humidity,
+		main_mqtt_msg_temperature,
+		main_mqtt_msg_active,
+		main_mqtt_msg_voc
+	};
+	while(1)
+	{
+		mqtt_message_sequence[message_id]();
+		
+		++message_id;
+		
+		message_id = message_id % 5;
+
+	    vTaskDelayUntil( &xLastWakeTime, task_period/portTICK_PERIOD_MS );
+
+	}
+}
 static uint32_t main_get_systick(void)
 {
 	return SYS_TICK();
@@ -415,5 +459,57 @@ static void main_down_button_handler(void)
 }
 
 
+static void main_mqtt_msg_string()
+{
+	char temp_string[50] = {0}; 
 
+    char temp_air_quality_strings[5][15] = 
+    {
+    MQTT_AIR_QUALITY_STRING_UNKNOWN,
+    MQTT_AIR_QUALITY_STRING_EXCELLENT,
+    MQTT_AIR_QUALITY_STRING_FAIR,
+    MQTT_AIR_QUALITY_STRING_INFERIOR,
+    MQTT_AIR_QUALITY_STRING_POOR
+	};
+	
+	sprintf(temp_string, "%s", temp_air_quality_strings[lvgl_get_ui_sensor_data()->air_quality_gauge_segment]); 
+
+	mqtt_publish(MQTT_AIR_QUALITY_SETSTRING, temp_string, strlen(temp_string));
+}
+static void main_mqtt_msg_ppm()
+{
+//	char temp_string[50] = {0}; 
+//	
+//	mqtt_publish(MQTT_AIR_QUALITY_SETPPM, temp_string, strlen(temp_string));
+}
+static void main_mqtt_msg_humidity()
+{
+	char temp_string[50] = {0}; 
+	
+	sprintf(temp_string, "%d", hdc1080_sensor_read()->humidity); 
+	
+	mqtt_publish(MQTT_AIR_QUALITY_SETHUMIDITY, temp_string, strlen(temp_string));
+}
+static void main_mqtt_msg_temperature()
+{
+	char temp_string[50] = {0}; 
+	
+	sprintf(temp_string, "%d", hdc1080_sensor_read()->temperature); 
+	
+	mqtt_publish(MQTT_AIR_QUALITY_SETTEMPRATURE, temp_string, strlen(temp_string));
+}
+static void main_mqtt_msg_active()
+{
+	char temp_string[50] = {0}; 
+	
+	mqtt_publish(MQTT_AIR_QUALITY_SETACTIVE, temp_string, strlen(temp_string));
+}
+static void main_mqtt_msg_voc()
+{
+	char temp_string[50] = {0}; 
+		
+	sprintf(temp_string, "%d",lvgl_get_ui_sensor_data()->air_quality); 
+	
+	mqtt_publish(MQTT_AIR_QUALITY_SETVOC, temp_string, strlen(temp_string));
+}
 /*************************************** USEFUL ELECTRONICS*****END OF FILE****/

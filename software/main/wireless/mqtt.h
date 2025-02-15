@@ -38,14 +38,22 @@ extern QueueHandle_t mqttSubscribe_queue;
 #define MQTT_MAX_TOPIC_LENGTH	30
 #define MQTT_MAX_DATA_LENGTH	30
 
+#define MQTT_AIR_QUALITY_SETSTRING		"1/air_quality/setstring"
 #define MQTT_AIR_QUALITY_SETPPM			"1/air_quality/setppm"
 #define MQTT_AIR_QUALITY_SETHUMIDITY	"1/air_quality/sethumidity"
 #define MQTT_AIR_QUALITY_SETTEMPRATURE	"1/air_quality/settemperature"
 #define MQTT_AIR_QUALITY_SETVOC			"1/air_quality/setvoc"
 #define MQTT_AIR_QUALITY_SETACTIVE		"1/air_quality/setactive"
 
-#define MQTT_BROKER_URI			"mqtt://192.168.1.103:1883"
-#define MQTT_CLIENT_ID			"Encoder"
+#define MQTT_BROKER_URI					"mqtt://192.168.1.103:1883"
+
+
+#define MQTT_AIR_QUALITY_STRING_UNKNOWN		"UNKNOWN"
+#define MQTT_AIR_QUALITY_STRING_EXCELLENT	"EXCELLENT"
+#define MQTT_AIR_QUALITY_STRING_FAIR		"FAIR"
+#define MQTT_AIR_QUALITY_STRING_INFERIOR	"INFERIOR "
+#define MQTT_AIR_QUALITY_STRING_POOR		"POOR"
+
 
 
 /* PRIVATE FUNCTIONS DECLARATION ---------------------------------------------*/
@@ -63,6 +71,7 @@ typedef struct
 	char		 data[MQTT_MAX_DATA_LENGTH];
 	mqtt_event_t eventType;
 }mqtt_buffer_t;
+
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 /**
  * @brief Start MQTT broker connection and register MQTT related events callback

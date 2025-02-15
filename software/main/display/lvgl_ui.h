@@ -85,8 +85,18 @@ typedef struct _ui_anim_user_data_t {
     int32_t imgset_size;
     int32_t val;
 } ui_anim_user_data_t;
-/* VARIABLES -----------------------------------------------------------------*/
 
+typedef struct
+{
+	int16_t temperature;
+	int16_t humidity;
+	int16_t air_quality;
+	int16_t air_quality_gauge_segment;
+}lvgl_sensor_data_t;
+
+
+/* VARIABLES -----------------------------------------------------------------*/
+lvgl_sensor_data_t hSensor;
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
 void lvgl_demo_ui(lv_disp_t *disp);
 
@@ -103,6 +113,8 @@ void lvgl_voc_index_chart_insert(uint32_t voc_index);
 void lvgl_communication_status(bool communication_status);
 
 void lvgl_screen_navigate(lvgl_nav_e action);
+
+lvgl_sensor_data_t* lvgl_get_ui_sensor_data();
 
 
 #endif /* MAIN_DISPLAY_LVGL_UI_H_ */

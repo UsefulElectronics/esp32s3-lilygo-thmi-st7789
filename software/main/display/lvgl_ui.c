@@ -135,14 +135,6 @@ lv_chart_series_t * ui_Chart3_series_1 = {0};
 
 lv_anim_t PropertyAnimation_0 = {0};
 
-typedef struct
-{
-	int16_t temperature;
-	int16_t humidity;
-	int16_t air_quality;
-	int16_t reserved;
-}lvgl_sensor_data_t;
-
 lvgl_sensor_data_t hSensor = {0};
 
 void tv2_screen_init(void);
@@ -670,6 +662,8 @@ void lvgl_voc_index_update(uint32_t voc_index)
 	
 	hSensor.air_quality = voc_index;
 	
+	hSensor.air_quality_gauge_segment = gauge_section;
+	
 	//If the timer animation is busy do not update the gauge value to prevent animation interruption
 	if(lv_anim_get_timer()->paused)
 	{
@@ -809,6 +803,11 @@ void lvgl_screen_navigate(lvgl_nav_e action)
 			break;
 
 	}
+}
+
+lvgl_sensor_data_t* lvgl_get_ui_sensor_data()
+{
+	return &hSensor;
 }
 
 ///////////////////// ANIMATIONS ////////////////////
@@ -1010,7 +1009,6 @@ void lvgl_demo_ui(lv_disp_t *disp)
 
     start_animation(tv1);
 }
-
 
 static void _ui_anim_callback_free_user_data(lv_anim_t * a)
 {

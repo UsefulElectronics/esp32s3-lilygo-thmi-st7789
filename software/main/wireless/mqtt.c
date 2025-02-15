@@ -70,9 +70,9 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 
         xQueueSendToBack(mqttSubscribe_queue, (void *)&mqttSubscribeBuffer, portMAX_DELAY);
         
-        esp_mqtt_client_subscribe(client, MQTT_LAMP_GETON, 0);
+        //esp_mqtt_client_subscribe(client, MQTT_LAMP_GETON, 0);
         
-        esp_mqtt_client_subscribe(client, MQTT_LAMP_GETHSV, 0);
+        //esp_mqtt_client_subscribe(client, MQTT_LAMP_GETHSV, 0);
         break;
     case MQTT_EVENT_DISCONNECTED:
         ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
@@ -100,7 +100,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
 
         printf("DATA=%.*s\r\n", event->data_len, event->data);
-
 
         mqttSubscribeBuffer.msgLength = event->data_len;
 
@@ -150,7 +149,7 @@ void mqtt_publish(const char *topic, const char *data, int len)
 void mqtt_app_start(void)
 {
     mqtt_cfg.broker.address.uri 	= MQTT_BROKER_URI,
-    mqtt_cfg.credentials.client_id 	= MQTT_CLIENT_ID,
+   // mqtt_cfg.credentials.client_id 	= MQTT_CLIENT_ID,
 
     mqttSubscribe_queue = xQueueCreate(10, sizeof(mqtt_buffer_t));
 
