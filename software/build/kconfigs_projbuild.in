@@ -4,3 +4,4 @@ source "C:/Espressif/frameworks/esp-idf-v5.3/components/esp_rom/Kconfig.projbuil
 source "C:/Espressif/frameworks/esp-idf-v5.3/components/esptool_py/Kconfig.projbuild"
 source "C:/Espressif/frameworks/esp-idf-v5.3/components/partition_table/Kconfig.projbuild"
 source "C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/main/Kconfig.projbuild"
+source "C:/Espressif/frameworks/esp-idf-v5.3/examples/common_components/protocol_examples_common/Kconfig.projbuild"

@@ -25,7 +25,10 @@
 #include <stdint.h>
 #include "sgp40/i2c_config.h"
 #include <string.h>
+
 #include <esp_timer.h>
+#include "esp_err.h"
+#include "esp_log.h"
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/

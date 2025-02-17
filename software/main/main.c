@@ -72,7 +72,7 @@ static void manager_task(void *param);
 static void event_handle_task(void *param);
 // VOC function array 
 
-static void temp_air_quality_strings();
+static void main_mqtt_msg_strings();
 
 static void main_mqtt_msg_ppm();
 
@@ -403,7 +403,7 @@ static void mqtt_msg_send_task(void* param)
    	   	
    	void (*mqtt_message_sequence[])(void) = 
    	{
-		temp_air_quality_strings,
+		main_mqtt_msg_strings,
 		main_mqtt_msg_humidity,
 		main_mqtt_msg_temperature,
 		main_mqtt_msg_active,
@@ -459,11 +459,11 @@ static void main_down_button_handler(void)
 }
 
 
-static void main_mqtt_msg_string()
+static void main_mqtt_msg_strings()
 {
 	char temp_string[50] = {0}; 
 
-    char temp_air_quality_strings[5][15] = 
+    char temp_air_quality_value_string[5][15] = 
     {
     MQTT_AIR_QUALITY_STRING_UNKNOWN,
     MQTT_AIR_QUALITY_STRING_EXCELLENT,
@@ -472,7 +472,7 @@ static void main_mqtt_msg_string()
     MQTT_AIR_QUALITY_STRING_POOR
 	};
 	
-	sprintf(temp_string, "%s", temp_air_quality_strings[lvgl_get_ui_sensor_data()->air_quality_gauge_segment]); 
+	sprintf(temp_string, "%s", temp_air_quality_value_string[lvgl_get_ui_sensor_data()->air_quality_gauge_segment]); 
 
 	mqtt_publish(MQTT_AIR_QUALITY_SETSTRING, temp_string, strlen(temp_string));
 }
@@ -486,7 +486,7 @@ static void main_mqtt_msg_humidity()
 {
 	char temp_string[50] = {0}; 
 	
-	sprintf(temp_string, "%d", hdc1080_sensor_read()->humidity); 
+	sprintf(temp_string, "%d", lvgl_get_ui_sensor_data()->humidity); 
 	
 	mqtt_publish(MQTT_AIR_QUALITY_SETHUMIDITY, temp_string, strlen(temp_string));
 }
@@ -494,7 +494,7 @@ static void main_mqtt_msg_temperature()
 {
 	char temp_string[50] = {0}; 
 	
-	sprintf(temp_string, "%d", hdc1080_sensor_read()->temperature); 
+	sprintf(temp_string, "%d", lvgl_get_ui_sensor_data()->temperature); 
 	
 	mqtt_publish(MQTT_AIR_QUALITY_SETTEMPRATURE, temp_string, strlen(temp_string));
 }

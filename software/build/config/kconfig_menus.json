@@ -6340,6 +6340,707 @@
     {
         "children": [
             {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "ENV_GPIO_RANGE_MIN",
+                "name": "ENV_GPIO_RANGE_MIN",
+                "range": null,
+                "title": null,
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "ENV_GPIO_RANGE_MAX",
+                "name": "ENV_GPIO_RANGE_MAX",
+                "range": null,
+                "title": null,
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "ENV_GPIO_IN_RANGE_MAX",
+                "name": "ENV_GPIO_IN_RANGE_MAX",
+                "range": null,
+                "title": null,
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "ENV_GPIO_OUT_RANGE_MAX",
+                "name": "ENV_GPIO_OUT_RANGE_MAX",
+                "range": null,
+                "title": null,
+                "type": "int"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_CONNECT_WIFI",
+                        "help": "Give the WiFi SSID and password from stdin.",
+                        "id": "EXAMPLE_WIFI_SSID_PWD_FROM_STDIN",
+                        "name": "EXAMPLE_WIFI_SSID_PWD_FROM_STDIN",
+                        "range": null,
+                        "title": "Get ssid and password from stdin",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "!EXAMPLE_WIFI_SSID_PWD_FROM_STDIN && EXAMPLE_CONNECT_WIFI",
+                        "help": "Provide wifi connect commands for esp_console.\nPlease use `example_register_wifi_connect_commands` to register them.",
+                        "id": "EXAMPLE_PROVIDE_WIFI_CONSOLE_CMD",
+                        "name": "EXAMPLE_PROVIDE_WIFI_CONSOLE_CMD",
+                        "range": null,
+                        "title": "Provide wifi connect commands",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "!EXAMPLE_WIFI_SSID_PWD_FROM_STDIN && EXAMPLE_CONNECT_WIFI",
+                        "help": "SSID (network name) for the example to connect to.",
+                        "id": "EXAMPLE_WIFI_SSID",
+                        "name": "EXAMPLE_WIFI_SSID",
+                        "range": null,
+                        "title": "WiFi SSID",
+                        "type": "string"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "!EXAMPLE_WIFI_SSID_PWD_FROM_STDIN && EXAMPLE_CONNECT_WIFI",
+                        "help": "WiFi password (WPA or WPA2) for the example to use.\nCan be left blank if the network has no security set.",
+                        "id": "EXAMPLE_WIFI_PASSWORD",
+                        "name": "EXAMPLE_WIFI_PASSWORD",
+                        "range": null,
+                        "title": "WiFi Password",
+                        "type": "string"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_CONNECT_WIFI",
+                        "help": "Set the Maximum retry to avoid station reconnecting to the AP unlimited,\nin case the AP is really inexistent.",
+                        "id": "EXAMPLE_WIFI_CONN_MAX_RETRY",
+                        "name": "EXAMPLE_WIFI_CONN_MAX_RETRY",
+                        "range": null,
+                        "title": "Maximum retry",
+                        "type": "int"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_WIFI_SCAN_METHOD>",
+                                "help": null,
+                                "id": "EXAMPLE_WIFI_SCAN_METHOD_FAST",
+                                "name": "EXAMPLE_WIFI_SCAN_METHOD_FAST",
+                                "range": null,
+                                "title": "Fast",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_WIFI_SCAN_METHOD>",
+                                "help": null,
+                                "id": "EXAMPLE_WIFI_SCAN_METHOD_ALL_CHANNEL",
+                                "name": "EXAMPLE_WIFI_SCAN_METHOD_ALL_CHANNEL",
+                                "range": null,
+                                "title": "All Channel",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_CONNECT_WIFI",
+                        "help": "WiFi scan method:\n\nIf \"Fast\" is selected, scan will end after find SSID match AP.\n\nIf \"All Channel\" is selected, scan will end after scan all the channel.",
+                        "id": "example-connection-configuration-connect-using-wifi-interface-wifi-scan-method",
+                        "name": "EXAMPLE_WIFI_SCAN_METHOD",
+                        "title": "WiFi Scan Method",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "EXAMPLE_CONNECT_WIFI",
+                                "help": "The minimum rssi to accept in the scan mode.",
+                                "id": "EXAMPLE_WIFI_SCAN_RSSI_THRESHOLD",
+                                "name": "EXAMPLE_WIFI_SCAN_RSSI_THRESHOLD",
+                                "range": [
+                                    -127,
+                                    0
+                                ],
+                                "title": "WiFi minimum rssi",
+                                "type": "int"
+                            },
+                            {
+                                "children": [
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_OPEN",
+                                        "name": "EXAMPLE_WIFI_AUTH_OPEN",
+                                        "range": null,
+                                        "title": "OPEN",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WEP",
+                                        "name": "EXAMPLE_WIFI_AUTH_WEP",
+                                        "range": null,
+                                        "title": "WEP",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WPA_PSK",
+                                        "name": "EXAMPLE_WIFI_AUTH_WPA_PSK",
+                                        "range": null,
+                                        "title": "WPA PSK",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WPA2_PSK",
+                                        "name": "EXAMPLE_WIFI_AUTH_WPA2_PSK",
+                                        "range": null,
+                                        "title": "WPA2 PSK",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WPA_WPA2_PSK",
+                                        "name": "EXAMPLE_WIFI_AUTH_WPA_WPA2_PSK",
+                                        "range": null,
+                                        "title": "WPA WPA2 PSK",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WPA2_ENTERPRISE",
+                                        "name": "EXAMPLE_WIFI_AUTH_WPA2_ENTERPRISE",
+                                        "range": null,
+                                        "title": "WPA2 ENTERPRISE",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WPA3_PSK",
+                                        "name": "EXAMPLE_WIFI_AUTH_WPA3_PSK",
+                                        "range": null,
+                                        "title": "WPA3 PSK",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WPA2_WPA3_PSK",
+                                        "name": "EXAMPLE_WIFI_AUTH_WPA2_WPA3_PSK",
+                                        "range": null,
+                                        "title": "WPA2 WPA3 PSK",
+                                        "type": "bool"
+                                    },
+                                    {
+                                        "children": [],
+                                        "depends_on": "<choice EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD>",
+                                        "help": null,
+                                        "id": "EXAMPLE_WIFI_AUTH_WAPI_PSK",
+                                        "name": "EXAMPLE_WIFI_AUTH_WAPI_PSK",
+                                        "range": null,
+                                        "title": "WAPI PSK",
+                                        "type": "bool"
+                                    }
+                                ],
+                                "depends_on": "EXAMPLE_CONNECT_WIFI",
+                                "help": "The weakest authmode to accept in the scan mode.",
+                                "id": "example-connection-configuration-connect-using-wifi-interface-wifi-scan-threshold-wifi-scan-auth-mode-threshold",
+                                "name": "EXAMPLE_WIFI_SCAN_AUTH_MODE_THRESHOLD",
+                                "title": "WiFi Scan auth mode threshold",
+                                "type": "choice"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_CONNECT_WIFI",
+                        "id": "example-connection-configuration-connect-using-wifi-interface-wifi-scan-threshold",
+                        "title": "WiFi Scan threshold",
+                        "type": "menu"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_WIFI_CONNECT_AP_SORT_METHOD>",
+                                "help": null,
+                                "id": "EXAMPLE_WIFI_CONNECT_AP_BY_SIGNAL",
+                                "name": "EXAMPLE_WIFI_CONNECT_AP_BY_SIGNAL",
+                                "range": null,
+                                "title": "Signal",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_WIFI_CONNECT_AP_SORT_METHOD>",
+                                "help": null,
+                                "id": "EXAMPLE_WIFI_CONNECT_AP_BY_SECURITY",
+                                "name": "EXAMPLE_WIFI_CONNECT_AP_BY_SECURITY",
+                                "range": null,
+                                "title": "Security",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_CONNECT_WIFI",
+                        "help": "WiFi connect AP sort method:\n\nIf \"Signal\" is selected, Sort matched APs in scan list by RSSI.\n\nIf \"Security\" is selected, Sort matched APs in scan list by security mode.",
+                        "id": "example-connection-configuration-connect-using-wifi-interface-wifi-connect-ap-sort-method",
+                        "name": "EXAMPLE_WIFI_CONNECT_AP_SORT_METHOD",
+                        "title": "WiFi Connect AP Sort Method",
+                        "type": "choice"
+                    }
+                ],
+                "depends_on": "!IDF_TARGET_LINUX && SOC_WIFI_SUPPORTED",
+                "help": "Protocol examples can use Wi-Fi and/or Ethernet to connect to the network.\nChoose this option to connect with WiFi",
+                "id": "EXAMPLE_CONNECT_WIFI",
+                "name": "EXAMPLE_CONNECT_WIFI",
+                "range": null,
+                "title": "connect using WiFi interface",
+                "type": "bool"
+            },
+            {
+                "children": [
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_CONNECT_ETHERNET",
+                        "help": "This set stack size for emac_rx task",
+                        "id": "EXAMPLE_ETHERNET_EMAC_TASK_STACK_SIZE",
+                        "name": "EXAMPLE_ETHERNET_EMAC_TASK_STACK_SIZE",
+                        "range": null,
+                        "title": "emac_rx task stack size",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_CONNECT_ETHERNET",
+                        "help": null,
+                        "id": "EXAMPLE_USE_SPI_ETHERNET",
+                        "name": "EXAMPLE_USE_SPI_ETHERNET",
+                        "range": null,
+                        "title": null,
+                        "type": "bool"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "SOC_EMAC_SUPPORTED && <choice EXAMPLE_ETHERNET_TYPE>",
+                                "help": "Select internal Ethernet MAC controller.",
+                                "id": "EXAMPLE_USE_INTERNAL_ETHERNET",
+                                "name": "EXAMPLE_USE_INTERNAL_ETHERNET",
+                                "range": null,
+                                "title": "Internal EMAC",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETHERNET_TYPE>",
+                                "help": "Select external SPI-Ethernet module.",
+                                "id": "EXAMPLE_USE_DM9051",
+                                "name": "EXAMPLE_USE_DM9051",
+                                "range": null,
+                                "title": "DM9051 Module",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETHERNET_TYPE>",
+                                "help": "Select external SPI-Ethernet module (W5500).",
+                                "id": "EXAMPLE_USE_W5500",
+                                "name": "EXAMPLE_USE_W5500",
+                                "range": null,
+                                "title": "W5500 Module",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETHERNET_TYPE>",
+                                "help": "When this option is enabled, the example is built with support for\nOpenCores Ethernet MAC, which allows testing the example in QEMU.\nNote that this option is used for internal testing purposes, and\nnot officially supported. Examples built with this option enabled\nwill not run on a real ESP32 chip.",
+                                "id": "EXAMPLE_USE_OPENETH",
+                                "name": "EXAMPLE_USE_OPENETH",
+                                "range": null,
+                                "title": "OpenCores Ethernet MAC (EXPERIMENTAL)",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Select which kind of Ethernet will be used in the example.",
+                        "id": "example-connection-configuration-connect-using-ethernet-interface-ethernet-type",
+                        "name": "EXAMPLE_ETHERNET_TYPE",
+                        "title": "Ethernet Type",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETH_PHY_MODEL>",
+                                "help": "IP101 is a single port 10/100 MII/RMII/TP/Fiber Fast Ethernet Transceiver.\nGoto http://www.icplus.com.tw/pp-IP101G.html for more information about it.",
+                                "id": "EXAMPLE_ETH_PHY_IP101",
+                                "name": "EXAMPLE_ETH_PHY_IP101",
+                                "range": null,
+                                "title": "IP101",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETH_PHY_MODEL>",
+                                "help": "RTL8201F/SR8201F is a single port 10/100Mb Ethernet Transceiver with auto MDIX.\nGoto http://www.corechip-sz.com/productsview.asp?id=22 for more information about it.",
+                                "id": "EXAMPLE_ETH_PHY_RTL8201",
+                                "name": "EXAMPLE_ETH_PHY_RTL8201",
+                                "range": null,
+                                "title": "RTL8201/SR8201",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETH_PHY_MODEL>",
+                                "help": "Below chips are supported:\nLAN8710A is a small footprint MII/RMII 10/100 Ethernet Transceiver with HP Auto-MDIX and\n    flexPWR\u00ae Technology.\nLAN8720A is a small footprint RMII 10/100 Ethernet Transceiver with HP Auto-MDIX Support.\nLAN8740A/LAN8741A is a small footprint MII/RMII 10/100 Energy Efficient Ethernet Transceiver\n    with HP Auto-MDIX and flexPWR\u00ae Technology.\nLAN8742A is a small footprint RMII 10/100 Ethernet Transceiver with HP Auto-MDIX and\n    flexPWR\u00ae Technology.\nGoto https://www.microchip.com for more information about them.",
+                                "id": "EXAMPLE_ETH_PHY_LAN87XX",
+                                "name": "EXAMPLE_ETH_PHY_LAN87XX",
+                                "range": null,
+                                "title": "LAN87xx",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETH_PHY_MODEL>",
+                                "help": "DP83848 is a single port 10/100Mb/s Ethernet Physical Layer Transceiver.\nGoto http://www.ti.com/product/DP83848J for more information about it.",
+                                "id": "EXAMPLE_ETH_PHY_DP83848",
+                                "name": "EXAMPLE_ETH_PHY_DP83848",
+                                "range": null,
+                                "title": "DP83848",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_ETH_PHY_MODEL>",
+                                "help": "With the KSZ80xx series, Microchip offers single-chip 10BASE-T/100BASE-TX\nEthernet Physical Layer Tranceivers (PHY).\nThe following chips are supported: KSZ8001, KSZ8021, KSZ8031, KSZ8041,\n    KSZ8051, KSZ8061, KSZ8081, KSZ8091\nGoto https://www.microchip.com for more information about them.",
+                                "id": "EXAMPLE_ETH_PHY_KSZ80XX",
+                                "name": "EXAMPLE_ETH_PHY_KSZ80XX",
+                                "range": null,
+                                "title": "KSZ80xx",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_USE_INTERNAL_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Select the Ethernet PHY device to use in the example.",
+                        "id": "example-connection-configuration-connect-using-ethernet-interface-ethernet-phy-device",
+                        "name": "EXAMPLE_ETH_PHY_MODEL",
+                        "title": "Ethernet PHY Device",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_INTERNAL_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used by SMI MDC.",
+                        "id": "EXAMPLE_ETH_MDC_GPIO",
+                        "name": "EXAMPLE_ETH_MDC_GPIO",
+                        "range": null,
+                        "title": "SMI MDC GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_INTERNAL_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used by SMI MDIO.",
+                        "id": "EXAMPLE_ETH_MDIO_GPIO",
+                        "name": "EXAMPLE_ETH_MDIO_GPIO",
+                        "range": null,
+                        "title": "SMI MDIO GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_SPI_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the SPI host used to communicate with the SPI Ethernet Controller.",
+                        "id": "EXAMPLE_ETH_SPI_HOST",
+                        "name": "EXAMPLE_ETH_SPI_HOST",
+                        "range": null,
+                        "title": "SPI Host Number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_SPI_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used by SPI SCLK.",
+                        "id": "EXAMPLE_ETH_SPI_SCLK_GPIO",
+                        "name": "EXAMPLE_ETH_SPI_SCLK_GPIO",
+                        "range": null,
+                        "title": "SPI SCLK GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_SPI_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used by SPI MOSI.",
+                        "id": "EXAMPLE_ETH_SPI_MOSI_GPIO",
+                        "name": "EXAMPLE_ETH_SPI_MOSI_GPIO",
+                        "range": null,
+                        "title": "SPI MOSI GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_SPI_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used by SPI MISO.",
+                        "id": "EXAMPLE_ETH_SPI_MISO_GPIO",
+                        "name": "EXAMPLE_ETH_SPI_MISO_GPIO",
+                        "range": null,
+                        "title": "SPI MISO GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_SPI_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used by SPI CS.",
+                        "id": "EXAMPLE_ETH_SPI_CS_GPIO",
+                        "name": "EXAMPLE_ETH_SPI_CS_GPIO",
+                        "range": null,
+                        "title": "SPI CS GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_SPI_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the clock speed (MHz) of SPI interface.",
+                        "id": "EXAMPLE_ETH_SPI_CLOCK_MHZ",
+                        "name": "EXAMPLE_ETH_SPI_CLOCK_MHZ",
+                        "range": null,
+                        "title": "SPI clock speed (MHz)",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_USE_SPI_ETHERNET && EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used by the SPI Ethernet module interrupt line.",
+                        "id": "EXAMPLE_ETH_SPI_INT_GPIO",
+                        "name": "EXAMPLE_ETH_SPI_INT_GPIO",
+                        "range": null,
+                        "title": "Interrupt GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set the GPIO number used to reset PHY chip.\nSet to -1 to disable PHY chip hardware reset.",
+                        "id": "EXAMPLE_ETH_PHY_RST_GPIO",
+                        "name": "EXAMPLE_ETH_PHY_RST_GPIO",
+                        "range": null,
+                        "title": "PHY Reset GPIO number",
+                        "type": "int"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_CONNECT_ETHERNET",
+                        "help": "Set PHY address according your board schematic.",
+                        "id": "EXAMPLE_ETH_PHY_ADDR",
+                        "name": "EXAMPLE_ETH_PHY_ADDR",
+                        "range": null,
+                        "title": "PHY Address",
+                        "type": "int"
+                    }
+                ],
+                "depends_on": "!IDF_TARGET_LINUX",
+                "help": "Protocol examples can use Wi-Fi and/or Ethernet to connect to the network.\nChoose this option to connect with Ethernet",
+                "id": "EXAMPLE_CONNECT_ETHERNET",
+                "name": "EXAMPLE_CONNECT_ETHERNET",
+                "range": null,
+                "title": "connect using Ethernet interface",
+                "type": "bool"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "SOC_USB_OTG_SUPPORTED && <choice EXAMPLE_CONNECT_PPP_DEVICE>",
+                                "help": "Use USB ACM device.",
+                                "id": "EXAMPLE_CONNECT_PPP_DEVICE_USB",
+                                "name": "EXAMPLE_CONNECT_PPP_DEVICE_USB",
+                                "range": null,
+                                "title": "USB",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_CONNECT_PPP_DEVICE>",
+                                "help": "Use UART.",
+                                "id": "EXAMPLE_CONNECT_PPP_DEVICE_UART",
+                                "name": "EXAMPLE_CONNECT_PPP_DEVICE_UART",
+                                "range": null,
+                                "title": "UART",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_CONNECT_PPP",
+                        "help": "Select which peripheral to use to connect to the PPP server.",
+                        "id": "example-connection-configuration-connect-using-point-to-point-interface-choose-ppp-device",
+                        "name": "EXAMPLE_CONNECT_PPP_DEVICE",
+                        "title": "Choose PPP device",
+                        "type": "choice"
+                    },
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "EXAMPLE_CONNECT_PPP_DEVICE_UART && EXAMPLE_CONNECT_PPP",
+                                "help": "Pin number of UART TX.",
+                                "id": "EXAMPLE_CONNECT_UART_TX_PIN",
+                                "name": "EXAMPLE_CONNECT_UART_TX_PIN",
+                                "range": null,
+                                "title": "TXD Pin Number",
+                                "type": "int"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "EXAMPLE_CONNECT_PPP_DEVICE_UART && EXAMPLE_CONNECT_PPP",
+                                "help": "Pin number of UART RX.",
+                                "id": "EXAMPLE_CONNECT_UART_RX_PIN",
+                                "name": "EXAMPLE_CONNECT_UART_RX_PIN",
+                                "range": null,
+                                "title": "RXD Pin Number",
+                                "type": "int"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "EXAMPLE_CONNECT_PPP_DEVICE_UART && EXAMPLE_CONNECT_PPP",
+                                "help": "Baudrate of the UART device",
+                                "id": "EXAMPLE_CONNECT_UART_BAUDRATE",
+                                "name": "EXAMPLE_CONNECT_UART_BAUDRATE",
+                                "range": null,
+                                "title": "UART Baudrate",
+                                "type": "int"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_CONNECT_PPP_DEVICE_UART && EXAMPLE_CONNECT_PPP",
+                        "id": "example-connection-configuration-connect-using-point-to-point-interface-uart-configuration",
+                        "title": "UART Configuration",
+                        "type": "menu"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "EXAMPLE_CONNECT_PPP",
+                        "help": "Set the Maximum retry to avoid station reconnecting if the pppd\nis not available",
+                        "id": "EXAMPLE_PPP_CONN_MAX_RETRY",
+                        "name": "EXAMPLE_PPP_CONN_MAX_RETRY",
+                        "range": null,
+                        "title": "Maximum retry",
+                        "type": "int"
+                    }
+                ],
+                "depends_on": null,
+                "help": "Protocol examples can use PPP connection over serial line.\nChoose this option to connect to the ppp server running\non your laptop over a serial line (either UART or USB ACM)",
+                "id": "EXAMPLE_CONNECT_PPP",
+                "name": "EXAMPLE_CONNECT_PPP",
+                "range": null,
+                "title": "connect using Point to Point interface",
+                "type": "bool"
+            },
+            {
+                "children": [],
+                "depends_on": "LWIP_IPV4",
+                "help": null,
+                "id": "EXAMPLE_CONNECT_IPV4",
+                "name": "EXAMPLE_CONNECT_IPV4",
+                "range": null,
+                "title": null,
+                "type": "bool"
+            },
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_CONNECT_PREFERRED_IPV6>",
+                                "help": "Blocks until Local link address assigned.",
+                                "id": "EXAMPLE_CONNECT_IPV6_PREF_LOCAL_LINK",
+                                "name": "EXAMPLE_CONNECT_IPV6_PREF_LOCAL_LINK",
+                                "range": null,
+                                "title": "Local Link Address",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_CONNECT_PREFERRED_IPV6>",
+                                "help": "Blocks until Global address assigned.",
+                                "id": "EXAMPLE_CONNECT_IPV6_PREF_GLOBAL",
+                                "name": "EXAMPLE_CONNECT_IPV6_PREF_GLOBAL",
+                                "range": null,
+                                "title": "Global Address",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_CONNECT_PREFERRED_IPV6>",
+                                "help": "Blocks until Site link address assigned.",
+                                "id": "EXAMPLE_CONNECT_IPV6_PREF_SITE_LOCAL",
+                                "name": "EXAMPLE_CONNECT_IPV6_PREF_SITE_LOCAL",
+                                "range": null,
+                                "title": "Site Local Address",
+                                "type": "bool"
+                            },
+                            {
+                                "children": [],
+                                "depends_on": "<choice EXAMPLE_CONNECT_PREFERRED_IPV6>",
+                                "help": "Blocks until Unique local address assigned.",
+                                "id": "EXAMPLE_CONNECT_IPV6_PREF_UNIQUE_LOCAL",
+                                "name": "EXAMPLE_CONNECT_IPV6_PREF_UNIQUE_LOCAL",
+                                "range": null,
+                                "title": "Unique Local Link Address",
+                                "type": "bool"
+                            }
+                        ],
+                        "depends_on": "EXAMPLE_CONNECT_IPV6",
+                        "help": "Select which kind of IPv6 address the connect logic waits for.",
+                        "id": "example-connection-configuration-obtain-ipv6-address-preferred-ipv6-type",
+                        "name": "EXAMPLE_CONNECT_PREFERRED_IPV6",
+                        "title": "Preferred IPv6 Type",
+                        "type": "choice"
+                    }
+                ],
+                "depends_on": "EXAMPLE_CONNECT_WIFI || EXAMPLE_CONNECT_ETHERNET || EXAMPLE_CONNECT_PPP",
+                "help": "By default, examples will wait until IPv4 and IPv6 local link addresses are obtained.\nDisable this option if the network does not support IPv6.\nChoose the preferred IPv6 address type if the connection code should wait until other than\nthe local link address gets assigned.\nConsider enabling IPv6 stateless address autoconfiguration (SLAAC) in the LWIP component.",
+                "id": "EXAMPLE_CONNECT_IPV6",
+                "name": "EXAMPLE_CONNECT_IPV6",
+                "range": null,
+                "title": "Obtain IPv6 address",
+                "type": "bool"
+            }
+        ],
+        "depends_on": null,
+        "id": "example-connection-configuration",
+        "title": "Example Connection Configuration",
+        "type": "menu"
+    },
+    {
+        "children": [
+            {
                 "children": [
                     {
                         "children": [],

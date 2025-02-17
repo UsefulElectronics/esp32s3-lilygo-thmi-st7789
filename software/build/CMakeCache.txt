@@ -117,8 +117,8 @@ CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=
 //Flags used by the linker during RELWITHDEBINFO builds.
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
-//No help, variable specified on the command line.
-CMAKE_EXPORT_COMPILE_COMMANDS:UNINITIALIZED=ON
+//Enable/Disable output of compile commands during generation.
+CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/CMakeFiles/pkgRedirects
@@ -307,11 +307,14 @@ ENABLE_PROGRAMS:BOOL=
 //Build Mbed TLS tests.
 ENABLE_TESTING:BOOL=
 
+//No help, variable specified on the command line.
+ESP_PLATFORM:UNINITIALIZED=1
+
 //Generate the auto-generated files as needed
 GEN_FILES:BOOL=
 
 //Git command line client
-GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
+GIT_EXECUTABLE:FILEPATH=C:/Espressif/tools/idf-git/2.44.0/cmd/git.exe
 
 //IDF Build Target
 IDF_TARGET:STRING=esp32s3
@@ -345,6 +348,12 @@ Mbed TLS_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 Mbed TLS_SOURCE_DIR:STATIC=C:/Espressif/frameworks/esp-idf-v5.3/components/mbedtls/mbedtls
+
+//No help, variable specified on the command line.
+PYTHON:UNINITIALIZED=C:\Espressif\python_env\idf5.3_py3.11_env\Scripts\python.exe
+
+//No help, variable specified on the command line.
+PYTHON_DEPS_CHECKED:UNINITIALIZED=1
 
 //Allow unsafe builds. These builds ARE NOT SECURE.
 UNSAFE_BUILD:BOOL=OFF
@@ -470,6 +479,8 @@ CMAKE_EXE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
 CMAKE_EXE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_EXPORT_COMPILE_COMMANDS
+CMAKE_EXPORT_COMPILE_COMMANDS-ADVANCED:INTERNAL=1
 //Name of external makefile project generator.
 CMAKE_EXTRA_GENERATOR:INTERNAL=
 //Name of generator.
@@ -534,7 +545,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=119
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=120
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -578,18 +589,17 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
 C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS:INTERNAL=1
 //Details about finding Git
-FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Program Files/Git/cmd/git.exe][v2.40.0.windows.1()]
+FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[C:/Espressif/tools/idf-git/2.44.0/cmd/git.exe][v2.44.0.windows.1()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Users/WARD/AppData/Local/Programs/Python/Python311/python.exe][cfound components: Interpreter ][v3.11.4()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Espressif/python_env/idf5.3_py3.11_env/Scripts/python.exe][cfound components: Interpreter ][v3.11.2()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
 GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/i80_controller
-//Path to a program.
-_Python3_EXECUTABLE:INTERNAL=C:/Users/WARD/AppData/Local/Programs/Python/Python311/python.exe
+_Python3_EXECUTABLE:INTERNAL=C:/Espressif/python_env/idf5.3_py3.11_env/Scripts/python.exe
 //Python3 Properties
-_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;4;32;;;C:\Users\WARD\AppData\Local\Programs\Python\Python311\Lib;C:\Users\WARD\AppData\Local\Programs\Python\Python311\Lib;C:\Users\WARD\AppData\Local\Programs\Python\Python311\Lib\site-packages;C:\Users\WARD\AppData\Local\Programs\Python\Python311\Lib\site-packages
-_Python3_INTERPRETER_SIGNATURE:INTERNAL=16da82805c3c142794d978a280753f51
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;11;2;32;;;C:\Espressif\tools\idf-python\3.11.2\Lib;C:\Espressif\tools\idf-python\3.11.2\Lib;C:\Espressif\python_env\idf5.3_py3.11_env\Lib\site-packages;C:\Espressif\python_env\idf5.3_py3.11_env\Lib\site-packages
+_Python3_INTERPRETER_SIGNATURE:INTERNAL=f3e0df63b7888e7a25f6a4f491576b51
 

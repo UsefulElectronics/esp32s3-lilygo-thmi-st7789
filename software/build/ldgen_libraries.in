@@ -87,3 +87,4 @@ $<TARGET_FILE:__idf_espressif__esp_lcd_touch_gt911>
 $<TARGET_FILE:__idf_espressif__esp_lcd_touch_tt21100>
 $<TARGET_FILE:__idf_lvgl__lvgl>
 $<TARGET_FILE:__idf_main>
+$<TARGET_FILE:__idf_protocol_examples_common>

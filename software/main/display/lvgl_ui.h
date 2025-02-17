@@ -96,7 +96,7 @@ typedef struct
 
 
 /* VARIABLES -----------------------------------------------------------------*/
-lvgl_sensor_data_t hSensor;
+extern lvgl_sensor_data_t hSensor;
 /* FUNCTIONS DECLARATION -----------------------------------------------------*/
 void lvgl_demo_ui(lv_disp_t *disp);
 

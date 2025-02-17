@@ -851,3 +851,10 @@ C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/bui
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/main/CMakeFiles/install.dir
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/main/CMakeFiles/install/local.dir
 C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/main/CMakeFiles/install/strip.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/protocol_examples_common/CMakeFiles/__idf_protocol_examples_common.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/protocol_examples_common/CMakeFiles/edit_cache.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/protocol_examples_common/CMakeFiles/rebuild_cache.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/protocol_examples_common/CMakeFiles/list_install_components.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/protocol_examples_common/CMakeFiles/install.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/protocol_examples_common/CMakeFiles/install/local.dir
+C:/Espressif/frameworks/esp-idf-v5.3/examples/workspace/esp32s3-uwb/software/build/esp-idf/protocol_examples_common/CMakeFiles/install/strip.dir
