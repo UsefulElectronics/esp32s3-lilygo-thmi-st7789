@@ -70,6 +70,8 @@ static void air_quality_sensor_task(void *param);
 static void manager_task(void *param);
 
 static void event_handle_task(void *param);
+
+static void lvgl_time_task(void*param);
 // VOC function array 
 
 static void main_mqtt_msg_strings();
@@ -87,6 +89,8 @@ static void main_mqtt_msg_voc();
 /* FUNCTION PROTOTYPES -------------------------------------------------------*/
 void app_main(void)
 {
+	
+	uint8_t task_return = 0;
 	gpio_config_ext_interrupt(BUTTON1_PIN, GPIO_INTR_NEGEDGE, gpio_isr_handle);
 	gpio_config_ext_interrupt(BUTTON2_PIN, GPIO_INTR_POSEDGE, gpio_isr_handle);
 	
@@ -114,30 +118,47 @@ void app_main(void)
 	
 	i80_controller_init((void*)gpio_set_level);
 
-    ESP_LOGI(TAG, "Display LVGL animation");
+    ESP_LOGW(TAG, "Display LVGL animation");
     
-    xTaskCreatePinnedToCore(wirless_init_task, "WiFi init", 10000, NULL, 4, NULL, 0);
+	task_return = xTaskCreatePinnedToCore(wirless_init_task, "WiFi_init", 10000, NULL, 4, NULL, 0);
+	
+	ESP_LOGW(TAG, "WiFi_init %d", task_return);
+	
+	task_return = xTaskCreatePinnedToCore(lvgl_time_task, "lvgl_time_task", 10000, NULL, 4, NULL, 1);
+	
+	ESP_LOGW(TAG, "lvgl_time_task%d", task_return);
+	
+	task_return = xTaskCreatePinnedToCore(air_quality_sensor_task, "air_quality", 10000, NULL, 4, NULL, 1);
+	
+	ESP_LOGW(TAG, "air quality %d", task_return);
+	
+	task_return = xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000, NULL, 4, &hMain_eventTask, 1);
+	
+	ESP_LOGW(TAG, "lvgl_time_task %d", task_return);
+	
+	task_return = xTaskCreatePinnedToCore(manager_task, "managers_task", 10000, NULL, 4, NULL, 1);
 
-	xTaskCreatePinnedToCore(air_quality_sensor_task, "air quality", 10000, NULL, 4, NULL, 1);
-	
-	xTaskCreatePinnedToCore(manager_task, "managers_task", 10000, NULL, 4, NULL, 1);
-	
-	xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000, NULL, 4, &hMain_eventTask, 1);
-	
+    ESP_LOGW(TAG, "managers_task %d", task_return);
 	//Wait for WiFi and MQTT broker connection to be established.
 
  	vTaskDelay(pdMS_TO_TICKS(15000));
 		
-	xTaskCreatePinnedToCore(mqtt_msg_pars_task, "MQTT parser", 10000, NULL, 4, NULL, 1);
+	task_return = xTaskCreatePinnedToCore(mqtt_msg_pars_task, "MQTT parser", 10000/2, NULL, 4, NULL, 0);
 	
-	xTaskCreatePinnedToCore(mqtt_msg_send_task, "MQTT sender", 10000, NULL, 4, NULL, 1);
+	ESP_LOGW(TAG, "MQTT parser %d", task_return);
+	
+	task_return = xTaskCreatePinnedToCore(mqtt_msg_send_task, "MQTT sender", 10000/2, NULL, 4, NULL, 0);
+	
+	
+	ESP_LOGI(TAG, "MQTT sender %d", task_return);
+	//vTaskDelete(NULL);
 
     while (1)
     {
-        // raise the task priority of LVGL and/or reduce the handler period can improve the performance
-        vTaskDelay(pdMS_TO_TICKS(10));
-        // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
-        lv_timer_handler();
+//        // raise the task priority of LVGL and/or reduce the handler period can improve the performance
+//        vTaskDelay(pdMS_TO_TICKS(10));
+//        // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
+//        lv_timer_handler();
     }
 }
 
@@ -353,6 +374,24 @@ static void event_handle_task(void* param)
 	
 }
 
+void lvgl_time_task(void* param)
+{
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+
+	while(1)
+	{
+
+        // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
+        lv_timer_handler();
+		//WiFi connection check
+		//ui_set_wifi_switch_state(wifi_is_connected());
+
+        // raise the task priority of LVGL and/or reduce the handler period can improve the performance
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(10) );
+
+	}
+}
+
 static void wirless_init_task(void* param)
 {
 	wifi_connect();
@@ -397,7 +436,7 @@ static void mqtt_msg_pars_task(void* param)
 static void mqtt_msg_send_task(void* param)
 {
    	TickType_t xLastWakeTime;
-   	TickType_t task_period = 10000;		//10s
+   	TickType_t task_period = 9000;		//10s
    
    	uint8_t message_id = 0;
    	   	
@@ -409,15 +448,22 @@ static void mqtt_msg_send_task(void* param)
 		main_mqtt_msg_active,
 		main_mqtt_msg_voc
 	};
+	
 	while(1)
 	{
-		mqtt_message_sequence[message_id]();
+		vTaskDelayUntil( &xLastWakeTime, task_period/portTICK_PERIOD_MS );
+		
+		ESP_LOGW(TAG, "mqtt publish %d", message_id);
+		
+		//mqtt_message_sequence[message_id]();
 		
 		++message_id;
 		
 		message_id = message_id % 5;
+		
+		
 
-	    vTaskDelayUntil( &xLastWakeTime, task_period/portTICK_PERIOD_MS );
+	    
 
 	}
 }
