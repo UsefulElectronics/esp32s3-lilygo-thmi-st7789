@@ -17,8 +17,10 @@
 /* INCLUDES ------------------------------------------------------------------*/
 #include "main.h"
 #include "display/lvgl_ui.h"
+#include "esp_freertos_hooks.h"
 #include "hal/gpio_types.h"
 #include "hdc1080/hdc1080.h"
+#include "misc/lv_timer.h"
 #include "rom/gpio.h"
 #include "sgp40/driver_sgp40.h"
 #include "sgp40/driver_sgp40_algorithm.h"
@@ -132,11 +134,11 @@ void app_main(void)
 	
 	ESP_LOGW(TAG, "air quality %d", task_return);
 	
-	task_return = xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000, NULL, 4, &hMain_eventTask, 1);
+	task_return = xTaskCreatePinnedToCore(event_handle_task, "lvgl_time_task", 10000/2, NULL, 4, &hMain_eventTask, 1);
 	
 	ESP_LOGW(TAG, "lvgl_time_task %d", task_return);
 	
-	task_return = xTaskCreatePinnedToCore(manager_task, "managers_task", 10000, NULL, 4, NULL, 1);
+	task_return = xTaskCreatePinnedToCore(manager_task, "managers_task", 10000/2, NULL, 4, NULL, 1);
 
     ESP_LOGW(TAG, "managers_task %d", task_return);
 	//Wait for WiFi and MQTT broker connection to be established.
@@ -148,9 +150,9 @@ void app_main(void)
 	ESP_LOGW(TAG, "MQTT parser %d", task_return);
 	
 	task_return = xTaskCreatePinnedToCore(mqtt_msg_send_task, "MQTT sender", 10000/2, NULL, 4, NULL, 0);
-	
-	
+		
 	ESP_LOGI(TAG, "MQTT sender %d", task_return);
+	
 	//vTaskDelete(NULL);
 
     while (1)
@@ -160,6 +162,23 @@ void app_main(void)
 //        // The task running lv_timer_handler should have lower priority than that running `lv_tick_inc`
 //        lv_timer_handler();
     }
+}
+
+void vApplicationIdleHook(void) 
+{
+    int core_id = xPortGetCoreID(); // Get the current core ID
+
+    // Core-specific behavior
+    if (core_id == 0) 
+    {
+		// Core 0 handls RF related tasks
+    } 
+    else if (core_id == 1)
+    {
+
+    }
+       // printf("Core 1: Performing background tasks...\n");
+
 }
 
 static void system_send_to_queue(void *tx_buffer, uint8_t command_length)
@@ -455,7 +474,7 @@ static void mqtt_msg_send_task(void* param)
 		
 		ESP_LOGW(TAG, "mqtt publish %d", message_id);
 		
-		//mqtt_message_sequence[message_id]();
+		mqtt_message_sequence[message_id]();
 		
 		++message_id;
 		
@@ -519,6 +538,8 @@ static void main_mqtt_msg_strings()
 	};
 	
 	sprintf(temp_string, "%s", temp_air_quality_value_string[lvgl_get_ui_sensor_data()->air_quality_gauge_segment]); 
+	
+	ESP_LOGW(TAG, "%s", temp_string);
 
 	mqtt_publish(MQTT_AIR_QUALITY_SETSTRING, temp_string, strlen(temp_string));
 }
@@ -534,6 +555,8 @@ static void main_mqtt_msg_humidity()
 	
 	sprintf(temp_string, "%d", lvgl_get_ui_sensor_data()->humidity); 
 	
+	ESP_LOGW(TAG, "%s", temp_string);
+	
 	mqtt_publish(MQTT_AIR_QUALITY_SETHUMIDITY, temp_string, strlen(temp_string));
 }
 static void main_mqtt_msg_temperature()
@@ -542,11 +565,17 @@ static void main_mqtt_msg_temperature()
 	
 	sprintf(temp_string, "%d", lvgl_get_ui_sensor_data()->temperature); 
 	
+	ESP_LOGW(TAG, "%s", temp_string);
+	
 	mqtt_publish(MQTT_AIR_QUALITY_SETTEMPRATURE, temp_string, strlen(temp_string));
 }
 static void main_mqtt_msg_active()
 {
 	char temp_string[50] = {0}; 
+	
+	temp_string[0] = '1';
+	
+	ESP_LOGW(TAG, "%s", temp_string);
 	
 	mqtt_publish(MQTT_AIR_QUALITY_SETACTIVE, temp_string, strlen(temp_string));
 }
@@ -555,6 +584,8 @@ static void main_mqtt_msg_voc()
 	char temp_string[50] = {0}; 
 		
 	sprintf(temp_string, "%d",lvgl_get_ui_sensor_data()->air_quality); 
+	
+	ESP_LOGW(TAG, "%s", temp_string);
 	
 	mqtt_publish(MQTT_AIR_QUALITY_SETVOC, temp_string, strlen(temp_string));
 }
