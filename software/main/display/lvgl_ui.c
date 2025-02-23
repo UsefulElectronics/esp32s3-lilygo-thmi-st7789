@@ -16,6 +16,7 @@
 
 /* INCLUDES ------------------------------------------------------------------*/
 #include "lvgl_ui.h"
+#include "core/lv_obj.h"
 #include "misc/lv_anim.h"
 
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
@@ -75,6 +76,13 @@ LV_IMG_DECLARE(ui_img_1062568172)
 LV_IMG_DECLARE(ui_img_1282837856)
 LV_IMG_DECLARE(ui_img_air_quality_gauge_png)
 LV_IMG_DECLARE(ui_img_gauge_pointer_png)
+
+LV_IMG_DECLARE(ui_img_mqtt_active_png)
+LV_IMG_DECLARE(ui_img_mqtt_passive_png)
+LV_IMG_DECLARE(ui_img_wifi_active_png)
+LV_IMG_DECLARE(ui_img_wifi_passive_png)
+
+
 //LV_IMG_DECLARE(esp_text)
 LV_IMG_DECLARE(ui_img_useful_electronics_png)
 typedef struct {
@@ -104,6 +112,11 @@ static lv_color_t arc_color[] =
  lv_obj_t * ui_Panel8;
  lv_obj_t * ui_Image1;
  lv_obj_t * ui_Label5;
+ 
+lv_obj_t * ui_Panel11;
+lv_obj_t * ui_Panel12;
+lv_obj_t * ui_Panel13;
+lv_obj_t * ui_Panel14;
  
 //screen 3 objects
 lv_obj_t * ui_Panel4;
@@ -392,6 +405,34 @@ void tv2_screen_init(void)
     lv_obj_set_style_text_color(ui_Label5, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_Label5, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Label5, &lv_font_montserrat_28, LV_PART_MAIN | LV_STATE_DEFAULT);
+    
+    ui_Panel12 = lv_obj_create(ui_Panel2);
+    lv_obj_set_width(ui_Panel12, 25);
+    lv_obj_set_height(ui_Panel12, 25);
+    lv_obj_set_x(ui_Panel12, 103);
+    lv_obj_set_y(ui_Panel12, -146);
+    lv_obj_set_align(ui_Panel12, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel12, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_add_flag(ui_Panel12, LV_OBJ_FLAG_HIDDEN);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel12, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel12, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_Panel12, &ui_img_mqtt_active_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel12, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel12, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_Panel14 = lv_obj_create(ui_Panel2);
+    lv_obj_set_width(ui_Panel14, 25);
+    lv_obj_set_height(ui_Panel14, 25);
+    lv_obj_set_x(ui_Panel14, -103);
+    lv_obj_set_y(ui_Panel14, -146);
+    lv_obj_set_align(ui_Panel14, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_Panel14, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_add_flag(ui_Panel14, LV_OBJ_FLAG_HIDDEN);      /// Flags
+    lv_obj_set_style_bg_color(ui_Panel14, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_Panel14, &ui_img_wifi_active_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_Panel14, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_Panel14, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 }
 
@@ -650,6 +691,33 @@ void lvgl_packet_count_set(uint32_t packet_count)
 	sprintf(temp_distance_string, "%d", (uint16_t)packet_count);
 
 	lv_label_set_text(ui_Label2, temp_distance_string);
+}
+
+void lvgl_wifi_state_set(bool state)
+{
+	if(!state)
+	{
+		lv_obj_add_flag(ui_Panel14, LV_OBJ_FLAG_HIDDEN);
+		
+	}
+	else
+	{
+		lv_obj_clear_flag(ui_Panel14, LV_OBJ_FLAG_HIDDEN);
+	}
+}
+
+void lvgl_mqtt_state_set(bool state)
+{
+	if(!state)
+	{
+		lv_obj_add_flag(ui_Panel12, LV_OBJ_FLAG_HIDDEN);
+	}
+	else
+	{
+		lv_obj_clear_flag(ui_Panel12, LV_OBJ_FLAG_HIDDEN);
+	}
+	
+
 }
 
 void lvgl_voc_index_update(uint32_t voc_index)

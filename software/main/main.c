@@ -362,6 +362,8 @@ static void manager_task(void *param)
    for(;;)
    {
 		button_manager();
+		
+		lvgl_wifi_state_set(wifi_is_connected());
 
 	    vTaskDelayUntil( &xLastWakeTime, task_period/portTICK_PERIOD_MS );
    }
@@ -437,8 +439,12 @@ static void mqtt_msg_pars_task(void* param)
 					//active state publish
 					mqtt_publish(MQTT_AIR_QUALITY_SETACTIVE, &publishRequest, 0);
 					
+					lvgl_mqtt_state_set(true);
+					
 					break;
 				case MQTT_BROKER_DISCONNECT:
+				
+					lvgl_mqtt_state_set(false);
 
 					break;
 				case MQTT_TOPIC_DATA_RX:
@@ -479,11 +485,7 @@ static void mqtt_msg_send_task(void* param)
 		++message_id;
 		
 		message_id = message_id % 5;
-		
-		
-
-	    
-
+			
 	}
 }
 static uint32_t main_get_systick(void)
@@ -530,11 +532,11 @@ static void main_mqtt_msg_strings()
 
     char temp_air_quality_value_string[5][15] = 
     {
-    MQTT_AIR_QUALITY_STRING_UNKNOWN,
     MQTT_AIR_QUALITY_STRING_EXCELLENT,
     MQTT_AIR_QUALITY_STRING_FAIR,
     MQTT_AIR_QUALITY_STRING_INFERIOR,
-    MQTT_AIR_QUALITY_STRING_POOR
+    MQTT_AIR_QUALITY_STRING_POOR,
+    MQTT_AIR_QUALITY_STRING_UNKNOWN,
 	};
 	
 	sprintf(temp_string, "%s", temp_air_quality_value_string[lvgl_get_ui_sensor_data()->air_quality_gauge_segment]); 

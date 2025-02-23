@@ -114,6 +114,10 @@ void lvgl_communication_status(bool communication_status);
 
 void lvgl_screen_navigate(lvgl_nav_e action);
 
+void lvgl_wifi_state_set(bool state);
+
+void lvgl_mqtt_state_set(bool state);
+
 lvgl_sensor_data_t* lvgl_get_ui_sensor_data();
 
 
