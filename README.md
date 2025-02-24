@@ -107,5 +107,5 @@ Next, we'll configure Homebridge to retrieve this data using the MQTTthing exten
 
 Additionally, we’ll update the screen UI in Square Line Studio to show the Wi-Fi and broker connection status 
 
-![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-ryuw122/blob/main/pictures/AIR%20QUALITY%20GUI%20MQTT.png)
+![Circuit Diagram](https://github.com/UsefulElectronics/esp32s3-lilygo-thmi-st7789/blob/main/pictures/AIR%20QUALITY%20SENSOR%20GUI%20MQTT.png)
 ***
